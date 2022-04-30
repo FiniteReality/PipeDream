@@ -1,8 +1,8 @@
-using System.Buffers;
 using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Text;
 using PipeDream.Compiler.Lexing;
+using PipeDream.Compiler.Parsing;
 
 if (args.Length < 1)
 {
@@ -20,13 +20,14 @@ using var transcode = Encoding.CreateTranscodingStream(
 var reader = PipeReader.Create(transcode);
 
 ReadResult result = default;
-LexerState state = new();
+LexerState lexState = new();
+ParserState parseState = new();
 while (!result.IsCompleted || !result.Buffer.IsEmpty)
 {
     result = await reader.ReadAsync();
-    (var pos, state) = Lex(result);
+    var pos = Lex(result, ref lexState, ref parseState);
 
-    if (state.HasErrors)
+    if (lexState.HasErrors || parseState.HasErrors)
         break;
 
     reader.AdvanceTo(pos, result.Buffer.End);
@@ -34,30 +35,52 @@ while (!result.IsCompleted || !result.Buffer.IsEmpty)
 
 Console.WriteLine();
 
-if (state.HasErrors)
-    foreach (var error in state.Errors)
-        Debug.WriteLine($"Parse error: {error.Message}");
+if (lexState.HasErrors)
+    foreach (var error in lexState.Errors)
+        Debug.WriteLine($"Lexer error: {error.Message} (at {error.Span})");
 
-(SequencePosition, LexerState) Lex(ReadResult result)
+if (parseState.HasErrors)
+    foreach (var error in parseState.Errors)
+        Debug.WriteLine($"Parser error: {error.Message} (at {error.Span})");
+
+static SequencePosition Lex(ReadResult result,
+    ref LexerState lexState, ref ParserState parseState)
 {
-    var lexer = new Lexer(result.Buffer, result.IsCompleted, state);
+    var lexer = new Lexer(result.Buffer, result.IsCompleted, lexState);
+    var parser = new Parser(parseState);
 
-    while (!lexer.End && lexer.Lex())
+    // Keep processing until we're in a terminal state
+    while (!lexer.End)
     {
-        Debug.WriteLine(lexer.CurrentToken);
+        // Keep queueing tokens until we run out of buffer
+        var parsedToken = lexer.Lex();
+        bool queueFailed = false;
+        while (parsedToken)
+        {
+            // Or if we fail to queue
+            if (!parser.Queue(lexer.CurrentToken))
+            {
+                queueFailed = true;
+                break;
+            }
 
-        // This shouldn't need to happen but oh well
-        var bufferOffset = checked((int)result.Buffer.GetOffset(result.Buffer.Start));
-        var absoluteLength = checked((int)(bufferOffset + result.Buffer.Length));
-        var (absoluteOffset, length) = lexer.CurrentToken.Span.GetOffsetAndLength(absoluteLength);
-        var relativeOffset = absoluteOffset - bufferOffset;
-        var region = result.Buffer.Slice(relativeOffset, length);
-        Console.Write(Encoding.UTF8.GetString(region.ToArray()));
+            parsedToken = lexer.Lex();
+        }
+
+        // Parse as much as possible based on the queued tokens
+        if (!parser.Parse())
+            break;
+
+        // Assuming we consumed some tokens, try and queue the token we failed
+        // to parse
+        if (parsedToken && queueFailed && !parser.Queue(lexer.CurrentToken))
+            break;
     }
 
-    Console.Out.Flush();
+    lexState = lexer.CurrentState;
+    parseState = parser.CurrentState;
 
-    return (lexer.Position, lexer.CurrentState);
+    return lexer.Position;
 }
 
 return 0;

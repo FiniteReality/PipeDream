@@ -1,16 +1,17 @@
 using System.Buffers;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using PipeDream.Compiler.Parsing;
 
 namespace PipeDream.Compiler.Lexing;
 
 /// <summary>
-/// Defines a struct which represents a lexer
+/// Defines a struct used for lexing Dream Maker source code.
 /// </summary>
 public ref partial struct Lexer
 {
     private readonly bool _isFinalBlock;
-    private readonly ImmutableArray<ParseError>.Builder _parseErrors;
+    private readonly ImmutableArray<LexerError>.Builder _lexErrors;
     private SequenceReader<byte> _reader;
 
     // Lexer state
@@ -21,9 +22,14 @@ public ref partial struct Lexer
     private int _indentDepth = 0;
     private int? _indentSize = null;
 
+    // Line tracking
+    private int _lineNumber;
+    private long _lineStartOffset;
+
     // Current token information
     private Token _lastValidToken;
     private SequencePosition _start;
+    private TokenPosition _tokenStart;
 
     /// <summary>
     /// Creates a lexer for the given block of input data.
@@ -41,7 +47,7 @@ public ref partial struct Lexer
         LexerState state)
     {
         _isFinalBlock = isFinalBlock;
-        _parseErrors = state.ParseErrors;
+        _lexErrors = state.LexErrors;
         _reader = new(input);
 
         _mode = state.Mode;
@@ -49,9 +55,13 @@ public ref partial struct Lexer
         _beginBlock = state.BeginBlock;
         _indentDepth = state.IndentDepth;
         _indentSize = state.IndentSize;
-        
+
+        _lineNumber = state.LineNumber;
+        _lineStartOffset = state.LineStartOffset;
+
         _start = input.Start;
         _lastValidToken = default;
+        _tokenStart = default;
     }
 
     /// <summary>
@@ -59,13 +69,16 @@ public ref partial struct Lexer
     /// </summary>
     public LexerState CurrentState
         => new(
-            parseErrors: _parseErrors,
+            parseErrors: _lexErrors,
 
             mode: _mode,
 
             beginBlock: _beginBlock,
             indentDepth: _indentDepth,
-            indentSize: _indentSize);
+            indentSize: _indentSize,
+
+            lineNumber: _lineNumber,
+            lineStartOffset: _lineStartOffset);
 
     /// <summary>
     /// Gets the current token that was successfully parsed.
@@ -94,6 +107,10 @@ public ref partial struct Lexer
     private void Start()
     {
         _start = _reader.Position;
+        var offset = _reader.Sequence.GetOffset(_reader.Position);
+        _tokenStart = new(_lineNumber,
+            unchecked((int)(offset - _lineStartOffset)),
+            offset);
     }
 
     private void PushIndentation()
@@ -101,21 +118,79 @@ public ref partial struct Lexer
         _beginBlock = true;
     }
 
-    private Range GetCurrentSpan()
-        // TODO: this shouldn't need to cast in the first place
-        => new(
-            Index.FromStart(
-                checked((int)_reader.Sequence.GetOffset(_start))),
-            Index.FromStart(
-                checked((int)_reader.Sequence.GetOffset(_reader.Position))));
+    private static ReadOnlySpan<byte> CarriageReturnLineFeed
+        => new byte[]
+        {
+            (byte)'\r', (byte)'\n'
+        };
+    private int CountLines(ReadOnlySequence<byte> block)
+    {
+        if (block.IsSingleSegment)
+            return CountLinesFast(block.FirstSpan);
+        else if (block.Length < 256)
+        {
+            Span<byte> buffer = (stackalloc byte[256])[
+                ..unchecked((int)block.Length)];
+
+            block.CopyTo(buffer);
+
+            return CountLinesFast(buffer);
+        }
+        else
+        {
+            var count = 0;
+            var start = block.Start;
+            while (block.TryGet(ref start, out var buffer, true))
+                count += CountLinesFast(buffer.Span);
+
+            return count;
+        }
+
+        static int CountLinesFast(ReadOnlySpan<byte> span)
+        {
+            if (span.IsEmpty)
+                return 0;
+
+            int count = 0;
+            while (true)
+            {
+                var crlf = span.IndexOf(CarriageReturnLineFeed);
+                var lf = span.IndexOf((byte)'\n');
+
+                var next = (crlf, lf) switch {
+                    // prefer crlf to lf if possible as crlf contains lf
+                    (>= 0, >= 0) => crlf < lf ? crlf : lf,
+                    (>= 0,  < 0) => crlf,
+                    ( < 0, >= 0) => lf,
+                    ( < 0,  < 0) => -1
+                };
+
+                if (next < 0)
+                    return count;
+
+                count++;
+                span = span[(next + 1)..];
+            }
+        }
+    }
+
+    private TokenSpan GetCurrentSpan()
+    {
+        var offset = _reader.Sequence.GetOffset(_reader.Position);
+        var end = new TokenPosition(_lineNumber,
+            unchecked((int)(offset - _lineStartOffset)),
+            offset);
+
+        return new(_tokenStart, end);
+    }
 
     private bool Stop(string errorMessage = "Incomplete token")
     {
         if (_isFinalBlock)
         {
             _mode = LexerMode.EndOfFile;
-            _parseErrors.Add(
-                new ParseError(GetCurrentSpan(), errorMessage));
+            _lexErrors.Add(
+                new LexerError(GetCurrentSpan(), errorMessage));
         }
 
         var startOffset = _reader.Sequence.GetOffset(_start);
@@ -132,11 +207,18 @@ public ref partial struct Lexer
         return true;
     }
 
+    private bool Token(SyntaxKind kind, LexerMode mode, object? value)
+    {
+        _mode = mode;
+        _lastValidToken = new Token(kind, GetCurrentSpan(), value);
+        return true;
+    }
+
     private bool Error(string message)
     {
         _mode = LexerMode.Error;
-        _parseErrors.Add(
-            new ParseError(GetCurrentSpan(), message));
+        _lexErrors.Add(
+            new LexerError(GetCurrentSpan(), message));
 
         return false;
     }

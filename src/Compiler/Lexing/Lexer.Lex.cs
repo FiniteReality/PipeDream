@@ -18,6 +18,9 @@ public ref partial struct Lexer
         {
             case LexerMode.StartOfLine:
             {
+                // Update the position of the start of line to compute
+                // column information
+                _lineStartOffset = _reader.Sequence.GetOffset(_reader.Position);
                 Start();
 
                 // Handle whitespace-sensitive blocks by inserting fake tokens
@@ -66,11 +69,11 @@ public ref partial struct Lexer
             }
             case LexerMode.MiddleOfLine:
             {
-                Start();
-
                 // Skip any whitespace between the previous token and the
                 // current one
                 _ = ReadWhitespace();
+
+                Start();
 
                 if (!_reader.TryRead(out var value))
                     return Stop();
@@ -84,8 +87,6 @@ public ref partial struct Lexer
 
                 return value switch
                 {
-                    (byte)'#'
-                        => Token(SyntaxKind.Hash, LexerMode.MiddleOfLine),
                     (byte)'!'
                         => Token(SyntaxKind.Exclamation,
                             LexerMode.MiddleOfLine),
@@ -121,7 +122,10 @@ public ref partial struct Lexer
 
                 if (skipped > 0)
                 {
-                    return Token(SyntaxKind.EndOfLine, LexerMode.EndOfLine);
+                    Token(SyntaxKind.EndOfLine, LexerMode.EndOfLine);
+                    _lineNumber += CountLines(
+                        _reader.Sequence.Slice(_start, _reader.Position));
+                    return true;
                 }
                 else if (_beginBlock)
                 {

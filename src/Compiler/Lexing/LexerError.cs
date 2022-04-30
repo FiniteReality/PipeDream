@@ -1,23 +1,25 @@
+using PipeDream.Compiler.Parsing;
+
 namespace PipeDream.Compiler.Lexing;
 
 /// <summary>
-/// Defines a struct which contains a parser error.
+/// Defines a struct which contains information a lexing error.
 /// </summary>
-public struct ParseError
+public record struct LexerError
 {
-    internal ParseError(Range span, string message)
+    internal LexerError(TokenSpan span, string message)
     {
         Span = span;
         Message = message;
     }
 
     /// <summary>
-    /// Gets the location where this parse error occured.
+    /// Gets the location where this lexing error occured.
     /// </summary>
-    public Range Span { get; }
+    public TokenSpan Span { get; }
 
     /// <summary>
-    /// Gets the error message for this parse error.
+    /// Gets the error message for this lexing error.
     /// </summary>
     public string Message { get; }
 

@@ -21,11 +21,6 @@ public enum SyntaxKind
     CloseParenthesis,
 
     /// <summary>
-    /// Represents a <code>#define</code> token.
-    /// </summary>
-    PreprocessorDefine,
-
-    /// <summary>
     /// Represents a <code>.</code> token.
     /// </summary>
     Dot,
@@ -44,11 +39,6 @@ public enum SyntaxKind
     /// Represents a <code>==</code> token.
     /// </summary>
     DoubleEquals,
-
-    /// <summary>
-    /// Represents a <code>"</code> token.
-    /// </summary>
-    DoubleQuote,
 
     /// <summary>
     /// Represents an end-of-file token.
@@ -71,9 +61,29 @@ public enum SyntaxKind
     Exclamation,
 
     /// <summary>
-    /// Represents a <code>#</code> token.
+    /// Represents an identifier token.
     /// </summary>
-    Hash,
+    Identifier,
+
+    /// <summary>
+    /// Represents a multi-line comment token.
+    /// </summary>
+    MultiLineComment,
+
+    /// <summary>
+    /// Represents a <code>{</code> token.
+    /// </summary>
+    OpenBrace,
+
+    /// <summary>
+    /// Represents a <code>(</code> token.
+    /// </summary>
+    OpenParenthesis,
+
+    /// <summary>
+    /// Represents a <code>#define</code> token.
+    /// </summary>
+    PreprocessorDefine,
 
     /// <summary>
     /// Represents a <code>#elif</code> token.
@@ -110,29 +120,19 @@ public enum SyntaxKind
     PreprocessorIfNDef,
 
     /// <summary>
-    /// Represents a <code>#warn</code> token.
-    /// </summary>
-    PreprocessorWarn,
-
-    /// <summary>
-    /// Represents an identifier token.
-    /// </summary>
-    Identifier,
-
-    /// <summary>
     /// Represents a <code>#include</code> token.
     /// </summary>
     PreprocessorInclude,
 
     /// <summary>
-    /// Represents a <code>{</code> token.
+    /// Represents a <code>#warn</code> token.
     /// </summary>
-    OpenBrace,
+    PreprocessorWarn,
 
     /// <summary>
-    /// Represents a <code>(</code> token.
+    /// Represents a single-line comment token.
     /// </summary>
-    OpenParenthesis,
+    SingleLineComment,
 
     /// <summary>
     /// Represents a <code>/</code> token.
@@ -143,14 +143,4 @@ public enum SyntaxKind
     /// Represents a string token.
     /// </summary>
     String,
-
-    /// <summary>
-    /// Represents a multi-line comment token.
-    /// </summary>
-    MultiLineComment,
-
-    /// <summary>
-    /// Represents a single-line comment token.
-    /// </summary>
-    SingleLineComment,
 }

@@ -14,7 +14,7 @@ internal enum LexerMode
 }
 
 /// <summary>
-/// Defines a struct used to store the lexer's state.
+/// Defines a struct used to store the state of a <see cref="Lexer"/>.
 /// </summary>
 public struct LexerState
 {
@@ -22,14 +22,18 @@ public struct LexerState
         bool beginBlock,
         int indentDepth,
         int? indentSize,
+        int lineNumber,
+        long lineStartOffset,
         LexerMode mode,
-        ImmutableArray<ParseError>.Builder parseErrors)
+        ImmutableArray<LexerError>.Builder parseErrors)
     {
         BeginBlock = beginBlock;
         IndentDepth = indentDepth;
         IndentSize = indentSize;
+        LineNumber = lineNumber;
+        LineStartOffset = lineStartOffset;
         Mode = mode;
-        ParseErrors = parseErrors;
+        LexErrors = parseErrors;
     }
 
     /// <summary>
@@ -40,29 +44,33 @@ public struct LexerState
         BeginBlock = false;
         IndentDepth = 0;
         IndentSize = null;
+        LineNumber = 1;
+        LineStartOffset = 0;
         Mode = LexerMode.EndOfLine;
-        ParseErrors = ImmutableArray.CreateBuilder<ParseError>(1);
+        LexErrors = ImmutableArray.CreateBuilder<LexerError>(1);
     }
 
     internal bool BeginBlock { get; }
     internal int IndentDepth { get; }
     internal int? IndentSize { get; }
+    internal int LineNumber { get; }
+    internal long LineStartOffset { get; }
     internal LexerMode Mode { get; }
-    internal ImmutableArray<ParseError>.Builder ParseErrors { get; }
+    internal ImmutableArray<LexerError>.Builder LexErrors { get; }
 
     /// <summary>
-    /// Gets all of the errors which occured during parsing.
+    /// Gets all of the errors which occured during lexing.
     /// </summary>
     /// <remarks>
-    /// This method clears the parse error collection; if you wish to check for
+    /// This method clears the lexing error collection; if you wish to check for
     /// errors, prefer <see cref="HasErrors"/> instead.
     /// </remarks>
-    public ImmutableArray<ParseError> Errors
-        => ParseErrors.MoveToImmutable();
+    public ImmutableArray<LexerError> Errors
+        => LexErrors.MoveToImmutable();
 
     /// <summary>
-    /// Gets whether any parse errors have occured.
+    /// Gets whether any lexing errors have occured.
     /// </summary>
     public bool HasErrors
-        => ParseErrors.Count > 0;
+        => LexErrors.Count > 0;
 }

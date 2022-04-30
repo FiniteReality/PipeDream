@@ -44,6 +44,8 @@ ref partial struct Lexer
             // multi-line comment
             if (SkipNestedComments(ref _reader))
             {
+                _lineNumber += CountLines(
+                    _reader.Sequence.Slice(_start, _reader.Position));
                 return Token(SyntaxKind.MultiLineComment,
                     LexerMode.MiddleOfLine);
             }

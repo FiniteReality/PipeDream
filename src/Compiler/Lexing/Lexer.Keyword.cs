@@ -1,6 +1,7 @@
 using System.Buffers;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Text;
 
 namespace PipeDream.Compiler.Lexing;
 
@@ -24,6 +25,27 @@ public ref partial struct Lexer
     private bool LexIdentifier(LexerMode mode)
     {
         _ = _reader.AdvancePastAny(ValidIdentifierCharacters);
-        return Token(SyntaxKind.Identifier, mode);
+        var region = _reader.Sequence.Slice(_start, _reader.Position);
+
+        return Token(SyntaxKind.Identifier, mode, GetString(region));
+
+        static string GetString(ReadOnlySequence<byte> sequence)
+        {
+            if (sequence.IsSingleSegment)
+            {
+                return Encoding.UTF8.GetString(sequence.FirstSpan);
+            }
+            else if (sequence.Length <= 256)
+            {
+                Span<byte> buffer = stackalloc byte[256];
+                sequence.CopyTo(buffer);
+                return Encoding.UTF8.GetString(
+                    buffer[..unchecked((int)sequence.Length)]);
+            }
+            else
+            {
+                return Encoding.UTF8.GetString(sequence.ToArray());
+            }
+        }
     }
 }
