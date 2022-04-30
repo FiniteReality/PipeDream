@@ -27,6 +27,12 @@ public record struct TokenSpan
     /// </summary>
     public long LengthInBytes
         => End.ByteOffset - Start.ByteOffset;
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"{Start}:{End}";
+    }
 }
 
 /// <summary>
@@ -56,4 +62,10 @@ public record struct TokenPosition
     /// token.
     /// </summary>
     public long ByteOffset { get; }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"{Line},{Column}";
+    }
 }

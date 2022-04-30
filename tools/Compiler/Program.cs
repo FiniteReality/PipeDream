@@ -33,15 +33,13 @@ while (!result.IsCompleted || !result.Buffer.IsEmpty)
     reader.AdvanceTo(pos, result.Buffer.End);
 }
 
-Console.WriteLine();
-
 if (lexState.HasErrors)
     foreach (var error in lexState.Errors)
-        Debug.WriteLine($"Lexer error: {error.Message} (at {error.Span})");
+        Console.Error.WriteLine($"{args[0]}({error.Span}): {error.Message}");
 
 if (parseState.HasErrors)
     foreach (var error in parseState.Errors)
-        Debug.WriteLine($"Parser error: {error.Message} (at {error.Span})");
+        Console.Error.WriteLine($"{args[0]}({error.Span}): {error.Message}");
 
 static SequencePosition Lex(ReadResult result,
     ref LexerState lexState, ref ParserState parseState)
