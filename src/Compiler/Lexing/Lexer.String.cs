@@ -14,6 +14,7 @@ public ref partial struct Lexer
             {
                 if (!LexBasicString(out var value))
                     return Stop();
+
                 return Token(SyntaxKind.String, LexerMode.MiddleOfLine, value);
             }
             case (byte)'{':
@@ -37,7 +38,7 @@ public ref partial struct Lexer
                 return Token(SyntaxKind.String, LexerMode.MiddleOfLine, value);
             }
             case (byte)'@':
-                // Raw strings
+            // Raw strings
             default:
                 Debug.Fail("Attempted to call LexString with invalid opener");
                 return false;
@@ -52,7 +53,7 @@ public ref partial struct Lexer
     private bool LexBasicString(out object? value)
     {
         value = null;
-        SequencePosition start = _reader.Position;
+        var start = _reader.Position;
         while (true)
         {
             if (!_reader.TryAdvanceToAny(

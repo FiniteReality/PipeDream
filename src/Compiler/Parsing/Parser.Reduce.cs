@@ -19,7 +19,8 @@ public partial struct Parser
                 var (_, equals) = _syntaxStack.Pop();
                 var (_, left) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => BeginLine,
                     BeginLine => BeginLine,
                     _ => throw new InvalidOperationException("Unreachable")
@@ -34,7 +35,8 @@ public partial struct Parser
                 var (_, op) = _syntaxStack.Pop();
                 var (_, left) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => BeginStatement,
                     BeginLine => BeginStatement,
                     BeginAssignmentStatement => BeginAssignmentStatementValue,
@@ -61,7 +63,8 @@ public partial struct Parser
                 var (_, openParenthesis) = _syntaxStack.Pop();
                 var (_, expr) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     BeginUnaryExpression => BeginUnaryExpression,
                     _ => throw new InvalidOperationException("Unreachable")
                 };
@@ -74,7 +77,8 @@ public partial struct Parser
                 var (_, ident) = _syntaxStack.Pop();
                 var (_, define) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => PreprocessorDefineValue,
                     BeginLine => PreprocessorDefineValue,
                     _ => throw new InvalidOperationException("Unreachable")
@@ -96,7 +100,8 @@ public partial struct Parser
 
                 var (_, definition) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => BeginLine,
                     BeginLine => BeginLine,
                     _ => throw new InvalidOperationException("Unreachable")
@@ -111,7 +116,8 @@ public partial struct Parser
                 var (_, file) = _syntaxStack.Pop();
                 var (_, include) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => BeginLine,
                     BeginLine => BeginLine,
                     _ => throw new InvalidOperationException("Unreachable")
@@ -125,7 +131,8 @@ public partial struct Parser
                 var (_, ident) = _syntaxStack.Pop();
                 var (_, ifdef) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => BeginLine,
                     BeginLine => BeginLine,
                     _ => throw new InvalidOperationException("Unreachable")
@@ -139,7 +146,8 @@ public partial struct Parser
                 var (_, expr) = _syntaxStack.Pop();
                 var (_, hashIf) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => BeginLine,
                     BeginLine => BeginLine,
                     _ => throw new InvalidOperationException("Unreachable")
@@ -159,7 +167,8 @@ public partial struct Parser
                 var (_, path) = _syntaxStack.Pop();
                 var (_, slash) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     Initial => BeginStatement,
                     BeginAssignmentStatement => BeginAssignmentStatementValue,
                     _ => throw new InvalidOperationException("Unreachable")
@@ -172,7 +181,8 @@ public partial struct Parser
                 var (_, expr) = _syntaxStack.Pop();
                 var (_, op) = _syntaxStack.Pop();
 
-                var mode = _syntaxStack.Peek().mode switch {
+                var mode = _syntaxStack.Peek().mode switch
+                {
                     BeginBinaryExpression => BeginBinaryExpression,
                     BeginPreprocessorIf => BeginPreprocessorIfExpression,
                     _ => throw new InvalidOperationException("Unreachable")

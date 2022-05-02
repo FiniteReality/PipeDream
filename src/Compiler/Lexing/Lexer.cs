@@ -151,12 +151,13 @@ public ref partial struct Lexer
                 var crlf = span.IndexOf(CarriageReturnLineFeed);
                 var lf = span.IndexOf((byte)'\n');
 
-                var next = (crlf, lf) switch {
+                var next = (crlf, lf) switch
+                {
                     // prefer crlf to lf if possible as crlf contains lf
-                    (>= 0, >= 0) => crlf < lf ? crlf : lf,
-                    (>= 0,  < 0) => crlf,
+                    ( >= 0, >= 0) => crlf < lf ? crlf : lf,
+                    ( >= 0, < 0) => crlf,
                     ( < 0, >= 0) => lf,
-                    ( < 0,  < 0) => -1
+                    ( < 0, < 0) => -1
                 };
 
                 if (next < 0)

@@ -6,7 +6,7 @@ using System.Text.Unicode;
 
 namespace PipeDream.Compiler.Lexing;
 
-ref partial struct Lexer
+public ref partial struct Lexer
 {
     private static ReadOnlySpan<byte> DefineToken
         => new byte[]
@@ -75,8 +75,10 @@ ref partial struct Lexer
                 SyntaxKind.PreprocessorDefine,
                 LexerMode.MiddleOfLine),
 
-            (byte)'i' => two switch { // if, ifdef, ifndef, include
-                (byte)'f' => three switch { // if, ifdef, ifndef
+            (byte)'i' => two switch
+            { // if, ifdef, ifndef, include
+                (byte)'f' => three switch
+                { // if, ifdef, ifndef
                     (byte)'d' => ProduceIfNext(ref this, IfDefToken,
                         SyntaxKind.PreprocessorIfDef,
                         LexerMode.MiddleOfLine),
@@ -96,8 +98,10 @@ ref partial struct Lexer
                     LexerMode.MiddleOfLine),
                 _ => Error($"Invalid preprocessing token {two:X2}")
             },
-            (byte)'e' => two switch { // elif, else, endif, error
-                (byte)'l' => three switch { // elif, else
+            (byte)'e' => two switch
+            { // elif, else, endif, error
+                (byte)'l' => three switch
+                { // elif, else
                     (byte)'i' => ProduceIfNext(ref this, ElifToken,
                         SyntaxKind.PreprocessorElseIf,
                         LexerMode.MiddleOfLine),

@@ -9,9 +9,12 @@ internal abstract record SyntaxNode(TokenSpan Span)
 
     internal static TokenSpan ComputeSpan(SyntaxNode start,
         ImmutableArray<SyntaxNode> contents)
-        => start.Span with { End = contents.Length switch
+        => start.Span with
         {
-            <= 0 => start.Span.End,
-            > 0 => contents[^1].Span.End
-        }};
+            End = contents.Length switch
+            {
+                <= 0 => start.Span.End,
+                > 0 => contents[^1].Span.End
+            }
+        };
 }

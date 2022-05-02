@@ -5,7 +5,7 @@ using System.Text.Unicode;
 
 namespace PipeDream.Compiler.Lexing;
 
-ref partial struct Lexer
+public ref partial struct Lexer
 {
     private static ReadOnlySpan<byte> MultiLineOpener
         => new byte[]

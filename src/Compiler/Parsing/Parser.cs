@@ -86,7 +86,7 @@ public partial struct Parser
 
     private bool Accept()
     {
-
+        _accept = true;
         return true;
     }
 

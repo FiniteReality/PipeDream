@@ -25,9 +25,7 @@ public record struct ParseError
 
     /// <inheritdoc/>
     public override string ToString()
-    {
-        return Message;
-    }
+        => Message;
 
     internal static ParseError Unexpected(Token token)
         => new(token.Span, $"Unexpected token {token.Kind}");

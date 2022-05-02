@@ -31,37 +31,37 @@ public partial struct Parser
             // $ ... [ident]
             (BeginLine, Identifier)
                 => Shift(BeginStatement),
-                // $ ident [/]
-                (BeginStatement, Slash)
-                    => Shift(BeginPath),
-                // $ expr [=]
-                (BeginStatement, SyntaxKind.Equals)
-                    => Shift(BeginAssignmentStatement),
-                    // $ expr = [ident]
-                    (BeginAssignmentStatement, Identifier)
-                        => Shift(BeginAssignmentStatementValue),
-                        // $ expr = ident [/]
-                        (BeginAssignmentStatementValue, Slash)
-                            => Shift(BeginPath),
-                        // $ expr = expr [eol]
-                        (BeginAssignmentStatementValue, EndOfLine)
-                            => Reduce(Assignment),
-                    // $ expr = [/]
-                    (BeginAssignmentStatement, Slash)
-                        => Shift(BeginAssignmentStatementValueRootedPath),
-                        // $ expr = / [ident]
-                        (BeginAssignmentStatementValueRootedPath, Identifier)
-                            => Shift(BeginRootedPath),
+            // $ ident [/]
+            (BeginStatement, Slash)
+                => Shift(BeginPath),
+            // $ expr [=]
+            (BeginStatement, SyntaxKind.Equals)
+                => Shift(BeginAssignmentStatement),
+            // $ expr = [ident]
+            (BeginAssignmentStatement, Identifier)
+                => Shift(BeginAssignmentStatementValue),
+            // $ expr = ident [/]
+            (BeginAssignmentStatementValue, Slash)
+                => Shift(BeginPath),
+            // $ expr = expr [eol]
+            (BeginAssignmentStatementValue, EndOfLine)
+                => Reduce(Assignment),
+            // $ expr = [/]
+            (BeginAssignmentStatement, Slash)
+                => Shift(BeginAssignmentStatementValueRootedPath),
+            // $ expr = / [ident]
+            (BeginAssignmentStatementValueRootedPath, Identifier)
+                => Shift(BeginRootedPath),
 
             // $ ident / [ident]
             (BeginPath, Identifier)
                 => Shift(PathComponent),
-                // $ ident / ident [/]
-                (PathComponent, Slash)
-                    => Reduce(BinaryExpression),
-                // $ ident / ident [=]
-                (PathComponent, SyntaxKind.Equals)
-                    => Reduce(BinaryExpression),
+            // $ ident / ident [/]
+            (PathComponent, Slash)
+                => Reduce(BinaryExpression),
+            // $ ident / ident [=]
+            (PathComponent, SyntaxKind.Equals)
+                => Reduce(BinaryExpression),
 
             // $ [#define]
             // $ ... [#define]
@@ -69,28 +69,28 @@ public partial struct Parser
                 => Shift(BeginPreprocessorDefine),
             (BeginLine, PreprocessorDefine)
                 => Shift(BeginPreprocessorDefine),
-                // $ #define [ident]
-                (BeginPreprocessorDefine, Identifier)
-                    => Shift(PreprocessorDefineIdentifier),
-                    // $ #define ident [...]
-                    (PreprocessorDefineIdentifier, _)
-                        => Reduce(PreprocessorDefinition),
+            // $ #define [ident]
+            (BeginPreprocessorDefine, Identifier)
+                => Shift(PreprocessorDefineIdentifier),
+            // $ #define ident [...]
+            (PreprocessorDefineIdentifier, _)
+                => Reduce(PreprocessorDefinition),
             // $ preprocessordefinition [eol]
             (PreprocessorDefineValue, EndOfLine)
                 => Shift(BeginLine),
-                // $ preprocessordefinition [...]
-                (PreprocessorDefineValue, _)
-                    => Shift(PreprocessorDefineValueContinued),
-                    // $ preprocessordefinition ... [eol]
-                    (PreprocessorDefineValueContinued, EndOfLine)
-                        => Reduce(PreprocessorDefinitionValue),
+            // $ preprocessordefinition [...]
+            (PreprocessorDefineValue, _)
+                => Shift(PreprocessorDefineValueContinued),
+            // $ preprocessordefinition ... [eol]
+            (PreprocessorDefineValueContinued, EndOfLine)
+                => Reduce(PreprocessorDefinitionValue),
 
             // [#endif]
             (BeginLine, PreprocessorEndIf)
                 => Shift(BeginPreprocessorEndIf),
-                (BeginPreprocessorEndIf, EndOfLine)
-                    => Shift(BeginLine),
-                    //=> Reduce(PreprocessorIfBlock),
+            (BeginPreprocessorEndIf, EndOfLine)
+                => Shift(BeginLine),
+            //=> Reduce(PreprocessorIfBlock),
 
             // $ [#error]
             (Initial, PreprocessorError)
@@ -104,14 +104,14 @@ public partial struct Parser
                 => Shift(BeginPreprocessorIf),
             (BeginLine, PreprocessorIf)
                 => Shift(BeginPreprocessorIf),
-                // #if ... [!]
-                (BeginPreprocessorIf, Exclamation)
-                    => Shift(BeginUnaryExpression),
-                // #if ... [&&]
-                (BeginPreprocessorIfExpression, DoubleAmpersand)
-                    => Shift(BeginBinaryExpression),
-                (BeginPreprocessorIfExpression, EndOfLine)
-                    => Reduce(PreprocessorIfStatement),
+            // #if ... [!]
+            (BeginPreprocessorIf, Exclamation)
+                => Shift(BeginUnaryExpression),
+            // #if ... [&&]
+            (BeginPreprocessorIfExpression, DoubleAmpersand)
+                => Shift(BeginBinaryExpression),
+            (BeginPreprocessorIfExpression, EndOfLine)
+                => Reduce(PreprocessorIfStatement),
 
             // $ [#ifdef]
             // $ ... [#ifdef]
@@ -119,10 +119,10 @@ public partial struct Parser
                 => Shift(BeginPreprocessorIfDef),
             (BeginLine, PreprocessorIfDef)
                 => Shift(BeginPreprocessorIfDef),
-                (BeginPreprocessorIfDef, Identifier)
-                    => Shift(PreprocessorIfDefIdentifier),
-                    (PreprocessorIfDefIdentifier, EndOfLine)
-                        => Reduce(PreprocessorIfDefinition),
+            (BeginPreprocessorIfDef, Identifier)
+                => Shift(PreprocessorIfDefIdentifier),
+            (PreprocessorIfDefIdentifier, EndOfLine)
+                => Reduce(PreprocessorIfDefinition),
 
             // $ [#ifndef]
             (Initial, PreprocessorIfNDef)
@@ -137,10 +137,10 @@ public partial struct Parser
                 => Shift(BeginPreprocessorInclude),
             (BeginLine, PreprocessorInclude)
                 => Shift(BeginPreprocessorInclude),
-                (BeginPreprocessorInclude, SyntaxKind.String)
-                    => Shift(PreprocessorIncludeFile),
-                (PreprocessorIncludeFile, EndOfLine)
-                    => Reduce(PreprocessorInclusion),
+            (BeginPreprocessorInclude, SyntaxKind.String)
+                => Shift(PreprocessorIncludeFile),
+            (PreprocessorIncludeFile, EndOfLine)
+                => Reduce(PreprocessorInclusion),
 
 
             // $ [#warn]
@@ -153,24 +153,24 @@ public partial struct Parser
             // $ [/]
             (Initial, Slash)
                 => Shift(BeginRootedPath),
-                // $ / [ident]
-                (BeginRootedPath, Identifier)
-                    => Shift(EndRootedPath),
-                    // $ / ident [/]
-                    (EndRootedPath, Slash)
-                        => Reduce(RootPath),
+            // $ / [ident]
+            (BeginRootedPath, Identifier)
+                => Shift(EndRootedPath),
+            // $ / ident [/]
+            (EndRootedPath, Slash)
+                => Reduce(RootPath),
 
             // ! [ident]
             (BeginUnaryExpression, Identifier)
                 => Shift(BeginUnaryExpressionIdentifier),
-                // ! ident [(]
-                (BeginUnaryExpressionIdentifier, OpenParenthesis)
-                    => Shift(BeginFunctionCall),
-                // ! funccall [&&]
-                (BeginUnaryExpression, DoubleAmpersand)
-                    => Reduce(UnaryExpression),
-                (BeginUnaryExpression, EndOfLine)
-                    => Reduce(UnaryExpression),
+            // ! ident [(]
+            (BeginUnaryExpressionIdentifier, OpenParenthesis)
+                => Shift(BeginFunctionCall),
+            // ! funccall [&&]
+            (BeginUnaryExpression, DoubleAmpersand)
+                => Reduce(UnaryExpression),
+            (BeginUnaryExpression, EndOfLine)
+                => Reduce(UnaryExpression),
 
             // ... && [!]
             (BeginBinaryExpression, Exclamation)
@@ -181,18 +181,18 @@ public partial struct Parser
             // ident ( [)]
             (BeginFunctionCall, CloseParenthesis)
                 => Shift(EndFunctionCall),
-                // ident ( ... ) [&&]
-                (EndFunctionCall, DoubleAmpersand)
-                    => Reduce(FunctionCall),
-                // ident ( ... ) [&&]
-                (EndFunctionCall, EndOfLine)
-                    => Reduce(FunctionCall),
+            // ident ( ... ) [&&]
+            (EndFunctionCall, DoubleAmpersand)
+                => Reduce(FunctionCall),
+            // ident ( ... ) [&&]
+            (EndFunctionCall, EndOfLine)
+                => Reduce(FunctionCall),
             // ident ( [ident]
             (BeginFunctionCall, Identifier)
                 => Shift(BeginFunctionCallParameter),
-                // ident ( expr [)]
-                (BeginFunctionCallParameter, CloseParenthesis)
-                    => Shift(EndFunctionCall),
+            // ident ( expr [)]
+            (BeginFunctionCallParameter, CloseParenthesis)
+                => Shift(EndFunctionCall),
 
             _ => Error(ParseError.Unexpected(lookahead))
         };

@@ -30,9 +30,7 @@ public record struct TokenSpan
 
     /// <inheritdoc/>
     public override string ToString()
-    {
-        return $"{Start}:{End}";
-    }
+        => $"{Start}:{End}";
 }
 
 /// <summary>
@@ -65,7 +63,5 @@ public record struct TokenPosition
 
     /// <inheritdoc/>
     public override string ToString()
-    {
-        return $"{Line},{Column}";
-    }
+        => $"{Line},{Column}";
 }

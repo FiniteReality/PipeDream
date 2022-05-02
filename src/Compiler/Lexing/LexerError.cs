@@ -25,7 +25,5 @@ public record struct LexerError
 
     /// <inheritdoc/>
     public override string ToString()
-    {
-        return Message;
-    }
+        => Message;
 }
