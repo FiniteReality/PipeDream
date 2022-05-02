@@ -4,33 +4,54 @@ internal enum ParserMode
 {
     Initial,
     BeginLine,
-    EmptyLine,
-    CommentLine,
-    Final,
+        BeginStatement,
+            BeginAssignmentStatement,
+                BeginAssignmentStatementValue,
+                BeginAssignmentStatementValueRootedPath,
+        BeginBinaryExpression,
+        BeginUnaryExpression,
+            BeginUnaryExpressionIdentifier,
+        BeginFunctionCall,
+            BeginFunctionCallParameter,
+        EndFunctionCall,
 
-    BeginStatement,
-    BeginAssignmentStatement,
-    EndAssignmentStatement,
-    EndStatement,
-    EndStatementLine,
+        BeginPreprocessorDefine,
+            PreprocessorDefineIdentifier,
+                PreprocessorDefineValue,
+                PreprocessorDefineValueContinued,
 
-    RootedPath,
-    RootedPathLeaf,
+        BeginPreprocessorEndIf,
+        BeginPreprocessorError,
+        BeginPreprocessorIf,
+            BeginPreprocessorIfExpression,
 
-    BeginExpression,
-    BeginPathExpression,
-    BeginCompoundExpression,
-    EndExpression
+        BeginPreprocessorIfDef,
+            PreprocessorIfDefIdentifier,
+
+        BeginPreprocessorIfNDef,
+
+        BeginPreprocessorInclude,
+            PreprocessorIncludeFile,
+
+        BeginPreprocessorWarn,
+
+        BeginRootedPath,
+        EndRootedPath,
+        BeginPath,
+            PathComponent,
 }
 
-// N.B. nonterminal rules!
 internal enum ParserRule
 {
-    CompilationUnit,
-    Comment,
-    Statement,
-        AssignmentStatement,
-    Expression,
-    PathRoot,
-    Path
+    Assignment,
+    BinaryExpression,
+    FunctionCall,
+    PreprocessorDefinition,
+    PreprocessorDefinitionValue,
+    PreprocessorInclusion,
+    PreprocessorIfDefinition,
+    PreprocessorIfStatement,
+    PreprocessorIfBlock,
+    RootPath,
+    UnaryExpression,
 }

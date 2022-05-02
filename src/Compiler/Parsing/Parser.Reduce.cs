@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
-using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing.Tree;
 
 using static PipeDream.Compiler.Parsing.ParserMode;
@@ -14,129 +13,172 @@ public partial struct Parser
     {
         switch (rule)
         {
-            case CompilationUnit:
-            {
-                var builder = ImmutableArray.CreateBuilder<SyntaxNode>(
-                    _syntaxStack.Count - 1);
-
-                while (_syntaxStack.TryPeek(out var state))
-                {
-                    if (state.mode == Initial)
-                        break;
-
-                    var (mode, node) = state;
-                    builder.Add(node);
-
-                    _ = _syntaxStack.Pop();
-                }
-
-                _syntaxStack.Push((Final,
-                    new CompilationUnitNode(builder.MoveToImmutable())));
-                return true;
-            }
-            case Comment:
-            {
-                var (_, eol) = _syntaxStack.Pop();
-                var (_, comment) = _syntaxStack.Pop();
-
-                var nextMode = _syntaxStack.Peek().mode switch
-                {
-                    Initial => BeginLine,
-                    BeginLine => BeginLine,
-                    _ => throw new InvalidOperationException("Unreachable")
-                };
-
-                _syntaxStack.Push((nextMode,
-                    new CommentNode(comment, eol)));
-                return true;
-            }
-            case Statement:
-            {
-                var (_, eol) = _syntaxStack.Pop();
-                var (_, stmt) = _syntaxStack.Pop();
-
-                var nextMode = _syntaxStack.Peek().mode switch
-                {
-                    BeginLine => BeginLine,
-                    _ => throw new InvalidOperationException("Unreachable?")
-                };
-
-                _syntaxStack.Push((nextMode,
-                    new StatementNode(stmt, eol)));
-                return true;
-            }
-            case AssignmentStatement:
+            case Assignment:
             {
                 var (_, right) = _syntaxStack.Pop();
                 var (_, equals) = _syntaxStack.Pop();
                 var (_, left) = _syntaxStack.Pop();
 
-                var kind = equals switch
-                {
-                    EqualsTokenNode => SyntaxKind.Equals,
-                    _ => throw new InvalidOperationException("Unreachable?")
-                };
-
-                var nextMode = _syntaxStack.Peek().mode switch
-                {
-                    BeginLine => EndStatement,
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => BeginLine,
+                    BeginLine => BeginLine,
                     _ => throw new InvalidOperationException("Unreachable")
                 };
 
-                _syntaxStack.Push((nextMode,
-                    new AssignmentStatementNode(left, right)));
-                return true;
+                return Push(mode,
+                    new AssignmentNode(left, equals, right));
             }
-            case Expression:
+            case BinaryExpression:
             {
                 var (_, right) = _syntaxStack.Pop();
-                var (_, type) = _syntaxStack.Pop();
+                var (_, op) = _syntaxStack.Pop();
                 var (_, left) = _syntaxStack.Pop();
 
-                var kind = type switch
-                {
-                    SlashTokenNode => SyntaxKind.Slash,
-                    _ => throw new InvalidOperationException("Unreachable?")
-                };
-
-                var nextMode = _syntaxStack.Peek().mode switch
-                {
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => BeginStatement,
                     BeginLine => BeginStatement,
+                    BeginAssignmentStatement => BeginAssignmentStatementValue,
+                    BeginPreprocessorIf => BeginPreprocessorIfExpression,
                     _ => throw new InvalidOperationException("Unreachable")
                 };
 
-                _syntaxStack.Push((nextMode,
-                    new BinaryExpressionNode(left, right, kind)));
-                return true;
+                return Push(mode,
+                    new BinaryOperationNode(left, op, right));
             }
-            case PathRoot:
+            case FunctionCall:
             {
-                var (_, node) = _syntaxStack.Pop();
-                Debug.Assert(node is SlashTokenNode);
+                var parameters = ImmutableArray.CreateBuilder<SyntaxNode>();
 
-                var nextMode = (_syntaxStack.Peek().mode, rule) switch
+                var (_, closeParenthesis) = _syntaxStack.Pop();
+
+                while (_syntaxStack.TryPeek(out var state)
+                    && state.mode == BeginFunctionCallParameter)
                 {
-                    (BeginLine, Path) => RootedPath,
+                    parameters.Add(state.node);
+                    _ = _syntaxStack.Pop();
+                }
+
+                var (_, openParenthesis) = _syntaxStack.Pop();
+                var (_, expr) = _syntaxStack.Pop();
+
+                var mode = _syntaxStack.Peek().mode switch {
+                    BeginUnaryExpression => BeginUnaryExpression,
                     _ => throw new InvalidOperationException("Unreachable")
                 };
 
-                _syntaxStack.Push((nextMode, new RootPathNode(node)));
-                return true;
+                return Push(mode, new FunctionCallNode(
+                    expr, openParenthesis, parameters.ToImmutable(), closeParenthesis));
             }
-            case Path:
+            case PreprocessorDefinition:
             {
-                var (_, right) = _syntaxStack.Pop();
-                var (_, left) = _syntaxStack.Pop();
+                var (_, ident) = _syntaxStack.Pop();
+                var (_, define) = _syntaxStack.Pop();
 
-                var nextMode = _syntaxStack.Peek().mode switch
-                {
-                    RootedPath => EndExpression,
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => PreprocessorDefineValue,
+                    BeginLine => PreprocessorDefineValue,
                     _ => throw new InvalidOperationException("Unreachable")
                 };
 
-                _syntaxStack.Push((nextMode,
-                    new BinaryExpressionNode(left, right, SyntaxKind.Slash)));
-                return true;
+                return Push(mode,
+                    new PreprocessorDefinitionNode(define, ident));
+            }
+            case PreprocessorDefinitionValue:
+            {
+                var content = ImmutableArray.CreateBuilder<SyntaxNode>();
+
+                while (_syntaxStack.TryPeek(out var state)
+                    && state.mode == PreprocessorDefineValueContinued)
+                {
+                    content.Add(state.node);
+                    _ = _syntaxStack.Pop();
+                }
+
+                var (_, definition) = _syntaxStack.Pop();
+
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => BeginLine,
+                    BeginLine => BeginLine,
+                    _ => throw new InvalidOperationException("Unreachable")
+                };
+
+                return Push(mode,
+                    new ValuedPreprocessorDefinitionNode(definition,
+                        content.ToImmutable()));
+            }
+            case PreprocessorInclusion:
+            {
+                var (_, file) = _syntaxStack.Pop();
+                var (_, include) = _syntaxStack.Pop();
+
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => BeginLine,
+                    BeginLine => BeginLine,
+                    _ => throw new InvalidOperationException("Unreachable")
+                };
+
+                return Push(mode,
+                    new PreprocessorInclusionNode(include, file));
+            }
+            case PreprocessorIfDefinition:
+            {
+                var (_, ident) = _syntaxStack.Pop();
+                var (_, ifdef) = _syntaxStack.Pop();
+
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => BeginLine,
+                    BeginLine => BeginLine,
+                    _ => throw new InvalidOperationException("Unreachable")
+                };
+
+                return Push(mode,
+                    new PreprocessorIfDefinitionNode(ident, ifdef));
+            }
+            case PreprocessorIfStatement:
+            {
+                var (_, expr) = _syntaxStack.Pop();
+                var (_, hashIf) = _syntaxStack.Pop();
+
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => BeginLine,
+                    BeginLine => BeginLine,
+                    _ => throw new InvalidOperationException("Unreachable")
+                };
+
+                return Push(mode,
+                    new PreprocessorIfNode(hashIf, expr));
+            }
+            case PreprocessorIfBlock:
+            {
+                //var (_, endif) = _syntaxStack.Pop();
+                Debug.Fail("Unimplemented");
+                return false;
+            }
+            case RootPath:
+            {
+                var (_, path) = _syntaxStack.Pop();
+                var (_, slash) = _syntaxStack.Pop();
+
+                var mode = _syntaxStack.Peek().mode switch {
+                    Initial => BeginStatement,
+                    BeginAssignmentStatement => BeginAssignmentStatementValue,
+                    _ => throw new InvalidOperationException("Unreachable")
+                };
+
+                return Push(mode, new RootPathNode(slash, path));
+            }
+            case UnaryExpression:
+            {
+                var (_, expr) = _syntaxStack.Pop();
+                var (_, op) = _syntaxStack.Pop();
+
+                var mode = _syntaxStack.Peek().mode switch {
+                    BeginBinaryExpression => BeginBinaryExpression,
+                    BeginPreprocessorIf => BeginPreprocessorIfExpression,
+                    _ => throw new InvalidOperationException("Unreachable")
+                };
+
+                return Push(mode, new UnaryOperationNode(op, expr));
             }
         }
 

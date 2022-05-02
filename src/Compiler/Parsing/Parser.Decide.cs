@@ -3,7 +3,9 @@ using System.Diagnostics;
 using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing.Tree;
 
+using static PipeDream.Compiler.Lexing.SyntaxKind;
 using static PipeDream.Compiler.Parsing.ParserMode;
+using static PipeDream.Compiler.Parsing.ParserRule;
 
 namespace PipeDream.Compiler.Parsing;
 
@@ -13,101 +15,184 @@ public partial struct Parser
     {
         return (state, lookahead.Kind) switch
         {
-            (Initial, SyntaxKind.EndOfFile)
-                => Reduce(ParserRule.CompilationUnit),
-            (Initial, SyntaxKind.EndOfLine)
+            // $ [eof]
+            (Initial, EndOfFile)
+                => Accept(),
+            // $ [eol]
+            (Initial, EndOfLine)
                 => Shift(BeginLine),
-            (Initial, SyntaxKind.SingleLineComment)
-                => Shift(EmptyLine),
-            (Initial, SyntaxKind.MultiLineComment)
-                => Shift(BeginLine),
-
-            (BeginLine, SyntaxKind.EndOfLine)
-                => Shift(BeginLine),
-            (BeginLine, SyntaxKind.SingleLineComment)
-                => Shift(EmptyLine),
-            (BeginLine, SyntaxKind.MultiLineComment)
+            // $ ... eol [eol]
+            (BeginLine, EndOfLine)
                 => Shift(BeginLine),
 
-            // singlelinecomment [eol]
-            (EmptyLine, SyntaxKind.EndOfLine)
-                => Shift(CommentLine),
+            // $ [ident]
+            (Initial, Identifier)
+                => Shift(BeginStatement),
+            // $ ... [ident]
+            (BeginLine, Identifier)
+                => Shift(BeginStatement),
+                // $ ident [/]
+                (BeginStatement, Slash)
+                    => Shift(BeginPath),
+                // $ expr [=]
+                (BeginStatement, SyntaxKind.Equals)
+                    => Shift(BeginAssignmentStatement),
+                    // $ expr = [ident]
+                    (BeginAssignmentStatement, Identifier)
+                        => Shift(BeginAssignmentStatementValue),
+                        // $ expr = ident [/]
+                        (BeginAssignmentStatementValue, Slash)
+                            => Shift(BeginPath),
+                        // $ expr = expr [eol]
+                        (BeginAssignmentStatementValue, EndOfLine)
+                            => Reduce(Assignment),
+                    // $ expr = [/]
+                    (BeginAssignmentStatement, Slash)
+                        => Shift(BeginAssignmentStatementValueRootedPath),
+                        // $ expr = / [ident]
+                        (BeginAssignmentStatementValueRootedPath, Identifier)
+                            => Shift(BeginRootedPath),
 
-            // singlelinecomment eol [eol]
-            (CommentLine, SyntaxKind.EndOfLine)
-                => Reduce(ParserRule.Comment),
-            // singlelinecomment eol [singlelinecomment]
-            (CommentLine, SyntaxKind.SingleLineComment)
-                => Reduce(ParserRule.Comment),
-            // singlelinecomment eol [ident]
-            (CommentLine, SyntaxKind.Identifier)
-                => Reduce(ParserRule.Comment),
-            // singlelinecomment eol [#define]
-            (CommentLine, SyntaxKind.PreprocessorDefine)
-                => Reduce(ParserRule.Comment),
+            // $ ident / [ident]
+            (BeginPath, Identifier)
+                => Shift(PathComponent),
+                // $ ident / ident [/]
+                (PathComponent, Slash)
+                    => Reduce(BinaryExpression),
+                // $ ident / ident [=]
+                (PathComponent, SyntaxKind.Equals)
+                    => Reduce(BinaryExpression),
 
-            // [ident]
-            (BeginLine, SyntaxKind.Identifier)
-                => Shift(BeginExpression),
+            // $ [#define]
+            // $ ... [#define]
+            (Initial, PreprocessorDefine)
+                => Shift(BeginPreprocessorDefine),
+            (BeginLine, PreprocessorDefine)
+                => Shift(BeginPreprocessorDefine),
+                // $ #define [ident]
+                (BeginPreprocessorDefine, Identifier)
+                    => Shift(PreprocessorDefineIdentifier),
+                    // $ #define ident [...]
+                    (PreprocessorDefineIdentifier, _)
+                        => Reduce(PreprocessorDefinition),
+            // $ preprocessordefinition [eol]
+            (PreprocessorDefineValue, EndOfLine)
+                => Shift(BeginLine),
+                // $ preprocessordefinition [...]
+                (PreprocessorDefineValue, _)
+                    => Shift(PreprocessorDefineValueContinued),
+                    // $ preprocessordefinition ... [eol]
+                    (PreprocessorDefineValueContinued, EndOfLine)
+                        => Reduce(PreprocessorDefinitionValue),
 
-            // ident [/]
-            (BeginExpression, SyntaxKind.Slash)
-                => Shift(BeginCompoundExpression),
-            // ident / [ident]
-            (BeginCompoundExpression, SyntaxKind.Identifier)
-                => Shift(EndExpression),
-            // ident / ident [/]
-            (EndExpression, SyntaxKind.Slash)
-                => Reduce(ParserRule.Expression),
-            (EndExpression, SyntaxKind.Equals)
-                => Reduce(ParserRule.Expression),
+            // [#endif]
+            (BeginLine, PreprocessorEndIf)
+                => Shift(BeginPreprocessorEndIf),
+                (BeginPreprocessorEndIf, EndOfLine)
+                    => Shift(BeginLine),
+                    //=> Reduce(PreprocessorIfBlock),
 
-            // expr [/]
-            (BeginStatement, SyntaxKind.Slash)
-                => Shift(BeginCompoundExpression),
+            // $ [#error]
+            (Initial, PreprocessorError)
+                => Shift(BeginPreprocessorError),
+            // $ [#error]
+            (BeginLine, PreprocessorError)
+                => Shift(BeginPreprocessorError),
+            // $ [#if]
+            // $ ... [#if]
+            (Initial, PreprocessorIf)
+                => Shift(BeginPreprocessorIf),
+            (BeginLine, PreprocessorIf)
+                => Shift(BeginPreprocessorIf),
+                // #if ... [!]
+                (BeginPreprocessorIf, Exclamation)
+                    => Shift(BeginUnaryExpression),
+                // #if ... [&&]
+                (BeginPreprocessorIfExpression, DoubleAmpersand)
+                    => Shift(BeginBinaryExpression),
+                (BeginPreprocessorIfExpression, EndOfLine)
+                    => Reduce(PreprocessorIfStatement),
 
-            // expr [=]
-            (BeginStatement, SyntaxKind.Equals)
-                => Shift(BeginAssignmentStatement),
+            // $ [#ifdef]
+            // $ ... [#ifdef]
+            (Initial, PreprocessorIfDef)
+                => Shift(BeginPreprocessorIfDef),
+            (BeginLine, PreprocessorIfDef)
+                => Shift(BeginPreprocessorIfDef),
+                (BeginPreprocessorIfDef, Identifier)
+                    => Shift(PreprocessorIfDefIdentifier),
+                    (PreprocessorIfDefIdentifier, EndOfLine)
+                        => Reduce(PreprocessorIfDefinition),
 
-            // expr = [ident]
-            (BeginAssignmentStatement, SyntaxKind.Identifier)
-                => Shift(EndAssignmentStatement),
-            // expr = ident [/]
-            (EndAssignmentStatement, SyntaxKind.Slash)
-                => Shift(BeginCompoundExpression),
-            // expr = ident [eol]
-            // expr = expr [eol]
-            (EndAssignmentStatement, SyntaxKind.EndOfLine)
-                => Reduce(ParserRule.AssignmentStatement),
-            // assignment [eol]
-            (EndStatement, SyntaxKind.EndOfLine)
-                => Shift(EndStatementLine),
-            // assignment eol [eol]
-            (EndStatementLine, SyntaxKind.EndOfLine)
-                => Reduce(ParserRule.Statement),
-            // assignment eol [ident]
-            (EndStatementLine, SyntaxKind.Identifier)
-                => Reduce(ParserRule.Statement),
-            // assignment eol [#define]
-            (EndStatementLine, SyntaxKind.PreprocessorDefine)
-                => Reduce(ParserRule.Statement),
-            (EndStatementLine, SyntaxKind.SingleLineComment)
-                => Reduce(ParserRule.Statement),
+            // $ [#ifndef]
+            (Initial, PreprocessorIfNDef)
+                => Shift(BeginPreprocessorIfNDef),
+            // $ [#ifndef]
+            (BeginLine, PreprocessorIfNDef)
+                => Shift(BeginPreprocessorIfNDef),
 
-            // [/]
-            (BeginLine, SyntaxKind.Slash)
-                => Shift(BeginPathExpression),
-            // / [ident]
-            (BeginPathExpression, SyntaxKind.Identifier)
-                => Reduce(ParserRule.PathRoot),
-            // root [ident]
-            (RootedPath, SyntaxKind.Identifier)
-                => Shift(RootedPathLeaf),
-            // root ident [/]
-            (RootedPathLeaf, SyntaxKind.Slash)
-                => Reduce(ParserRule.Path),
+            // $ [#include]
+            // $ ... [#include]
+            (Initial, PreprocessorInclude)
+                => Shift(BeginPreprocessorInclude),
+            (BeginLine, PreprocessorInclude)
+                => Shift(BeginPreprocessorInclude),
+                (BeginPreprocessorInclude, SyntaxKind.String)
+                    => Shift(PreprocessorIncludeFile),
+                (PreprocessorIncludeFile, EndOfLine)
+                    => Reduce(PreprocessorInclusion),
 
+
+            // $ [#warn]
+            (Initial, PreprocessorWarn)
+                => Shift(BeginPreprocessorWarn),
+            // $ [#warn]
+            (BeginLine, PreprocessorWarn)
+                => Shift(BeginPreprocessorWarn),
+
+            // $ [/]
+            (Initial, Slash)
+                => Shift(BeginRootedPath),
+                // $ / [ident]
+                (BeginRootedPath, Identifier)
+                    => Shift(EndRootedPath),
+                    // $ / ident [/]
+                    (EndRootedPath, Slash)
+                        => Reduce(RootPath),
+
+            // ! [ident]
+            (BeginUnaryExpression, Identifier)
+                => Shift(BeginUnaryExpressionIdentifier),
+                // ! ident [(]
+                (BeginUnaryExpressionIdentifier, OpenParenthesis)
+                    => Shift(BeginFunctionCall),
+                // ! funccall [&&]
+                (BeginUnaryExpression, DoubleAmpersand)
+                    => Reduce(UnaryExpression),
+                (BeginUnaryExpression, EndOfLine)
+                    => Reduce(UnaryExpression),
+
+            // ... && [!]
+            (BeginBinaryExpression, Exclamation)
+                => Shift(BeginUnaryExpression),
+            (BeginBinaryExpression, EndOfLine)
+                => Reduce(BinaryExpression),
+
+            // ident ( [)]
+            (BeginFunctionCall, CloseParenthesis)
+                => Shift(EndFunctionCall),
+                // ident ( ... ) [&&]
+                (EndFunctionCall, DoubleAmpersand)
+                    => Reduce(FunctionCall),
+                // ident ( ... ) [&&]
+                (EndFunctionCall, EndOfLine)
+                    => Reduce(FunctionCall),
+            // ident ( [ident]
+            (BeginFunctionCall, Identifier)
+                => Shift(BeginFunctionCallParameter),
+                // ident ( expr [)]
+                (BeginFunctionCallParameter, CloseParenthesis)
+                    => Shift(EndFunctionCall),
 
             _ => Error(ParseError.Unexpected(lookahead))
         };

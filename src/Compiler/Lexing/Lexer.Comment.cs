@@ -23,21 +23,16 @@ ref partial struct Lexer
             (byte)'\r', (byte)'\n'
         };
 
-    private bool LexComment()
+    private (bool success, bool wasComment) LexComment()
     {
         if (!_reader.TryPeek(out var type))
-            return Stop();
+            return (Stop(), false);
 
         if (type == '/')
         {
             // single-line comment
-            if (!_reader.TryAdvanceToAny(NewlineTokens, false))
-            {
-                // comment spans to the end of the file
-                return Token(SyntaxKind.SingleLineComment, LexerMode.EndOfFile);
-            }
-
-            return Token(SyntaxKind.SingleLineComment, LexerMode.EndOfLine);
+            _ = _reader.TryAdvanceToAny(NewlineTokens, false);
+            return (true, true);
         }
         else if (type == '*')
         {
@@ -46,15 +41,14 @@ ref partial struct Lexer
             {
                 _lineNumber += CountLines(
                     _reader.Sequence.Slice(_start, _reader.Position));
-                return Token(SyntaxKind.MultiLineComment,
-                    LexerMode.MiddleOfLine);
+                return (true, true);
             }
 
-            return Error("Incomplete multi-line comment");
+            return (Error("Incomplete multi-line comment"), true);
         }
         else
         {
-            return Token(SyntaxKind.Slash, LexerMode.MiddleOfLine);
+            return (Token(SyntaxKind.Slash, LexerMode.MiddleOfLine), false);
         }
 
         static bool SkipNestedComments(

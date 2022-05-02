@@ -72,54 +72,65 @@ ref partial struct Lexer
         return one switch
         {
             (byte)'d' => ProduceIfNext(ref this, DefineToken,
-                SyntaxKind.PreprocessorDefine),
+                SyntaxKind.PreprocessorDefine,
+                LexerMode.MiddleOfLine),
 
             (byte)'i' => two switch { // if, ifdef, ifndef, include
                 (byte)'f' => three switch { // if, ifdef, ifndef
                     (byte)'d' => ProduceIfNext(ref this, IfDefToken,
-                        SyntaxKind.PreprocessorIfDef),
+                        SyntaxKind.PreprocessorIfDef,
+                        LexerMode.MiddleOfLine),
                     (byte)'n' => ProduceIfNext(ref this, IfNDefToken,
-                        SyntaxKind.PreprocessorIfNDef),
+                        SyntaxKind.PreprocessorIfNDef,
+                        LexerMode.MiddleOfLine),
                     (>= (byte)'A' and <= (byte)'Z') or
                     (>= (byte)'a' and <= (byte)'z') or
                     (byte)'_' => Error(
                         $"Invalid preprocessing token {three:X2}"),
                     _ => ProduceIfNext(ref this, IfToken,
-                        SyntaxKind.PreprocessorIf)
+                        SyntaxKind.PreprocessorIf,
+                        LexerMode.MiddleOfLine)
                 },
                 (byte)'n' => ProduceIfNext(ref this, IncludeToken,
-                    SyntaxKind.PreprocessorInclude),
+                    SyntaxKind.PreprocessorInclude,
+                    LexerMode.MiddleOfLine),
                 _ => Error($"Invalid preprocessing token {two:X2}")
             },
             (byte)'e' => two switch { // elif, else, endif, error
                 (byte)'l' => three switch { // elif, else
                     (byte)'i' => ProduceIfNext(ref this, ElifToken,
-                        SyntaxKind.PreprocessorElseIf),
+                        SyntaxKind.PreprocessorElseIf,
+                        LexerMode.MiddleOfLine),
                     (byte)'s' => ProduceIfNext(ref this, ElseToken,
-                        SyntaxKind.PreprocessorElse),
+                        SyntaxKind.PreprocessorElse,
+                        LexerMode.EndOfLine),
                     _ => Error($"Invalid preprocessing token {three:X2}")
                 },
                 (byte)'n' => ProduceIfNext(ref this, EndIfToken,
-                    SyntaxKind.PreprocessorEndIf),
+                    SyntaxKind.PreprocessorEndIf,
+                    LexerMode.EndOfLine),
                 (byte)'r' => ProduceIfNext(ref this, ErrorToken,
-                    SyntaxKind.PreprocessorError),
+                    SyntaxKind.PreprocessorError,
+                    LexerMode.MiddleOfLine),
                 _ => Error($"Invalid preprocessing token {two:X2}")
             },
             (byte)'w' => ProduceIfNext(ref this, WarnToken,
-                SyntaxKind.PreprocessorWarn),
+                SyntaxKind.PreprocessorWarn,
+                LexerMode.MiddleOfLine),
             _ => Error($"Invalid preprocessing token {one:X2}")
         };
 
         static bool ProduceIfNext(
             ref Lexer @this,
             ReadOnlySpan<byte> next,
-            SyntaxKind token)
+            SyntaxKind token,
+            LexerMode mode)
         {
             if (next.Length > @this._reader.Remaining)
                 return @this.Stop();
 
             return @this._reader.IsNext(next, true)
-                ? @this.Token(token, LexerMode.MiddleOfLine)
+                ? @this.Token(token, mode)
                 : @this.Error($"Invalid preprocessing token (best guess {token})");
         }
     }

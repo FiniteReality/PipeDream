@@ -12,7 +12,10 @@ public ref partial struct Lexer
             return Token(SyntaxKind.Equals, LexerMode.EndOfFile);
 
         if (doubleEquals == (byte)'=')
+        {
+            _reader.Advance(1);
             return Token(SyntaxKind.DoubleEquals, _mode);
+        }
 
         return Token(SyntaxKind.Equals, _mode);
     }
@@ -23,7 +26,10 @@ public ref partial struct Lexer
             return Token(SyntaxKind.Dot, LexerMode.EndOfFile);
 
         if (doubleDot == (byte)'.')
+        {
+            _reader.Advance(1);
             return Token(SyntaxKind.DoubleDot, _mode);
+        }
 
         return Token(SyntaxKind.Dot, _mode);
     }
@@ -34,7 +40,10 @@ public ref partial struct Lexer
             return Token(SyntaxKind.Ampersand, LexerMode.EndOfFile);
 
         if (doubleDot == (byte)'&')
+        {
+            _reader.Advance(1);
             return Token(SyntaxKind.DoubleAmpersand, _mode);
+        }
 
         return Token(SyntaxKind.Ampersand, _mode);
     }

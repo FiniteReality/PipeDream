@@ -1,7 +1,3 @@
-using System.Buffers;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using PipeDream.Compiler.Internal;
 using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing.Tree;
 
@@ -9,6 +5,12 @@ namespace PipeDream.Compiler.Parsing;
 
 public partial struct Parser
 {
+    private bool Push(ParserMode mode, SyntaxNode node)
+    {
+        _syntaxStack.Push((mode, node));
+        return true;
+    }
+
     private bool Shift(ParserMode mode)
     {
         if (!_tokens.TryPeek(out var token))
@@ -24,7 +26,7 @@ public partial struct Parser
 
         _ = _tokens.TryDequeue(out _);
 
-        SyntaxNode? node = token.Kind switch
+        return Push(mode, token.Kind switch
         {
             SyntaxKind.Ampersand
                 => new AmpersandTokenNode(token.Span),
@@ -50,8 +52,6 @@ public partial struct Parser
                 => new ExclamationTokenNode(token.Span),
             SyntaxKind.Identifier
                 => new IdentifierTokenNode(token.Span, (string)token.Value!),
-            SyntaxKind.MultiLineComment
-                => new MultiLineCommentTokenNode(token.Span),
             SyntaxKind.OpenBrace
                 => new OpenBraceTokenNode(token.Span),
             SyntaxKind.OpenParenthesis
@@ -76,18 +76,11 @@ public partial struct Parser
                 => new PreprocessorIncludeTokenNode(token.Span),
             SyntaxKind.PreprocessorWarn
                 => new PreprocessorWarnTokenNode(token.Span),
-            SyntaxKind.SingleLineComment
-                => new SingleLineCommentTokenNode(token.Span),
             SyntaxKind.Slash
                 => new SlashTokenNode(token.Span),
             SyntaxKind.String
                 => new StringTokenNode(token.Span, (string)token.Value!),
             _ => throw new InvalidOperationException("Unknown syntax node")
-        };
-
-        if (node != null)
-            _syntaxStack.Push((mode, node));
-
-        return true;
+        });
     }
 }

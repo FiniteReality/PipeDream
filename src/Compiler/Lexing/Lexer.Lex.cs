@@ -53,12 +53,20 @@ public ref partial struct Lexer
                 if (!_reader.TryRead(out var value))
                     return Stop();
 
+                if (value == (byte)'/')
+                {
+                    var (success, wasComment) = LexComment();
+
+                    if (wasComment)
+                        goto case LexerMode.EndOfLine;
+
+                    return success;
+                }
+
                 return value switch
                 {
                     (byte)'#'
                         => LexPreprocessorToken(),
-                    (byte)'/'
-                        => LexComment(),
                     (>= (byte)'A' and <= (byte)'Z') or
                     (>= (byte)'a' and <= (byte)'z') or
                     (byte)'_'
@@ -85,6 +93,16 @@ public ref partial struct Lexer
                     goto case LexerMode.EndOfLine;
                 }
 
+                if (value == (byte)'/')
+                {
+                    var (success, wasComment) = LexComment();
+
+                    if (wasComment)
+                        goto case LexerMode.EndOfLine;
+
+                    return success;
+                }
+
                 return value switch
                 {
                     (byte)'!'
@@ -96,8 +114,6 @@ public ref partial struct Lexer
                     (byte)')'
                         => Token(SyntaxKind.CloseParenthesis,
                             LexerMode.MiddleOfLine),
-                    (byte)'/'
-                        => LexComment(),
                     (byte)'='
                         => LexEquals(),
                     (byte)'.'

@@ -66,11 +66,6 @@ public enum SyntaxKind
     Identifier,
 
     /// <summary>
-    /// Represents a multi-line comment token.
-    /// </summary>
-    MultiLineComment,
-
-    /// <summary>
     /// Represents a <code>{</code> token.
     /// </summary>
     OpenBrace,
@@ -128,11 +123,6 @@ public enum SyntaxKind
     /// Represents a <code>#warn</code> token.
     /// </summary>
     PreprocessorWarn,
-
-    /// <summary>
-    /// Represents a single-line comment token.
-    /// </summary>
-    SingleLineComment,
 
     /// <summary>
     /// Represents a <code>/</code> token.

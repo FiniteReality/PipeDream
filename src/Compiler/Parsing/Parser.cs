@@ -2,7 +2,6 @@ using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using PipeDream.Compiler.Internal;
 using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing.Tree;
 
@@ -15,7 +14,7 @@ public partial struct Parser
 {
     private readonly ImmutableArray<ParseError>.Builder _parseErrors;
     private readonly Stack<(ParserMode mode, SyntaxNode node)> _syntaxStack;
-    private readonly CircularBuffer<Token> _tokens;
+    private readonly Queue<Token> _tokens;
 
     private bool _accept;
 
@@ -53,7 +52,13 @@ public partial struct Parser
     /// <code>true</code> if adding the token was successful.
     /// </returns>
     public bool Queue(Token token)
-        => _tokens.Enqueue(token);
+    {
+        if (_tokens.Count == 128)
+            return false;
+
+        _tokens.Enqueue(token);
+        return true;
+    }
 
 
     /// <summary>
@@ -76,7 +81,7 @@ public partial struct Parser
                 return false;
         }
 
-        return _parseErrors.Count == 0;
+        return _accept || _parseErrors.Count == 0;
     }
 
     private bool Accept()

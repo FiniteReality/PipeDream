@@ -25,7 +25,7 @@ public struct LexerState
         int lineNumber,
         long lineStartOffset,
         LexerMode mode,
-        ImmutableArray<LexerError>.Builder parseErrors)
+        ImmutableArray<LexerError>.Builder lexErrors)
     {
         BeginBlock = beginBlock;
         IndentDepth = indentDepth;
@@ -33,7 +33,7 @@ public struct LexerState
         LineNumber = lineNumber;
         LineStartOffset = lineStartOffset;
         Mode = mode;
-        LexErrors = parseErrors;
+        LexErrors = lexErrors;
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public struct LexerState
         IndentSize = null;
         LineNumber = 1;
         LineStartOffset = 0;
-        Mode = LexerMode.EndOfLine;
+        Mode = LexerMode.StartOfLine;
         LexErrors = ImmutableArray.CreateBuilder<LexerError>(1);
     }
 

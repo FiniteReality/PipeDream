@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Text;
@@ -47,32 +48,28 @@ static SequencePosition Lex(ReadResult result,
     var lexer = new Lexer(result.Buffer, result.IsCompleted, lexState);
     var parser = new Parser(parseState);
 
-    // Keep processing until we're in a terminal state
-    while (!lexer.End)
+    while (lexer.Lex())
     {
-        // Keep queueing tokens until we run out of buffer
-        var parsedToken = lexer.Lex();
         bool queueFailed = false;
-        while (parsedToken)
+        do
         {
-            // Or if we fail to queue
             if (!parser.Queue(lexer.CurrentToken))
             {
                 queueFailed = true;
                 break;
             }
-
-            parsedToken = lexer.Lex();
         }
+        while (lexer.Lex());
 
         // Parse as much as possible based on the queued tokens
-        if (!parser.Parse())
-            break;
-
-        // Assuming we consumed some tokens, try and queue the token we failed
-        // to parse
-        if (parsedToken && queueFailed && !parser.Queue(lexer.CurrentToken))
-            break;
+        if (parser.Parse())
+        {
+            // Assuming we consumed some tokens, try and queue the token we failed
+            // to parse
+            if (queueFailed && !parser.Queue(lexer.CurrentToken))
+                throw new InvalidOperationException(
+                    "Somehow failed to enqueue token");
+        }
     }
 
     lexState = lexer.CurrentState;

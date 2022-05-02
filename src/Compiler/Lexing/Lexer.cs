@@ -69,7 +69,7 @@ public ref partial struct Lexer
     /// </summary>
     public LexerState CurrentState
         => new(
-            parseErrors: _lexErrors,
+            lexErrors: _lexErrors,
 
             mode: _mode,
 
@@ -85,12 +85,6 @@ public ref partial struct Lexer
     /// </summary>
     public Token CurrentToken
         => _lastValidToken;
-
-    /// <summary>
-    /// Gets whether the lexer has reached the end of the input stream.
-    /// </summary>
-    public bool End
-        => _lastValidToken.Kind == SyntaxKind.EndOfFile;
 
     /// <summary>
     /// Gets the current read position.
