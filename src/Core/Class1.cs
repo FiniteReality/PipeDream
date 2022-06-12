@@ -1,5 +1,5 @@
 namespace PipeDream.Core;
-public class Class1
+internal class Class1
 {
 
 }

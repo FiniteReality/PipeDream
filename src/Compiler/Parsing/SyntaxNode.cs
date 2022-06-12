@@ -4,8 +4,8 @@ namespace PipeDream.Compiler.Parsing.Tree;
 
 internal abstract record SyntaxNode(TokenSpan Span)
 {
-    internal static TokenSpan ComputeSpan(SyntaxNode start, SyntaxNode end)
-        => start.Span with { End = end.Span.End };
+    internal static TokenSpan ComputeSpan(SyntaxNode start, SyntaxNode? end)
+        => start.Span with { End = (end ?? start).Span.End };
 
     internal static TokenSpan ComputeSpan(SyntaxNode start,
         ImmutableArray<SyntaxNode> contents)

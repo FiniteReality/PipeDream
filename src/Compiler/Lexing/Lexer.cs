@@ -59,7 +59,7 @@ public ref partial struct Lexer
         _lineNumber = state.LineNumber;
         _lineStartOffset = state.LineStartOffset;
 
-        _start = input.Start;
+        _start = default;
         _lastValidToken = default;
         _tokenStart = default;
     }
@@ -190,7 +190,8 @@ public ref partial struct Lexer
 
         var startOffset = _reader.Sequence.GetOffset(_start);
         var currentOffset = _reader.Sequence.GetOffset(_reader.Position);
-        _reader.Rewind(currentOffset - startOffset);
+        if ((currentOffset - startOffset) > 0)
+            _reader.Rewind(currentOffset - startOffset);
 
         return false;
     }

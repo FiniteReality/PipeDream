@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
 using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing.Tree;
 
@@ -11,10 +12,12 @@ public struct ParserState
 {
     internal ParserState(
         ImmutableArray<ParseError>.Builder parseErrors,
-        Stack<(ParserMode, SyntaxNode)> syntaxStack)
+        Stack<SyntaxNode?> syntaxStack,
+        Stack<Rule> ruleStack)
     {
         ParseErrors = parseErrors;
         SyntaxStack = syntaxStack;
+        RuleStack = ruleStack;
     }
 
     /// <summary>
@@ -24,12 +27,14 @@ public struct ParserState
     {
         ParseErrors = ImmutableArray.CreateBuilder<ParseError>(1);
         SyntaxStack = new();
+        RuleStack = new();
 
-        SyntaxStack.Push((ParserMode.Initial, null!));
+        RuleStack.Push(Rule.CompilationUnit);
     }
 
     internal ImmutableArray<ParseError>.Builder ParseErrors { get; }
-    internal Stack<(ParserMode, SyntaxNode)> SyntaxStack { get; }
+    internal Stack<SyntaxNode?> SyntaxStack { get; }
+    internal Stack<Rule> RuleStack { get; }
 
     /// <summary>
     /// Gets all of the errors which occured during parsing.
@@ -46,4 +51,33 @@ public struct ParserState
     /// </summary>
     public bool HasErrors
         => ParseErrors.Count > 0;
+
+    /// <summary>
+    /// wheeee
+    /// </summary>
+    public void DebugPrintParseTree()
+    {
+        foreach (var item in SyntaxStack.Reverse())
+        {
+            PrintTreeItem(item);
+        }
+
+        static void PrintTreeItem(SyntaxNode? node)
+        {
+            Debug.WriteLine($"{node?.GetType().Name} ({node?.Span})");
+
+            Debug.Indent();
+            switch (node)
+            {
+                case StatementNode statement:
+                    PrintTreeItem(statement.Node);
+                    break;
+                case BinaryExpressionNode path:
+                    PrintTreeItem(path.Left);
+                    PrintTreeItem(path.Right);
+                    break;
+            }
+            Debug.Unindent();
+        }
+    }
 }

@@ -42,13 +42,15 @@ if (parseState.HasErrors)
     foreach (var error in parseState.Errors)
         Console.Error.WriteLine($"{args[0]}({error.Span}): {error.Message}");
 
+parseState.DebugPrintParseTree();
+
 static SequencePosition Lex(ReadResult result,
     ref LexerState lexState, ref ParserState parseState)
 {
     var lexer = new Lexer(result.Buffer, result.IsCompleted, lexState);
     var parser = new Parser(parseState);
 
-    while (lexer.Lex())
+    while (lexer.Lex() && lexer.CurrentToken.Kind != SyntaxKind.EndOfFile)
     {
         bool queueFailed = false;
         do

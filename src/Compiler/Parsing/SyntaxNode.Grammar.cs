@@ -1,57 +1,21 @@
 using System.Collections.Immutable;
+using System.Xml;
 
 namespace PipeDream.Compiler.Parsing.Tree;
 
-internal sealed record PreprocessorDefinitionNode(
-    SyntaxNode DefineToken,
-    SyntaxNode Name)
-    : SyntaxNode(ComputeSpan(DefineToken, Name));
+internal sealed record CompilationUnitNode(SyntaxNode Statements)
+    : SyntaxNode(Statements.Span);
 
-internal sealed record PreprocessorIfDefinitionNode(
-    SyntaxNode IfDefToken,
-    SyntaxNode Name)
-    : SyntaxNode(ComputeSpan(IfDefToken, Name));
+internal sealed record StatementListNode(SyntaxNode Statement, SyntaxNode? StatementList)
+    : SyntaxNode(ComputeSpan(Statement, StatementList));
 
-internal sealed record PreprocessorIfNode(
-    SyntaxNode IfToken,
-    SyntaxNode Name)
-    : SyntaxNode(ComputeSpan(IfToken, Name));
+internal sealed record StatementNode(SyntaxNode Node)
+    : SyntaxNode(Node.Span);
 
-internal sealed record PreprocessorInclusionNode(
-    SyntaxNode IncludeToken,
-    SyntaxNode FilePath)
-    : SyntaxNode(ComputeSpan(IncludeToken, FilePath));
+internal sealed record ExpressionNode(SyntaxNode Expression)
+    : SyntaxNode(Expression.Span);
 
-internal sealed record ValuedPreprocessorDefinitionNode(
-    SyntaxNode Definition,
-    ImmutableArray<SyntaxNode> Value)
-    : SyntaxNode(ComputeSpan(Definition, Value));
-
-internal sealed record BinaryOperationNode(
+internal sealed record BinaryExpressionNode(
     SyntaxNode Left,
-    SyntaxNode Operation,
     SyntaxNode Right)
     : SyntaxNode(ComputeSpan(Left, Right));
-
-internal sealed record UnaryOperationNode(
-    SyntaxNode Operation,
-    SyntaxNode Right)
-    : SyntaxNode(ComputeSpan(Operation, Right));
-
-internal sealed record RootPathNode(
-    SyntaxNode Slash,
-    SyntaxNode Value)
-    : SyntaxNode(ComputeSpan(Slash, Value));
-
-internal sealed record AssignmentNode(
-    SyntaxNode Left,
-    SyntaxNode EqualSign,
-    SyntaxNode Right)
-    : SyntaxNode(ComputeSpan(Left, Right));
-
-internal sealed record FunctionCallNode(
-    SyntaxNode Name,
-    SyntaxNode OpenParenthesis,
-    ImmutableArray<SyntaxNode> Parameters,
-    SyntaxNode CloseParenthesis)
-    : SyntaxNode(ComputeSpan(Name, CloseParenthesis));

@@ -1,0 +1,188 @@
+using System.Diagnostics.CodeAnalysis;
+
+internal sealed class LrZeroAutomata
+{
+    public record struct Item(Production Production, int Dot);
+    //public record struct State(HashSet<)
+
+    private readonly Grammar _grammar;
+    private readonly Production _augment;
+
+    private readonly Lazy<List<HashSet<Item>>> _items;
+    private readonly Dictionary<(HashSet<Item>, string), HashSet<Item>> _gotoCache;
+
+    public LrZeroAutomata(Grammar grammar)
+    {
+        _grammar = grammar;
+        _augment = grammar.Augment;
+
+        _items = new(() => ComputeItems().ToList());
+        _gotoCache = new(GotoCacheComparer.Instance);
+    }
+
+    public IReadOnlyList<HashSet<Item>> Items => _items.Value;
+
+    public HashSet<Item> Kernel(HashSet<Item> items)
+    {
+        var result = new HashSet<Item>();
+
+        foreach (var item in items)
+            if (item.Dot > 0 || item.Production == _grammar.Augment)
+                _ = result.Add(item);
+
+        return result;
+    }
+
+    public HashSet<Item> Closure(HashSet<Item> items)
+    {
+        var added = new HashSet<Item>();
+
+        do
+        {
+            added.Clear();
+
+            foreach (var item in items)
+            {
+                // Dot is on the RHS, so there is nothing following it
+                if (item.Dot == item.Production.Symbols.Length)
+                    continue;
+
+                var symbol = item.Production.Symbols[item.Dot];
+                var rule = _grammar.GetRuleByName(symbol);
+
+                // Symbol is a terminal, so we ignore it
+                if (rule is null)
+                    continue;
+
+                foreach (var production in rule.Productions)
+                {
+                    var newItem = new Item(production, 0);
+                    if (!items.Contains(newItem))
+                        _ = added.Add(newItem);
+                }
+            }
+
+            foreach (var add in added)
+            {
+                _ = items.Add(add);
+            }
+        }
+        while (added.Count > 0);
+
+        return items;
+    }
+
+    public bool TryGetGoto(int state, string symbol, out int destinationState)
+    {
+        var set = Items[state];
+        var gotoSet = ComputeGoto(set, symbol);
+
+        if (gotoSet.Count == 0)
+        {
+            destinationState = -2;
+            return false;
+        }
+
+        destinationState = _items.Value.FindIndex(
+            x => SetOfSetComparer.Instance.Equals(x, gotoSet));
+        return destinationState >= 0;
+    }
+
+    private HashSet<Item> ComputeGoto(HashSet<Item> items, string symbol)
+    {
+        if (_gotoCache.TryGetValue((items, symbol), out var result))
+            return result;
+
+        result = new HashSet<Item>();
+
+        foreach (var item in items)
+        {
+            if (item.Dot == item.Production.Symbols.Length)
+                continue;
+
+            if (item.Production.Symbols[item.Dot] == symbol)
+                _ = result.Add(new Item(item.Production, item.Dot + 1));
+        }
+
+        var value = Closure(result);
+        _gotoCache.Add((items, symbol), value);
+        return value;
+    }
+
+    public HashSet<HashSet<Item>> ComputeItems()
+    {
+        var result = new HashSet<HashSet<Item>>(
+            SetOfSetComparer.Instance)
+        {
+            Closure(
+                new HashSet<Item>() { new Item(_grammar.Augment, 0) })
+        };
+        var added = new HashSet<HashSet<Item>>(
+            SetOfSetComparer.Default);
+        do
+        {
+            added.Clear();
+    
+            foreach (var set in result)
+            {
+                foreach (var symbol in _grammar.Symbols)
+                {
+                    var gotoSet = ComputeGoto(set, symbol);
+
+                    if (gotoSet.Count == 0)
+                        continue;
+
+                    if (!result.Contains(gotoSet))
+                        _ = added.Add(gotoSet);
+                }
+            }
+
+            foreach (var add in added)
+                _ = result.Add(add);
+        }
+        while (added.Count > 0);
+
+        return result;
+    }
+
+    private sealed class GotoCacheComparer
+        : EqualityComparer<(HashSet<Item>, string)>
+    {
+        private GotoCacheComparer()
+        { }
+
+        public static GotoCacheComparer Instance { get; } = new();
+
+        public override bool Equals((HashSet<Item>, string) x, (HashSet<Item>, string) y)
+            => SetOfSetComparer.Instance.Equals(x.Item1, y.Item1)
+            && string.Equals(x.Item2, y.Item2);
+
+        public override int GetHashCode((HashSet<Item>, string) obj)
+        => HashCode.Combine(
+            SetOfSetComparer.Instance.GetHashCode(obj.Item1),
+            obj.Item2.GetHashCode());
+    }
+
+    internal sealed class SetOfSetComparer
+        : EqualityComparer<HashSet<Item>>
+    {
+        private SetOfSetComparer()
+        { }
+
+        public static SetOfSetComparer Instance { get; } = new();
+
+        public override bool Equals(HashSet<Item>? x, HashSet<Item>? y)
+            => ReferenceEquals(x, y)
+            || (x != null && y != null && x.SetEquals(y));
+
+        public override int GetHashCode(HashSet<Item> obj)
+        {
+            var hash = new HashCode();
+
+            foreach (var item in obj)
+                hash.Add(item);
+
+            return hash.ToHashCode();
+        }
+    }
+}

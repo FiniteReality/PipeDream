@@ -1,0 +1,4 @@
+internal sealed class LalrOneTable
+{
+
+}
