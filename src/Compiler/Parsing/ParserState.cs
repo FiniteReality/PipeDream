@@ -12,12 +12,10 @@ public struct ParserState
 {
     internal ParserState(
         ImmutableArray<ParseError>.Builder parseErrors,
-        Stack<SyntaxNode?> syntaxStack,
-        Stack<Rule> ruleStack)
+        Stack<(int, SyntaxNode?)> syntaxStack)
     {
         ParseErrors = parseErrors;
         SyntaxStack = syntaxStack;
-        RuleStack = ruleStack;
     }
 
     /// <summary>
@@ -27,14 +25,19 @@ public struct ParserState
     {
         ParseErrors = ImmutableArray.CreateBuilder<ParseError>(1);
         SyntaxStack = new();
-        RuleStack = new();
-
-        RuleStack.Push(Rule.CompilationUnit);
+        SyntaxStack.Push((0, null));
     }
 
     internal ImmutableArray<ParseError>.Builder ParseErrors { get; }
-    internal Stack<SyntaxNode?> SyntaxStack { get; }
-    internal Stack<Rule> RuleStack { get; }
+    internal Stack<(int, SyntaxNode?)> SyntaxStack { get; }
+
+    /// <summary>
+    /// Gets the most recent parse tree from the parser.
+    /// </summary>
+    public SyntaxNode? ParseTree
+        => SyntaxStack.TryPeek(out var state)
+            ? state.Item2
+            : null;
 
     /// <summary>
     /// Gets all of the errors which occured during parsing.
@@ -44,40 +47,13 @@ public struct ParserState
     /// for errors, prefer <see cref="HasErrors"/> instead.
     /// </remarks>
     public ImmutableArray<ParseError> Errors
-        => ParseErrors.MoveToImmutable();
+        => ParseErrors.Capacity == ParseErrors.Count
+            ? ParseErrors.MoveToImmutable()
+            : ParseErrors.ToImmutable();
 
     /// <summary>
     /// Gets whether any lexing errors have occured.
     /// </summary>
     public bool HasErrors
         => ParseErrors.Count > 0;
-
-    /// <summary>
-    /// wheeee
-    /// </summary>
-    public void DebugPrintParseTree()
-    {
-        foreach (var item in SyntaxStack.Reverse())
-        {
-            PrintTreeItem(item);
-        }
-
-        static void PrintTreeItem(SyntaxNode? node)
-        {
-            Debug.WriteLine($"{node?.GetType().Name} ({node?.Span})");
-
-            Debug.Indent();
-            switch (node)
-            {
-                case StatementNode statement:
-                    PrintTreeItem(statement.Node);
-                    break;
-                case BinaryExpressionNode path:
-                    PrintTreeItem(path.Left);
-                    PrintTreeItem(path.Right);
-                    break;
-            }
-            Debug.Unindent();
-        }
-    }
 }

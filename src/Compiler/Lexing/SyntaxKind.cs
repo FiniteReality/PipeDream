@@ -21,6 +21,11 @@ public enum SyntaxKind
     CloseParenthesis,
 
     /// <summary>
+    /// Represents a <code>,</code> token.
+    /// </summary>
+    Comma,
+
+    /// <summary>
     /// Represents a <code>.</code> token.
     /// </summary>
     Dot,
@@ -123,6 +128,11 @@ public enum SyntaxKind
     /// Represents a <code>#warn</code> token.
     /// </summary>
     PreprocessorWarn,
+
+    /// <summary>
+    /// Represents a <code>;</code> token.
+    /// </summary>
+    Semicolon,
 
     /// <summary>
     /// Represents a <code>/</code> token.

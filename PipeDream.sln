@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipeDream.Compiler.Frontend
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipeDream.Tools.ParserGenerator", "tools\ParserGenerator\PipeDream.Tools.ParserGenerator.csproj", "{64A93F03-E0FD-4FFC-8F43-7F3C0CF933CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipeDream.Compiler", "src\Compiler\PipeDream.Compiler.csproj", "{9359747F-3054-4DD2-91A4-52BC3997CD7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +36,15 @@ Global
 		{64A93F03-E0FD-4FFC-8F43-7F3C0CF933CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64A93F03-E0FD-4FFC-8F43-7F3C0CF933CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64A93F03-E0FD-4FFC-8F43-7F3C0CF933CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9359747F-3054-4DD2-91A4-52BC3997CD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9359747F-3054-4DD2-91A4-52BC3997CD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9359747F-3054-4DD2-91A4-52BC3997CD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9359747F-3054-4DD2-91A4-52BC3997CD7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2F46397C-9BBC-4C3B-B55D-06D97633D3B1} = {20AD7C82-28E4-4E27-AC77-D368CBD55578}
 		{2581D736-D72D-4ECC-9D5A-EABC057840CF} = {06C0A4D4-FF63-42BE-9D52-72CB0B583487}
 		{64A93F03-E0FD-4FFC-8F43-7F3C0CF933CD} = {06C0A4D4-FF63-42BE-9D52-72CB0B583487}
+		{9359747F-3054-4DD2-91A4-52BC3997CD7A} = {20AD7C82-28E4-4E27-AC77-D368CBD55578}
 	EndGlobalSection
 EndGlobal

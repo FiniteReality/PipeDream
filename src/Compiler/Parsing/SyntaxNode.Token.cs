@@ -9,6 +9,9 @@ internal sealed record CloseBraceTokenNode(TokenSpan Span)
 internal sealed record CloseParenthesisTokenNode(TokenSpan Span)
     : SyntaxNode(Span);
 
+internal sealed record CommaTokenNode(TokenSpan Span)
+    : SyntaxNode(Span);
+
 internal sealed record DotTokenNode(TokenSpan Span)
     : SyntaxNode(Span);
 
@@ -73,6 +76,9 @@ internal sealed record PreprocessorIncludeTokenNode(TokenSpan Span)
     : SyntaxNode(Span);
 
 internal sealed record PreprocessorWarnTokenNode(TokenSpan Span)
+    : SyntaxNode(Span);
+
+internal sealed record SemicolonTokenNode(TokenSpan Span)
     : SyntaxNode(Span);
 
 internal sealed record SingleLineCommentTokenNode(TokenSpan Span)

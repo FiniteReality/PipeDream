@@ -1,11 +1,23 @@
 
 
+using System.Collections;
 using System.Diagnostics;
 
 internal sealed class LrOneTable
 {
     public enum ActionType { Error, Shift, Reduce, Accept }
-    public record struct Action(ActionType Type, int? TargetState, Rule? Rule, Production? Production);
+    public record struct Action(ActionType Type, int? TargetState, Rule? Rule, Production? Production, LrOneAutomata.Item? Item)
+    {
+        public override string ToString()
+            => Type switch
+            {
+                ActionType.Error => $"Error ({Item})",
+                ActionType.Shift => $"Shift ({TargetState}, {Item})",
+                ActionType.Reduce => $"Reduce ({Rule!.Name} -> {Production}, {Item})",
+                ActionType.Accept => $"Accept ({Item})",
+                _ => ""
+            };
+    }
 
     private readonly LrOneAutomata _automata;
     private readonly Grammar _grammar;
@@ -28,6 +40,7 @@ internal sealed class LrOneTable
         // 2. and 3.
         for (int i = 0; i < itemSets.Count; i++)
         {
+            // 2.
             var itemSet = itemSets[i];
             foreach (var item in itemSet)
             {
@@ -47,20 +60,21 @@ internal sealed class LrOneTable
                     var action = new Action(
                         ActionType.Shift, destinationIndex,
                             grammar.GetRuleByProduction(item.Production),
-                            item.Production);
+                            item.Production,
+                            item);
 
                     if (_actionTable.TryGetValue((i, symbol), out var existing))
                     {
                         if (action.Rule != existing.Rule)
                             throw new InvalidOperationException(
-                                $"{action.Type}/{existing.Type} Conflict");
+                                $"{action}/{existing} Conflict");
 
                         var actionPrecedence = Array.IndexOf(
                             action.Rule!.Productions, item.Production);
                         var existingPrecedence = Array.IndexOf(
                             action.Rule!.Productions, existing.Production);
 
-                        if (actionPrecedence <= existingPrecedence)
+                        if (actionPrecedence >= existingPrecedence)
                             continue;
                     }
 
@@ -76,35 +90,36 @@ internal sealed class LrOneTable
                     if (rule?.Name != "S'")
                     {
                         var action = new Action(
-                            ActionType.Reduce, null, rule, item.Production);
+                            ActionType.Reduce, null, rule, item.Production, item);
 
                         if (_actionTable.TryGetValue((i, item.Lookahead),
                             out var existing))
                         {
                             if (action.Rule != existing.Rule)
                                 throw new InvalidOperationException(
-                                    $"{action.Type}/{existing.Type} Conflict");
+                                    $"{action}/{existing} Conflict");
 
                             var actionPrecedence = Array.IndexOf(
                                 action.Rule!.Productions, item.Production);
                             var existingPrecedence = Array.IndexOf(
                                 action.Rule!.Productions, existing.Production);
 
-                            if (actionPrecedence <= existingPrecedence)
+                            if (actionPrecedence >= existingPrecedence)
                                 continue;
                         }
 
                         _actionTable[(i, item.Lookahead)] = action;
                     }
                     // (c)
-                    else if (rule?.Name == "S'" && item.Lookahead == "$")
+                    else if (rule?.Name == "S'" && item.Lookahead == "EndOfFile")
                         _actionTable.Add((i, item.Lookahead),
-                            new(ActionType.Accept, null, rule, item.Production));
+                            new(ActionType.Accept, null, rule, item.Production, item));
                     else
                         Debug.Fail("Dot on RHS but didn't match rule name");
                 }
             }
 
+            // 3.
             foreach (var nonterminal in grammar.Symbols
                 .Where(x => grammar.GetRuleByName(x) != null))
             {
@@ -122,7 +137,7 @@ internal sealed class LrOneTable
     public GotoTable Gotos
         => new GotoTable(this);
 
-    internal struct ActionTable
+    internal struct ActionTable : IEnumerable<KeyValuePair<(int, string), Action>>
     {
         private readonly LrOneTable _table;
 
@@ -132,10 +147,18 @@ internal sealed class LrOneTable
         }
 
         public Action this[int state, string nonterminal]
-            => default;
+            => _table._actionTable.TryGetValue((state, nonterminal),
+                out var value)
+                ? value
+                : new(ActionType.Error, null, null, null, null);
+
+        public IEnumerator<KeyValuePair<(int, string), Action>> GetEnumerator()
+            => _table._actionTable.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 
-    internal struct GotoTable
+    internal struct GotoTable : IEnumerable<KeyValuePair<(int, string), int>>
     {
         private readonly LrOneTable _table;
 
@@ -145,6 +168,16 @@ internal sealed class LrOneTable
         }
 
         public int this[int state, string nonterminal]
-            => 0;
+            => _table._gotoTable[(state, nonterminal)];
+
+        public IEnumerable<KeyValuePair<int, int>> this[string nonterminal]
+            => _table._gotoTable
+                .Where(x => x.Key.Item2 == nonterminal && x.Value >= 0)
+                .Select(x => KeyValuePair.Create(x.Key.Item1, x.Value));
+
+        public IEnumerator<KeyValuePair<(int, string), int>> GetEnumerator()
+            => _table._gotoTable.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 }

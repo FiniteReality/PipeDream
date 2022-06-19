@@ -4,6 +4,7 @@ using System.IO.Pipelines;
 using System.Text;
 using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing;
+using PipeDream.Compiler.Parsing.Tree;
 
 if (args.Length < 1)
 {
@@ -42,7 +43,9 @@ if (parseState.HasErrors)
     foreach (var error in parseState.Errors)
         Console.Error.WriteLine($"{args[0]}({error.Span}): {error.Message}");
 
-parseState.DebugPrintParseTree();
+new TreePrinter().Visit(parseState.ParseTree!);
+
+return 0;
 
 static SequencePosition Lex(ReadResult result,
     ref LexerState lexState, ref ParserState parseState)
@@ -50,7 +53,7 @@ static SequencePosition Lex(ReadResult result,
     var lexer = new Lexer(result.Buffer, result.IsCompleted, lexState);
     var parser = new Parser(parseState);
 
-    while (lexer.Lex() && lexer.CurrentToken.Kind != SyntaxKind.EndOfFile)
+    while (lexer.Lex() && !parser.IsAccept)
     {
         bool queueFailed = false;
         do
@@ -61,7 +64,7 @@ static SequencePosition Lex(ReadResult result,
                 break;
             }
         }
-        while (lexer.Lex());
+        while (lexer.Lex() && lexer.CurrentToken.Kind != SyntaxKind.EndOfFile);
 
         // Parse as much as possible based on the queued tokens
         if (parser.Parse())
@@ -74,10 +77,29 @@ static SequencePosition Lex(ReadResult result,
         }
     }
 
+    /*if (result.IsCompleted)
+    {
+        // We don't care if the parse succeeds or not at this point,
+        // we're not processing any more so we'll handle errors anyway.
+        _ = parser.Parse();
+    }*/
+
     lexState = lexer.CurrentState;
     parseState = parser.CurrentState;
 
     return lexer.Position;
 }
 
-return 0;
+internal class TreePrinter : SyntaxVisitor
+{
+    private int _indentLevel = -1;
+
+    protected override void Accept(SyntaxNode node)
+    {
+        Console.WriteLine($"{new string(' ', _indentLevel)}{node.Span}: {node.GetType().Name}");
+    }
+
+    protected override void BeforeVisit() => _indentLevel++;
+
+    protected override void AfterVisit() => _indentLevel--;
+}

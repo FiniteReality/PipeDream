@@ -3,12 +3,9 @@ using System.Text;
 
 internal sealed class LrOneAutomata
 {
-    [DebuggerDisplay("{DebuggerDisplay,NG}")]
     public record struct Item(Grammar Grammar, Production Production, int Dot, string Lookahead)
     {
-        private string DebuggerDisplay => GetDebuggerDisplay();
-
-        private string GetDebuggerDisplay()
+        public override string ToString()
         {
             var rule = Grammar.GetRuleByProduction(Production)?.Name ?? "S'";
             var builder = new StringBuilder();
@@ -209,7 +206,7 @@ internal sealed class LrOneAutomata
     {
         var result = new List<HashSet<Item>>()
         {
-            Closure(new() { new(_grammar, _grammar.Augment, 0, "$") })
+            Closure(new() { new(_grammar, _grammar.Augment, 0, "EndOfFile") })
         };
         var added = new List<HashSet<Item>>();
 

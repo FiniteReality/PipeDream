@@ -13,8 +13,7 @@ namespace PipeDream.Compiler.Parsing;
 public partial struct Parser
 {
     private readonly ImmutableArray<ParseError>.Builder _parseErrors;
-    private readonly Stack<SyntaxNode?> _syntaxStack;
-    private readonly Stack<Rule> _ruleStack;
+    private readonly Stack<(int, SyntaxNode?)> _syntaxStack;
     private readonly Queue<Token> _tokens;
 
     private bool _accept;
@@ -29,7 +28,6 @@ public partial struct Parser
     {
         _parseErrors = state.ParseErrors;
         _syntaxStack = state.SyntaxStack;
-        _ruleStack = state.RuleStack;
 
         _tokens = new(128);
         _accept = false;
@@ -41,9 +39,13 @@ public partial struct Parser
     public ParserState CurrentState
         => new(
             parseErrors: _parseErrors,
-            syntaxStack: _syntaxStack,
-            ruleStack: _ruleStack
+            syntaxStack: _syntaxStack
         );
+
+    /// <summary>
+    /// Gets whether the parser is in an accept state.
+    /// </summary>
+    public bool IsAccept => _accept;
 
     /// <summary>
     /// Attempts to store the token in the processing queue.
@@ -77,45 +79,13 @@ public partial struct Parser
             if (!_tokens.TryPeek(out var lookahead))
                 break;
 
-            _ = _syntaxStack.TryPeek(out var node);
+            _ = _syntaxStack.TryPeek(out var state);
 
-            if (!_ruleStack.TryPeek(out var rule))
-                return Error(new ParseError(default, "Evaluation stack empty"));
-
-            var success = rule switch
-            {
-                Rule.CompilationUnit
-                    => ParseCompilationUnit(node, lookahead),
-                Rule.Block
-                    => ParseBlock(node, lookahead),
-                Rule.StatementList
-                    => ParseStatementList(node, lookahead),
-                Rule.Statement
-                    => ParseStatement(node, lookahead),
-                Rule.Assignment
-                    => ParseAssignment(node, lookahead),
-                Rule.Expression
-                    => ParseExpression(node, lookahead),
-                Rule.BinaryExpression
-                    => ParseBinaryExpression(node, lookahead),
-                Rule.String
-                    => ParseString(node, lookahead),
-                Rule.Identifier
-                    => ParseIdentifier(node, lookahead),
-                var x => Unreachable(x)
-            };
-
-            if (!success)
+            if (!Decide(state, lookahead))
                 break;
         }
 
         return _accept || _parseErrors.Count == 0;
-
-        static bool Unreachable(Rule rule)
-        {
-            Debug.Fail($"Unknown rule {rule}");
-            return false;
-        }
     }
 
     private bool Error(ParseError error)
@@ -130,29 +100,10 @@ public partial struct Parser
         return true;
     }
 
-    private bool Push(Rule rule)
+    private bool Shift(int state)
     {
-        _ruleStack.Push(rule);
-        return true;
-    }
-
-    private bool Pop()
-    {
-        _ruleStack.Pop();
-        return true;
-    }
-
-    private bool Shift(SyntaxNode? node)
-    {
-        _ = _tokens.Dequeue();
-        _syntaxStack.Push(node);
-
-        return true;
-    }
-
-    private bool Shift(Token token)
-    {
-        return Shift(token.Kind switch
+        var token = _tokens.Dequeue();
+        _syntaxStack.Push((state, token.Kind switch
         {
             SyntaxKind.Ampersand
                 => new AmpersandTokenNode(token.Span),
@@ -207,13 +158,18 @@ public partial struct Parser
             SyntaxKind.String
                 => new StringTokenNode(token.Span, (string)token.Value!),
             _ => throw new InvalidOperationException("Unexpected syntax kind")
-        });
+        }));
+
+        return true;
     }
 
-    private bool Reduce(SyntaxNode? node)
+    private SyntaxNode? PopNode()
+        => _syntaxStack.Pop().Item2;
+
+    private bool Reduce(SyntaxNode node, Func<int, int> selector)
     {
-        _ = _syntaxStack.Pop();
-        _syntaxStack.Push(node);
+        var (state, _) = _syntaxStack.Peek();
+        _syntaxStack.Push((selector(state), node));
 
         return true;
     }

@@ -5,7 +5,7 @@ internal sealed record Grammar(IReadOnlyList<Rule> Rules)
 {
     public Grammar(params Rule[] rules)
         : this(rules
-            .Prepend(new Rule("S'", new Production(rules[0].Name, "$")))
+            .Prepend(new Rule("S'", new Production(rules[0].Name)))
             .ToList())
     { }
 
@@ -18,7 +18,6 @@ internal sealed record Grammar(IReadOnlyList<Rule> Rules)
                 x => x.production.Symbols,
                 (x, y) => (x.ruleName, symbol: y))
             .SelectMany(x => new[] { x.ruleName, x.symbol })
-            .Append("$")
             .Distinct()
             .ToArray();
 
@@ -33,4 +32,10 @@ internal sealed record Grammar(IReadOnlyList<Rule> Rules)
 
 internal sealed record Rule(string Name, params Production[] Productions);
 
-internal sealed record Production(params string[] Symbols);
+internal sealed record Production(params string[] Symbols)
+{
+    public string? Name { get; init; }
+
+    public override string ToString()
+        => string.Join(" ", Symbols);
+}
