@@ -7,8 +7,8 @@ var grammar = new Grammar(
         new Production("StatementList", "EndOfFile")),
 
     new("Block",
-        new("OpenBrace", "StatementList", "CloseBrace") { Name = "NestedBlock" },
-        new("Expression", "OpenBrace", "StatementList", "CloseBrace") { Name = "ExpressionBlock" }),
+        new("OpenBrace", "StatementList", "CloseBrace") { Name = "BracedBlock" },
+        new("Expression", "OpenBrace", "StatementList", "CloseBrace") { Name = "IdentifiedBlock" }),
 
     new("StatementList",
         new("Statement") { Name = "SingleStatementItemStatementList" },

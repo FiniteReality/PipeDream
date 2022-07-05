@@ -6,7 +6,7 @@ using PipeDream.Compiler.Parsing;
 namespace PipeDream.Compiler.Lexing;
 
 /// <summary>
-/// Defines a struct used for lexing Dream Maker source code.
+/// Defines a struct used for lexing Dream Maker source code into syntax tokens.
 /// </summary>
 public ref partial struct Lexer
 {

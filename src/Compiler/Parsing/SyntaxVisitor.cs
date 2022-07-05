@@ -13,22 +13,28 @@ public abstract class SyntaxVisitor
     /// </param>
     public void Visit(SyntaxNode node)
     {
-        BeforeVisit();
+        BeforeVisit(node);
         Accept(node);
         node.AcceptInternal(this);
-        AfterVisit();
+        AfterVisit(node);
     }
 
     /// <summary>
     /// Invoked before visiting a node.
     /// </summary>
-    protected virtual void BeforeVisit()
+    /// <param name="node">
+    /// The node about to be visited.
+    /// </param>
+    protected virtual void BeforeVisit(SyntaxNode node)
     { }
 
     /// <summary>
     /// Invoked before visiting a node.
     /// </summary>
-    protected virtual void AfterVisit()
+    /// <param name="node">
+    /// The node that has just been visited.
+    /// </param>
+    protected virtual void AfterVisit(SyntaxNode node)
     { }
 
     /// <summary>

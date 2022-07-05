@@ -5,6 +5,7 @@ using System.Text;
 using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing;
 using PipeDream.Compiler.Parsing.Tree;
+using PipeDream.Compiler.Preprocessing;
 
 if (args.Length < 1)
 {
@@ -43,7 +44,11 @@ if (parseState.HasErrors)
     foreach (var error in parseState.Errors)
         Console.Error.WriteLine($"{args[0]}({error.Span}): {error.Message}");
 
-new TreePrinter().Visit(parseState.ParseTree!);
+if (parseState.CompilationUnit is null)
+    throw new InvalidOperationException("Failed to get compilation unit");
+
+var tree = new Preprocessor().Preprocess(parseState.CompilationUnit);
+new TreePrinter().Visit(tree);
 
 return 0;
 
@@ -95,11 +100,19 @@ internal class TreePrinter : SyntaxVisitor
     private int _indentLevel = -1;
 
     protected override void Accept(SyntaxNode node)
+        => Console.WriteLine(
+            $"{new string(' ', _indentLevel)}{node.Span}: " +
+            $"{node.GetType().Name}");
+
+    protected override void BeforeVisit(SyntaxNode node)
     {
-        Console.WriteLine($"{new string(' ', _indentLevel)}{node.Span}: {node.GetType().Name}");
+        if (node is not StatementListNode)
+            _indentLevel++;
     }
 
-    protected override void BeforeVisit() => _indentLevel++;
-
-    protected override void AfterVisit() => _indentLevel--;
+    protected override void AfterVisit(SyntaxNode node)
+    {
+        if (node is not StatementListNode)
+            _indentLevel--;
+    }
 }

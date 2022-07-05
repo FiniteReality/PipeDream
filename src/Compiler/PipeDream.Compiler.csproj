@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="PipeDream.Compiler.Frontend" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Remove="System.IO" />
   </ItemGroup>
 
@@ -20,7 +24,7 @@
       OutputItemType="ParserGenerator" />
   </ItemGroup>
 
-  <Target Name="GenerateParserTables" BeforeTargets="AfterResolveReferences">
+  <Target Name="GenerateParserTables" BeforeTargets="BeforeCompile">
     <Message Importance="High" Text="Generating parser tables..." />
 
     <Exec Command="dotnet exec @(ParserGenerator) $(LrTableFile)" Outputs="$(LrTableFile)">

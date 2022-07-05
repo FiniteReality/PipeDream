@@ -5397,7 +5397,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5415,7 +5415,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5433,7 +5433,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5451,7 +5451,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5469,7 +5469,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5487,7 +5487,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5505,7 +5505,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5523,7 +5523,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5541,7 +5541,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5559,7 +5559,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5577,7 +5577,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5595,7 +5595,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5613,7 +5613,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5631,7 +5631,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -5649,7 +5649,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9166,7 +9166,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9184,7 +9184,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9202,7 +9202,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9220,7 +9220,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9238,7 +9238,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9256,7 +9256,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9274,7 +9274,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9292,7 +9292,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9310,7 +9310,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9328,7 +9328,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9346,7 +9346,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9364,7 +9364,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9382,7 +9382,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9400,7 +9400,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -9418,7 +9418,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2)
                             => Reduce(
-                                new NestedBlockNode(
+                                new BracedBlockNode(
                                     _2,
                                     _1,
                                     _0),
@@ -10562,7 +10562,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10581,7 +10581,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10600,7 +10600,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10619,7 +10619,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10638,7 +10638,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10657,7 +10657,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10676,7 +10676,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10695,7 +10695,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10714,7 +10714,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10733,7 +10733,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10752,7 +10752,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10771,7 +10771,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10790,7 +10790,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10809,7 +10809,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -10828,7 +10828,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12669,7 +12669,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12688,7 +12688,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12707,7 +12707,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12726,7 +12726,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12745,7 +12745,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12764,7 +12764,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12783,7 +12783,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12802,7 +12802,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12821,7 +12821,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12840,7 +12840,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12859,7 +12859,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12878,7 +12878,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12897,7 +12897,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12916,7 +12916,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,
@@ -12935,7 +12935,7 @@ public partial struct Parser
                 => (PopNode()!,PopNode()!,PopNode()!,PopNode()!) switch {
                         (CloseBraceTokenNode _0, StatementListNode _1, OpenBraceTokenNode _2, ExpressionNode _3)
                             => Reduce(
-                                new ExpressionBlockNode(
+                                new IdentifiedBlockNode(
                                     _3,
                                     _2,
                                     _1,

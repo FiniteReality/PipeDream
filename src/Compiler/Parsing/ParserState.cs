@@ -40,6 +40,13 @@ public struct ParserState
             : null;
 
     /// <summary>
+    /// Gets the compilation unit, if parsing completed successfully.
+    /// Otherwise, <c>null</c>.
+    /// </summary>
+    public CompilationUnitNode? CompilationUnit
+        => ParseTree as CompilationUnitNode;
+
+    /// <summary>
     /// Gets all of the errors which occured during parsing.
     /// </summary>
     /// <remarks>

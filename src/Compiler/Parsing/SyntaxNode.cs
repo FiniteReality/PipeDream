@@ -5,8 +5,11 @@ namespace PipeDream.Compiler.Parsing.Tree;
 /// <summary>
 /// Defines a record representing any syntax node, token or otherwise.
 /// </summary>
+/// <remarks>
+/// This type is not intended to be inherited from user code.
+/// </remarks>
 /// <param name="Span">
-/// The location of this syntax node in the parse tree.
+/// The location of this syntax node in the source code.
 /// </param>
 public abstract record SyntaxNode(TokenSpan Span)
 {
