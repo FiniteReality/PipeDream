@@ -19,13 +19,13 @@ public sealed partial record PrefixUnaryExpressionSyntax(
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {
-            SyntaxKind.LogicalNotExpression or
             SyntaxKind.PreDecrementExpression or
+            SyntaxKind.AddressOfExpression or
             SyntaxKind.PreIncrementExpression or
-            SyntaxKind.DereferenceExpression or
             SyntaxKind.UnaryMinusExpression or
+            SyntaxKind.DereferenceExpression or
             SyntaxKind.BitwiseNotExpression or
-            SyntaxKind.AddressOfExpression
+            SyntaxKind.LogicalNotExpression
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",
@@ -52,13 +52,13 @@ public sealed partial record PrefixUnaryExpressionSyntax(
     private static ExpressionSyntax ValidateOperand(ExpressionSyntax value, string paramName)
         => value.Kind switch
         {
-            SyntaxKind.AmpersandToken or
-            SyntaxKind.AsteriskToken or
-            SyntaxKind.MinusMinusToken or
-            SyntaxKind.MinusToken or
-            SyntaxKind.ExclamationToken or
+            SyntaxKind.PlusPlusToken or
             SyntaxKind.TildeToken or
-            SyntaxKind.PlusPlusToken
+            SyntaxKind.MinusMinusToken or
+            SyntaxKind.AsteriskToken or
+            SyntaxKind.AmpersandToken or
+            SyntaxKind.MinusToken or
+            SyntaxKind.ExclamationToken
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",

@@ -57,6 +57,62 @@
       </summary>
     </Comment>
 
+    <!-- Datum keywords -->
+    <Kind Name="AreaKeyword" />
+    <Kind Name="AtomKeyword" />
+    <Kind Name="ClientKeyword" />
+    <Kind Name="DatabaseKeyword" />
+    <Kind Name="DatumKeyword" />
+    <Kind Name="IconKeyword" />
+    <Kind Name="ImageKeyword" />
+    <Kind Name="ListKeyword" />
+    <Kind Name="MatrixKeyword" />
+    <Kind Name="MobKeyword" />
+    <Kind Name="MutableAppearanceKeyword" />
+    <Kind Name="ObjKeyword" />
+    <Kind Name="ProcKeyword" />
+    <Kind Name="RegexKeyword" />
+    <Kind Name="SavefileKeyword" />
+    <Kind Name="SoundKeyword" />
+    <Kind Name="TextKeyword" />
+    <Kind Name="TurfKeyword" />
+    <Kind Name="WorldKeyword" />
+
+    <!-- Variable keywords -->
+    <Kind Name="VarKeyword" />
+    <Kind Name="ConstKeyword" />
+    <Kind Name="FinalKeyword" />
+    <Kind Name="GlobalKeyword" />
+    <Kind Name="OperatorKeyword" />
+    <Kind Name="TmpKeyword" />
+    <Kind Name="VerbKeyword" />
+
+    <!-- Control keywords -->
+    <Kind Name="AsKeyword" />
+    <Kind Name="BreakKeyword" />
+    <Kind Name="CallKeyword" />
+    <Kind Name="CatchKeyword" />
+    <Kind Name="ContinueKeyword" />
+    <Kind Name="DelKeyword" />
+    <Kind Name="DoKeyword" />
+    <Kind Name="ElseKeyword" />
+    <Kind Name="ForKeyword" />
+    <Kind Name="GotoKeyword" />
+    <Kind Name="IfKeyword" />
+    <Kind Name="InKeyword" />
+    <Kind Name="NewKeyword" />
+    <Kind Name="NullKeyword" />
+    <Kind Name="ReturnKeyword" />
+    <Kind Name="SetKeyword" />
+    <Kind Name="SleepKeyword" />
+    <Kind Name="SpawnKeyword" />
+    <Kind Name="StepKeyword" />
+    <Kind Name="SwitchKeyword" />
+    <Kind Name="ThrowKeyword" />
+    <Kind Name="ToKeyword" />
+    <Kind Name="TryKeyword" />
+    <Kind Name="WhileKeyword" />
+
     <Kind Name="OpenParenthesisToken" />
     <Kind Name="CloseParenthesisToken" />
     <Kind Name="DotToken" />
@@ -124,8 +180,6 @@
     <Kind Name="ColonEqualsToken" />
     <Kind Name="AmpersandAmpersandEqualsToken" />
     <Kind Name="BarBarEqualsToken" />
-
-    <Kind Name="InKeyword" />
   </Node>
 
 </Grammar>

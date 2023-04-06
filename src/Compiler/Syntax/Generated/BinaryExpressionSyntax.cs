@@ -20,29 +20,29 @@ public sealed partial record BinaryExpressionSyntax(
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {
-            SyntaxKind.EqualsExpression or
-            SyntaxKind.DivideExpression or
-            SyntaxKind.LessThanExpression or
-            SyntaxKind.RightShiftExpression or
-            SyntaxKind.BitwiseOrExpression or
-            SyntaxKind.LogicalOrExpression or
-            SyntaxKind.MultiplyExpression or
-            SyntaxKind.FloatModuloExpression or
-            SyntaxKind.EquivalentExpression or
-            SyntaxKind.NotEqualsExpression or
             SyntaxKind.IntegerModuloExpression or
-            SyntaxKind.GreaterThanOrEqualExpression or
             SyntaxKind.NotEquivalentExpression or
-            SyntaxKind.InExpression or
-            SyntaxKind.AddExpression or
-            SyntaxKind.ExclusiveOrExpression or
-            SyntaxKind.GreaterThanExpression or
-            SyntaxKind.BitwiseAndExpression or
-            SyntaxKind.LogicalAndExpression or
-            SyntaxKind.LeftShiftExpression or
+            SyntaxKind.RightShiftExpression or
             SyntaxKind.LessThanOrEqualExpression or
+            SyntaxKind.EquivalentExpression or
+            SyntaxKind.AddExpression or
+            SyntaxKind.ExponentiationExpression or
+            SyntaxKind.GreaterThanExpression or
+            SyntaxKind.InExpression or
+            SyntaxKind.LogicalAndExpression or
+            SyntaxKind.EqualsExpression or
+            SyntaxKind.BitwiseAndExpression or
+            SyntaxKind.LessThanExpression or
+            SyntaxKind.FloatModuloExpression or
+            SyntaxKind.DivideExpression or
+            SyntaxKind.NotEqualsExpression or
+            SyntaxKind.ExclusiveOrExpression or
+            SyntaxKind.MultiplyExpression or
+            SyntaxKind.BitwiseOrExpression or
             SyntaxKind.SubtractExpression or
-            SyntaxKind.ExponentiationExpression
+            SyntaxKind.GreaterThanOrEqualExpression or
+            SyntaxKind.LogicalOrExpression or
+            SyntaxKind.LeftShiftExpression
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",
@@ -69,30 +69,30 @@ public sealed partial record BinaryExpressionSyntax(
     private static SyntaxToken ValidateOperatorToken(SyntaxToken value, string paramName)
         => value.Kind switch
         {
-            SyntaxKind.GreaterThanGreaterThanToken or
-            SyntaxKind.AmpersandToken or
-            SyntaxKind.AsteriskToken or
-            SyntaxKind.SlashToken or
-            SyntaxKind.LessThanToken or
-            SyntaxKind.ExclamationEqualsToken or
-            SyntaxKind.BarToken or
-            SyntaxKind.InKeyword or
-            SyntaxKind.GreaterThanEqualsToken or
-            SyntaxKind.PercentPercentToken or
-            SyntaxKind.CaretToken or
+            SyntaxKind.TildeEqualsToken or
             SyntaxKind.TildeExclamationToken or
-            SyntaxKind.LessThanLessThanToken or
+            SyntaxKind.ExclamationEqualsToken or
+            SyntaxKind.PlusToken or
             SyntaxKind.BarBarToken or
             SyntaxKind.LessThanEqualsToken or
-            SyntaxKind.MinusToken or
-            SyntaxKind.TildeEqualsToken or
-            SyntaxKind.AsteriskAsteriskToken or
             SyntaxKind.LessThanGreaterThanToken or
-            SyntaxKind.GreaterThanToken or
             SyntaxKind.EqualsEqualsToken or
+            SyntaxKind.SlashToken or
+            SyntaxKind.LessThanToken or
+            SyntaxKind.CaretToken or
+            SyntaxKind.AsteriskAsteriskToken or
+            SyntaxKind.LessThanLessThanToken or
             SyntaxKind.AmpersandAmpersandToken or
+            SyntaxKind.PercentPercentToken or
+            SyntaxKind.BarToken or
+            SyntaxKind.InKeyword or
             SyntaxKind.PercentToken or
-            SyntaxKind.PlusToken
+            SyntaxKind.GreaterThanToken or
+            SyntaxKind.AsteriskToken or
+            SyntaxKind.AmpersandToken or
+            SyntaxKind.GreaterThanEqualsToken or
+            SyntaxKind.MinusToken or
+            SyntaxKind.GreaterThanGreaterThanToken
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",

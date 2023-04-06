@@ -1,6 +1,6 @@
 <Grammar>
 
-  <KindDef Name="OpenParenthesisToken" Group="Token">
+  <KindDef Name="OpenParenthesisToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>(</c> token.
@@ -8,7 +8,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="CloseParenthesisToken" Group="Token">
+  <KindDef Name="CloseParenthesisToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>)</c> token.
@@ -16,7 +16,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="DotToken" Group="Token">
+  <KindDef Name="DotToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>.</c> token.
@@ -24,7 +24,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="ColonToken" Group="Token">
+  <KindDef Name="ColonToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>:</c> token.
@@ -32,7 +32,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="SlashToken" Group="Token">
+  <KindDef Name="SlashToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>/</c> token.
@@ -40,7 +40,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="ColonColonToken" Group="Token">
+  <KindDef Name="ColonColonToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>::</c> token.
@@ -48,7 +48,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="QuestionDotToken" Group="Token">
+  <KindDef Name="QuestionDotToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>?.</c> token.
@@ -56,7 +56,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="QuestionColonToken" Group="Token">
+  <KindDef Name="QuestionColonToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>?:</c> token.
@@ -64,7 +64,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="TildeToken" Group="Token">
+  <KindDef Name="TildeToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>~</c> token.
@@ -72,7 +72,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="ExclamationToken" Group="Token">
+  <KindDef Name="ExclamationToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>!</c> token.
@@ -80,7 +80,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="MinusToken" Group="Token">
+  <KindDef Name="MinusToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>-</c> token.
@@ -88,7 +88,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="PlusPlusToken" Group="Token">
+  <KindDef Name="PlusPlusToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>++</c> token.
@@ -96,7 +96,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="MinusMinusToken" Group="Token">
+  <KindDef Name="MinusMinusToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>--</c> token.
@@ -104,7 +104,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="AsteriskToken" Group="Token">
+  <KindDef Name="AsteriskToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>*</c> token.
@@ -112,7 +112,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="AmpersandToken" Group="Token">
+  <KindDef Name="AmpersandToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>&amp;</c> token.
@@ -120,7 +120,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="AsteriskAsteriskToken" Group="Token">
+  <KindDef Name="AsteriskAsteriskToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>**</c> token.
@@ -128,7 +128,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="PercentToken" Group="Token">
+  <KindDef Name="PercentToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>%</c> token.
@@ -136,7 +136,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="PercentPercentToken" Group="Token">
+  <KindDef Name="PercentPercentToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>%%</c> token.
@@ -144,7 +144,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="PlusToken" Group="Token">
+  <KindDef Name="PlusToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>+</c> token.
@@ -152,7 +152,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="LessThanToken" Group="Token">
+  <KindDef Name="LessThanToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>&lt;</c> token.
@@ -160,7 +160,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="LessThanEqualsToken" Group="Token">
+  <KindDef Name="LessThanEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&lt;=</c> token.
@@ -168,7 +168,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="GreaterThanToken" Group="Token">
+  <KindDef Name="GreaterThanToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>&gt;</c> token.
@@ -176,7 +176,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="GreaterThanEqualsToken" Group="Token">
+  <KindDef Name="GreaterThanEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&gt;=</c> token.
@@ -184,7 +184,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="LessThanLessThanToken" Group="Token">
+  <KindDef Name="LessThanLessThanToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&lt;&lt;</c> token.
@@ -192,7 +192,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="GreaterThanGreaterThanToken" Group="Token">
+  <KindDef Name="GreaterThanGreaterThanToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&gt;&gt;</c> token.
@@ -200,7 +200,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="EqualsEqualsToken" Group="Token">
+  <KindDef Name="EqualsEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>==</c> token.
@@ -208,7 +208,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="ExclamationEqualsToken" Group="Token">
+  <KindDef Name="ExclamationEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>!=</c> token.
@@ -216,7 +216,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="LessThanGreaterThanToken" Group="Token">
+  <KindDef Name="LessThanGreaterThanToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&lt;&gt;</c> token.
@@ -224,7 +224,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="TildeEqualsToken" Group="Token">
+  <KindDef Name="TildeEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>~=</c> token.
@@ -232,7 +232,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="TildeExclamationToken" Group="Token">
+  <KindDef Name="TildeExclamationToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>~!</c> token.
@@ -240,7 +240,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="CaretToken" Group="Token">
+  <KindDef Name="CaretToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>^</c> token.
@@ -248,7 +248,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="BarToken" Group="Token">
+  <KindDef Name="BarToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>|</c> token.
@@ -256,7 +256,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="AmpersandAmpersandToken" Group="Token">
+  <KindDef Name="AmpersandAmpersandToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&amp;&amp;</c> token.
@@ -264,7 +264,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="BarBarToken" Group="Token">
+  <KindDef Name="BarBarToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>||</c> token.
@@ -272,7 +272,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="QuestionToken" Group="Token">
+  <KindDef Name="QuestionToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>?</c> token.
@@ -280,7 +280,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="EqualsToken" Group="Token">
+  <KindDef Name="EqualsToken" Group="Punctuation">
     <Comment>
       <summary>
         Represents the <c>=</c> token.
@@ -288,7 +288,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="PlusEqualsToken" Group="Token">
+  <KindDef Name="PlusEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>+=</c> token.
@@ -296,7 +296,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="MinusEqualsToken" Group="Token">
+  <KindDef Name="MinusEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>-=</c> token.
@@ -304,7 +304,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="AsteriskEqualsToken" Group="Token">
+  <KindDef Name="AsteriskEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>*=</c> token.
@@ -312,7 +312,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="SlashEqualsToken" Group="Token">
+  <KindDef Name="SlashEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>/=</c> token.
@@ -320,7 +320,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="PercentEqualsToken" Group="Token">
+  <KindDef Name="PercentEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>/=</c> token.
@@ -328,7 +328,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="PercentPercentEqualsToken" Group="Token">
+  <KindDef Name="PercentPercentEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>%%=</c> token.
@@ -336,7 +336,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="AmpersandEqualsToken" Group="Token">
+  <KindDef Name="AmpersandEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&amp;=</c> token.
@@ -344,7 +344,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="BarEqualsToken" Group="Token">
+  <KindDef Name="BarEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>|=</c> token.
@@ -352,7 +352,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="CaretEqualsToken" Group="Token">
+  <KindDef Name="CaretEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>^=</c> token.
@@ -360,7 +360,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="LessThanLessThanEqualsToken" Group="Token">
+  <KindDef Name="LessThanLessThanEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&lt;&lt;=</c> token.
@@ -368,7 +368,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="GreaterThanGreaterThanEqualsToken" Group="Token">
+  <KindDef Name="GreaterThanGreaterThanEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&gt;&gt;=</c> token.
@@ -376,7 +376,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="ColonEqualsToken" Group="Token">
+  <KindDef Name="ColonEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>:=</c> token.
@@ -384,7 +384,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="AmpersandAmpersandEqualsToken" Group="Token">
+  <KindDef Name="AmpersandAmpersandEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>&amp;&amp;=</c> token.
@@ -392,18 +392,10 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="BarBarEqualsToken" Group="Token">
+  <KindDef Name="BarBarEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>||=</c> token.
-      </summary>
-    </Comment>
-  </KindDef>
-
-  <KindDef Name="InKeyword" Group="Keyword">
-    <Comment>
-      <summary>
-        Represents the <c>in</c> keyword.
       </summary>
     </Comment>
   </KindDef>

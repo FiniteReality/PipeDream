@@ -1,0 +1,403 @@
+<Grammar>
+
+  <KindDef Name="AsKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>as</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BreakKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>break</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CallKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>call</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CatchKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>catch</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ContinueKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>continue</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DelKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>del</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DoKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>do</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ElseKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>else</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ForKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>for</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GotoKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>goto</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IfKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>if</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="InKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>in</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="NewKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>new</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="NullKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>null</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ReturnKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>return</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SetKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>set</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SleepKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>sleep</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SpawnKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>spawn</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="StepKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>step</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SwitchKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>switch</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ThrowKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>throw</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ToKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>to</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="TryKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>try</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="WhileKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>while</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="VarKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>var</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ConstKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>const</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="FinalKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>final</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GlobalKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>global</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="OperatorKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>operator</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="TmpKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>tmp</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="VerbKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>verb</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AreaKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Area</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AtomKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Atom</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ClientKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Client</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DatabaseKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Database</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DatumKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Datum</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IconKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Icon</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ImageKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Image</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ListKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>List</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MatrixKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Matrix</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MobKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Mob</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MutableAppearanceKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>MutableAppearance</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ObjKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Obj</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ProcKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Proc</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="RegexKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Regex</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SavefileKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Savefile</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SoundKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Sound</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="TextKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Text</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="TurfKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>Turf</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="WorldKeyword" Group="ContextualKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>World</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+</Grammar>
