@@ -3,7 +3,7 @@ namespace PipeDream.Compiler.Syntax;
 /// <summary>
 /// Defines a record representing a postfix unary expression.
 /// </summary>
-public abstract partial record PostfixUnaryExpressionSyntax(
+public sealed partial record PostfixUnaryExpressionSyntax(
     ExpressionSyntax Operand,
     SyntaxToken OperatorToken,
     SyntaxKind Kind,
@@ -47,8 +47,8 @@ public abstract partial record PostfixUnaryExpressionSyntax(
     private static SyntaxToken ValidateOperatorToken(SyntaxToken value, string paramName)
         => value.Kind switch
         {
-            SyntaxKind.PlusPlusToken or
-            SyntaxKind.MinusMinusToken
+            SyntaxKind.MinusMinusToken or
+            SyntaxKind.PlusPlusToken
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",

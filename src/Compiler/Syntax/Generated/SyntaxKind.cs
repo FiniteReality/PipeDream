@@ -187,6 +187,21 @@ public enum SyntaxKind
 
     // Group: Token
     /// <summary>
+    /// Represents the <c>&amp;&amp;=</c> token.
+    /// </summary>
+    AmpersandAmpersandEqualsToken,
+
+    /// <summary>
+    /// Represents the <c>&amp;&amp;</c> token.
+    /// </summary>
+    AmpersandAmpersandToken,
+
+    /// <summary>
+    /// Represents the <c>&amp;=</c> token.
+    /// </summary>
+    AmpersandEqualsToken,
+
+    /// <summary>
     /// Represents the <c>&amp;</c> token.
     /// </summary>
     AmpersandToken,
@@ -197,9 +212,29 @@ public enum SyntaxKind
     AsteriskAsteriskToken,
 
     /// <summary>
+    /// Represents the <c>*=</c> token.
+    /// </summary>
+    AsteriskEqualsToken,
+
+    /// <summary>
     /// Represents the <c>*</c> token.
     /// </summary>
     AsteriskToken,
+
+    /// <summary>
+    /// Represents the <c>||=</c> token.
+    /// </summary>
+    BarBarEqualsToken,
+
+    /// <summary>
+    /// Represents the <c>||</c> token.
+    /// </summary>
+    BarBarToken,
+
+    /// <summary>
+    /// Represents the <c>|=</c> token.
+    /// </summary>
+    BarEqualsToken,
 
     /// <summary>
     /// Represents the <c>|</c> token.
@@ -207,9 +242,29 @@ public enum SyntaxKind
     BarToken,
 
     /// <summary>
+    /// Represents the <c>^=</c> token.
+    /// </summary>
+    CaretEqualsToken,
+
+    /// <summary>
     /// Represents the <c>^</c> token.
     /// </summary>
     CaretToken,
+
+    /// <summary>
+    /// Represents the <c>)</c> token.
+    /// </summary>
+    CloseParenthesisToken,
+
+    /// <summary>
+    /// Represents the <c>::</c> token.
+    /// </summary>
+    ColonColonToken,
+
+    /// <summary>
+    /// Represents the <c>:=</c> token.
+    /// </summary>
+    ColonEqualsToken,
 
     /// <summary>
     /// Represents the <c>:</c> token.
@@ -217,29 +272,19 @@ public enum SyntaxKind
     ColonToken,
 
     /// <summary>
-    /// Represents the <c>&amp;&amp;</c> token.
+    /// Represents the <c>.</c> token.
     /// </summary>
-    DoubleAmpersandToken,
-
-    /// <summary>
-    /// Represents the <c>||</c> token.
-    /// </summary>
-    DoubleBarToken,
+    DotToken,
 
     /// <summary>
     /// Represents the <c>==</c> token.
     /// </summary>
-    DoubleEqualsToken,
+    EqualsEqualsToken,
 
     /// <summary>
-    /// Represents the <c>&gt;&gt;</c> token.
+    /// Represents the <c>=</c> token.
     /// </summary>
-    DoubleGreaterThanToken,
-
-    /// <summary>
-    /// Represents the <c>&lt;&lt;</c> token.
-    /// </summary>
-    DoubleLessThanToken,
+    EqualsToken,
 
     /// <summary>
     /// Represents the <c>!=</c> token.
@@ -257,6 +302,16 @@ public enum SyntaxKind
     GreaterThanEqualsToken,
 
     /// <summary>
+    /// Represents the <c>&gt;&gt;=</c> token.
+    /// </summary>
+    GreaterThanGreaterThanEqualsToken,
+
+    /// <summary>
+    /// Represents the <c>&gt;&gt;</c> token.
+    /// </summary>
+    GreaterThanGreaterThanToken,
+
+    /// <summary>
     /// Represents the <c>&gt;</c> token.
     /// </summary>
     GreaterThanToken,
@@ -272,9 +327,24 @@ public enum SyntaxKind
     LessThanGreaterThanToken,
 
     /// <summary>
+    /// Represents the <c>&lt;&lt;=</c> token.
+    /// </summary>
+    LessThanLessThanEqualsToken,
+
+    /// <summary>
+    /// Represents the <c>&lt;&lt;</c> token.
+    /// </summary>
+    LessThanLessThanToken,
+
+    /// <summary>
     /// Represents the <c>&lt;</c> token.
     /// </summary>
     LessThanToken,
+
+    /// <summary>
+    /// Represents the <c>-=</c> token.
+    /// </summary>
+    MinusEqualsToken,
 
     /// <summary>
     /// Represents the <c>--</c> token.
@@ -287,6 +357,21 @@ public enum SyntaxKind
     MinusToken,
 
     /// <summary>
+    /// Represents the <c>(</c> token.
+    /// </summary>
+    OpenParenthesisToken,
+
+    /// <summary>
+    /// Represents the <c>/=</c> token.
+    /// </summary>
+    PercentEqualsToken,
+
+    /// <summary>
+    /// Represents the <c>%%=</c> token.
+    /// </summary>
+    PercentPercentEqualsToken,
+
+    /// <summary>
     /// Represents the <c>%%</c> token.
     /// </summary>
     PercentPercentToken,
@@ -295,6 +380,11 @@ public enum SyntaxKind
     /// Represents the <c>%</c> token.
     /// </summary>
     PercentToken,
+
+    /// <summary>
+    /// Represents the <c>+=</c> token.
+    /// </summary>
+    PlusEqualsToken,
 
     /// <summary>
     /// Represents the <c>++</c> token.
@@ -307,12 +397,27 @@ public enum SyntaxKind
     PlusToken,
 
     /// <summary>
+    /// Represents the <c>?:</c> token.
+    /// </summary>
+    QuestionColonToken,
+
+    /// <summary>
+    /// Represents the <c>?.</c> token.
+    /// </summary>
+    QuestionDotToken,
+
+    /// <summary>
     /// Represents the <c>?</c> token.
     /// </summary>
     QuestionToken,
 
     /// <summary>
-    /// Represents the <c>//</c> token.
+    /// Represents the <c>/=</c> token.
+    /// </summary>
+    SlashEqualsToken,
+
+    /// <summary>
+    /// Represents the <c>/</c> token.
     /// </summary>
     SlashToken,
 

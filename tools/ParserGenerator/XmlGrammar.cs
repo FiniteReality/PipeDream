@@ -12,10 +12,10 @@ public sealed record XmlGrammar(
     [property: XmlElement(typeof(XmlAbstractGrammarItem))]
     [property: XmlElement(typeof(XmlSealedGrammarItem))]
     [property: XmlElement(typeof(XmlRootGrammarItem))]
-    List<XmlGrammarElement> Elements)
+    XmlGrammarElement[] Elements)
 {
     private XmlGrammar()
-        : this(new List<XmlGrammarElement>())
+        : this(Array.Empty<XmlGrammarElement>())
     { }
 }
 
@@ -45,9 +45,9 @@ public abstract record XmlGrammarItem(
     [property: XmlAnyElement("Comment")]
     XElement? Comment,
     [property: XmlElement("Kind")]
-    List<XmlKind> Kinds,
+    XmlKind[] Kinds,
     [property: XmlElement("Member")]
-    List<XmlMember> Members,
+    XmlMember[] Members,
     [property: XmlAttribute("Type")]
     string Type)
     : XmlGrammarElement();
@@ -65,19 +65,19 @@ public sealed record XmlKind(
 [XmlType("RootNode")]
 public sealed record XmlRootGrammarItem(
     XElement? Comment,
-    List<XmlMember> Members,
+    XmlMember[] Members,
     string Type)
     : XmlGrammarItem(
         Base: null,
         Comment: Comment,
-        Kinds: new(),
+        Kinds: Array.Empty<XmlKind>(),
         Members: Members,
         Type: Type)
 {
     private XmlRootGrammarItem()
         : this(
             Comment: null,
-            Members: new(),
+            Members: Array.Empty<XmlMember>(),
             Type: null!)
     { }
 }
@@ -86,8 +86,8 @@ public sealed record XmlRootGrammarItem(
 public sealed record XmlAbstractGrammarItem(
     string Base,
     XElement? Comment,
-    List<XmlKind> Kinds,
-    List<XmlMember> Members,
+    XmlKind[] Kinds,
+    XmlMember[] Members,
     string Type)
     : XmlGrammarItem(
         Base: Base,
@@ -100,8 +100,8 @@ public sealed record XmlAbstractGrammarItem(
         : this(
             Base: null!,
             Comment: null,
-            Kinds: new(),
-            Members: new(),
+            Kinds: Array.Empty<XmlKind>(),
+            Members: Array.Empty<XmlMember>(),
             Type: null!)
     { }
 }
@@ -110,8 +110,8 @@ public sealed record XmlAbstractGrammarItem(
 public sealed record XmlSealedGrammarItem(
     string Base,
     XElement? Comment,
-    List<XmlKind> Kinds,
-    List<XmlMember> Members,
+    XmlKind[] Kinds,
+    XmlMember[] Members,
     string Type)
     : XmlGrammarItem(
         Base: Base,
@@ -124,8 +124,8 @@ public sealed record XmlSealedGrammarItem(
         : this(
             Base: null!,
             Comment: null,
-            Kinds: new(),
-            Members: new(),
+            Kinds: Array.Empty<XmlKind>(),
+            Members: Array.Empty<XmlMember>(),
             Type: null!)
     { }
 }
@@ -135,7 +135,7 @@ public sealed record XmlMember(
     [property: XmlAnyElement("Comment")]
     XElement? Comment,
     [property: XmlElement("Kind")]
-    List<XmlKind> Kinds,
+    XmlKind[] Kinds,
     [property: XmlAttribute("Name")]
     string Name,
     [property: XmlAttribute("Type")]
@@ -144,7 +144,7 @@ public sealed record XmlMember(
     private XmlMember()
         : this(
             Comment: null,
-            Kinds: new(),
+            Kinds: Array.Empty<XmlKind>(),
             Name: null!,
             Type: null!)
     { }

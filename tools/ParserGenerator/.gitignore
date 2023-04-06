@@ -1,0 +1,2 @@
+# Ignore any generated files that weren't removed
+Generated/*.cs

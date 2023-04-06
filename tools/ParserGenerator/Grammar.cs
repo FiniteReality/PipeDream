@@ -49,19 +49,20 @@ public sealed record Grammar(
                 RootItem: root);
 
         static ImmutableHashSet<Kind> BuildKinds(
-            List<XmlKind> kinds,
+            string name,
+            XmlKind[]? kinds,
             ImmutableDictionary<string, Kind>.Builder builtKinds)
         {
             var builder = ImmutableHashSet.CreateBuilder<Kind>();
-            foreach (var kind in kinds)
+            foreach (var kind in kinds ?? Array.Empty<XmlKind>())
             {
                 if (!builtKinds.TryGetValue(kind.Kind, out var found))
                     throw new InvalidOperationException(
-                        $"Unknown kind '{kind.Kind}'");
+                        $"Unknown kind '{kind.Kind}' when building '{name}'");
 
                 if (!builder.Add(found))
                     throw new InvalidOperationException(
-                        $"Duplicate kind '{kind.Kind}");
+                        $"Duplicate kind '{kind.Kind}' when building '{name}'");
             }
 
             return builder.ToImmutable();
@@ -108,20 +109,30 @@ public sealed record Grammar(
                         BaseType: GetOrBuildItem(grammar, @abstract.Base!,
                             builtItems, builtKinds),
                         DocumentationComment: @abstract.Comment,
-                        Kinds: BuildKinds(@abstract.Kinds, builtKinds),
-                        Members: @abstract.Members.Select(
-                            m => BuildMember(grammar, m, builtItems, builtKinds))
-                            .ToImmutableArray(),
+                        Kinds: BuildKinds(item.Type, item.Kinds, builtKinds),
+                        Members:
+                            (@abstract.Members ?? Array.Empty<XmlMember>())
+                                .Select(m => BuildMember(
+                                    grammar,
+                                    m,
+                                    builtItems,
+                                    builtKinds))
+                                .ToImmutableArray(),
                         Type: @abstract.Type),
                 XmlSealedGrammarItem @sealed
-                    => new AbstractGrammarItem(
+                    => new SealedGrammarItem(
                         BaseType: GetOrBuildItem(grammar, @sealed.Base!,
                             builtItems, builtKinds),
                         DocumentationComment: @sealed.Comment,
-                        Kinds: BuildKinds(@sealed.Kinds, builtKinds),
-                        Members: @sealed.Members.Select(
-                            m => BuildMember(grammar, m, builtItems, builtKinds))
-                            .ToImmutableArray(),
+                        Kinds: BuildKinds(item.Type, item.Kinds, builtKinds),
+                        Members:
+                            (@sealed.Members ?? Array.Empty<XmlMember>())
+                                .Select(m => BuildMember(
+                                    grammar,
+                                    m,
+                                    builtItems,
+                                    builtKinds))
+                                .ToImmutableArray(),
                         Type: @sealed.Type),
                 _ => throw new InvalidOperationException(
                     "Unknown XML grammar item")
@@ -135,7 +146,7 @@ public sealed record Grammar(
         {
             return new(
                 DocumentationComment: member.Comment,
-                Kinds: BuildKinds(member.Kinds, builtKinds),
+                Kinds: BuildKinds(member.Name, member.Kinds, builtKinds),
                 Name: member.Name,
                 Type: member.Type);
         }

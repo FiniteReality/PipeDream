@@ -3,7 +3,7 @@ namespace PipeDream.Compiler.Syntax;
 /// <summary>
 /// Defines a record representing a ternary expression.
 /// </summary>
-public abstract partial record ConditionalExpressionSyntax(
+public sealed partial record ConditionalExpressionSyntax(
     ExpressionSyntax Condition,
     SyntaxToken QuestionToken,
     ExpressionSyntax WhenTrue,

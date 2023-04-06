@@ -1,0 +1,131 @@
+<Grammar>
+
+  <RootNode Type="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record from which all syntax nodes are derived.
+      </summary>
+    </Comment>
+
+    <Member Name="Kind" Type="SyntaxKind">
+      <Comment>
+        <summary>
+          Gets the kind of this syntax node.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Member Name="Span" Type="SyntaxSpan">
+      <Comment>
+        <summary>
+          Gets the absolute span of this node, not including trivia.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Member Name="LeadingTrivia" Type="SyntaxTriviaList">
+      <Comment>
+        <summary>
+          Gets the list of trivia that appears before this node in the source
+          code.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Member Name="TrailingTrivia" Type="SyntaxTriviaList">
+      <Comment>
+        <summary>
+          Gets the list of trivia that appears before this node in the source
+          code.
+        </summary>
+      </Comment>
+    </Member>
+  </RootNode>
+
+  <AbstractNode Type="ExpressionSyntax" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record from which expression nodes are derived.
+      </summary>
+    </Comment>
+  </AbstractNode>
+
+  <Node Type="SyntaxToken" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record which represents a token in the syntax tree.
+      </summary>
+    </Comment>
+
+    <Kind Name="OpenParenthesisToken" />
+    <Kind Name="CloseParenthesisToken" />
+    <Kind Name="DotToken" />
+    <Kind Name="SlashToken" />
+    <Kind Name="ColonToken" />
+    <Kind Name="ColonColonToken" />
+
+    <Kind Name="QuestionDotToken" />
+    <Kind Name="QuestionColonToken" />
+
+    <Kind Name="TildeToken" />
+    <Kind Name="ExclamationToken" />
+    <Kind Name="MinusToken" />
+    <Kind Name="PlusPlusToken" />
+    <Kind Name="MinusMinusToken" />
+    <Kind Name="AsteriskToken" />
+    <Kind Name="AmpersandToken" />
+
+    <Kind Name="AsteriskAsteriskToken" />
+
+    <!-- <Kind Name="AsteriskToken" /> -->
+    <!-- <Kind Name="SlashToken" /> -->
+    <Kind Name="PercentToken" />
+    <Kind Name="PercentPercentToken" />
+
+    <Kind Name="PlusToken" />
+    <!-- <Kind Name="MinusToken" /> -->
+    <Kind Name="LessThanToken" />
+    <Kind Name="LessThanEqualsToken" />
+    <Kind Name="GreaterThanToken" />
+    <Kind Name="GreaterThanEqualsToken" />
+
+    <Kind Name="LessThanLessThanToken" />
+    <Kind Name="GreaterThanGreaterThanToken" />
+
+    <Kind Name="EqualsEqualsToken" />
+    <Kind Name="ExclamationEqualsToken" />
+    <Kind Name="LessThanGreaterThanToken" />
+    <Kind Name="TildeEqualsToken" />
+    <Kind Name="TildeExclamationToken" />
+
+    <!-- <Kind Name="AmpersandToken" /> -->
+    <Kind Name="CaretToken" />
+
+    <Kind Name="BarToken" />
+
+    <Kind Name="AmpersandAmpersandToken" />
+
+    <Kind Name="BarBarToken" />
+
+    <Kind Name="QuestionToken" />
+
+    <Kind Name="EqualsToken" />
+    <Kind Name="PlusEqualsToken" />
+    <Kind Name="MinusEqualsToken" />
+    <Kind Name="AsteriskEqualsToken" />
+    <Kind Name="SlashEqualsToken" />
+    <Kind Name="PercentEqualsToken" />
+    <Kind Name="PercentPercentEqualsToken" />
+    <Kind Name="AmpersandEqualsToken" />
+    <Kind Name="BarEqualsToken" />
+    <Kind Name="CaretEqualsToken" />
+    <Kind Name="LessThanLessThanEqualsToken" />
+    <Kind Name="GreaterThanGreaterThanEqualsToken" />
+    <Kind Name="ColonEqualsToken" />
+    <Kind Name="AmpersandAmpersandEqualsToken" />
+    <Kind Name="BarBarEqualsToken" />
+
+    <Kind Name="InKeyword" />
+  </Node>
+
+</Grammar>

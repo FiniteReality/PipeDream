@@ -3,7 +3,7 @@ namespace PipeDream.Compiler.Syntax;
 /// <summary>
 /// Defines a record representing a compilation unit.
 /// </summary>
-public abstract partial record CompilationUnitSyntax(
+public sealed partial record CompilationUnitSyntax(
     SyntaxKind Kind,
     SyntaxSpan Span,
     SyntaxTriviaList LeadingTrivia,

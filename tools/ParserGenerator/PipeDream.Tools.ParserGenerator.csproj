@@ -9,4 +9,8 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Generated/*.cs" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,266 @@
+<Grammar>
+
+  <KindDef Name="BitwiseNotExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A bitwise not <see cref="PrefixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LogicalNotExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A logical not <see cref="PrefixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="UnaryMinusExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A unary minus <see cref="PrefixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+  <KindDef Name="PreIncrementExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A pre-increment <see cref="PrefixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PreDecrementExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A pre-decrement <see cref="PrefixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DereferenceExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A dereference <see cref="PrefixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AddressOfExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An address-of <see cref="PrefixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PostDecrementExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A post-decrement <see cref="PostfixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PostIncrementExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A post-increment <see cref="PostfixUnaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ExponentiationExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An exponentiation <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MultiplyExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A multiply <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DivideExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A divide <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IntegerModuloExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An integer modulo <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="FloatModuloExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A float modulo <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AddExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An addition <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SubtractExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A subtraction <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LessThanExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A less-than <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LessThanOrEqualExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A less-than-or-equal <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GreaterThanExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A greater-than <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GreaterThanOrEqualExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A greater-than-or-equal <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LeftShiftExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A left-shift <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="RightShiftExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A right-shift <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EqualsExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An equality <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="NotEqualsExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An inequality <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EquivalentExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An equivalency <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="NotEquivalentExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An inequivalency <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BitwiseAndExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A bitwise and <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ExclusiveOrExpression" Group="Expression">
+    <Comment>
+      <summary>
+        An exclusive or <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BitwiseOrExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A bitwise or <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LogicalAndExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A logical and <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LogicalOrExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A logical or <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="InExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A <c>in</c> <see cref="BinaryExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ConditionalExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A ternary <see cref="ConditionalExpressionSyntax" />.
+      </summary>
+    </Comment>
+  </KindDef>
+
+</Grammar>

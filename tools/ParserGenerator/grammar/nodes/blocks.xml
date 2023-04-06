@@ -1,0 +1,12 @@
+<Grammar>
+
+  <Node Type="CompilationUnitSyntax" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record representing a compilation unit.
+      </summary>
+    </Comment>
+    <Kind Name="CompilationUnit" />
+  </Node>
+
+</Grammar>

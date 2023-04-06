@@ -1,0 +1,12 @@
+<Grammar>
+
+  <KindDef Name="CompilationUnit" Group="Block">
+    <Comment>
+      <summary>
+        An entire compilation unit.
+      </summary>
+      <seealso cref="CompilationUnitSyntax" />
+    </Comment>
+  </KindDef>
+
+</Grammar>

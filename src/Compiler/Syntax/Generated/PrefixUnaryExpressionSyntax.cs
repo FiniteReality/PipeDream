@@ -3,7 +3,7 @@ namespace PipeDream.Compiler.Syntax;
 /// <summary>
 /// Defines a record representing a prefix unary expression.
 /// </summary>
-public abstract partial record PrefixUnaryExpressionSyntax(
+public sealed partial record PrefixUnaryExpressionSyntax(
     SyntaxToken OperatorToken,
     ExpressionSyntax Operand,
     SyntaxKind Kind,
@@ -20,12 +20,12 @@ public abstract partial record PrefixUnaryExpressionSyntax(
         => value switch
         {
             SyntaxKind.LogicalNotExpression or
-            SyntaxKind.PreIncrementExpression or
-            SyntaxKind.BitwiseNotExpression or
-            SyntaxKind.AddressOfExpression or
-            SyntaxKind.UnaryMinusExpression or
             SyntaxKind.PreDecrementExpression or
-            SyntaxKind.DereferenceExpression
+            SyntaxKind.PreIncrementExpression or
+            SyntaxKind.DereferenceExpression or
+            SyntaxKind.UnaryMinusExpression or
+            SyntaxKind.BitwiseNotExpression or
+            SyntaxKind.AddressOfExpression
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",
@@ -52,13 +52,13 @@ public abstract partial record PrefixUnaryExpressionSyntax(
     private static ExpressionSyntax ValidateOperand(ExpressionSyntax value, string paramName)
         => value.Kind switch
         {
-            SyntaxKind.PlusPlusToken or
+            SyntaxKind.AmpersandToken or
+            SyntaxKind.AsteriskToken or
+            SyntaxKind.MinusMinusToken or
             SyntaxKind.MinusToken or
             SyntaxKind.ExclamationToken or
             SyntaxKind.TildeToken or
-            SyntaxKind.AsteriskToken or
-            SyntaxKind.MinusMinusToken or
-            SyntaxKind.AmpersandToken
+            SyntaxKind.PlusPlusToken
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",

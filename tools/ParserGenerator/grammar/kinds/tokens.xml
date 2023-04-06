@@ -1,0 +1,411 @@
+<Grammar>
+
+  <KindDef Name="OpenParenthesisToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>(</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CloseParenthesisToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>)</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DotToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>.</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ColonToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>:</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SlashToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>/</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ColonColonToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>::</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="QuestionDotToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>?.</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="QuestionColonToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>?:</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="TildeToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>~</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ExclamationToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>!</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MinusToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>-</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PlusPlusToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>++</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MinusMinusToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>--</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AsteriskToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>*</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AmpersandToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&amp;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AsteriskAsteriskToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>**</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PercentToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>%</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PercentPercentToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>%%</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PlusToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>+</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LessThanToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&lt;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LessThanEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&lt;=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GreaterThanToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&gt;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GreaterThanEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&gt;=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LessThanLessThanToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&lt;&lt;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GreaterThanGreaterThanToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&gt;&gt;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EqualsEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>==</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ExclamationEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>!=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LessThanGreaterThanToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&lt;&gt;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="TildeEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>~=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="TildeExclamationToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>~!</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CaretToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>^</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BarToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>|</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AmpersandAmpersandToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&amp;&amp;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BarBarToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>||</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="QuestionToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>?</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PlusEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>+=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MinusEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>-=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AsteriskEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>*=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SlashEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>/=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PercentEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>/=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PercentPercentEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>%%=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AmpersandEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&amp;=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BarEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>|=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CaretEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>^=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LessThanLessThanEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&lt;&lt;=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="GreaterThanGreaterThanEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&gt;&gt;=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ColonEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>:=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AmpersandAmpersandEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>&amp;&amp;=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BarBarEqualsToken" Group="Token">
+    <Comment>
+      <summary>
+        Represents the <c>||=</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="InKeyword" Group="Keyword">
+    <Comment>
+      <summary>
+        Represents the <c>in</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+</Grammar>
