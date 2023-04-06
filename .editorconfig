@@ -27,7 +27,7 @@ trim_trailing_whitespace = true
 # Set file behavior to:
 #   2 space indentation
 ###############################################################################
-[*.{cmd,config,csproj,cxxproj,json,nuspec,props,ps1,resx,sh,targets,yml}]
+[*.{cmd,config,csproj,cxxproj,json,nuspec,props,ps1,resx,sh,targets,xml,yml}]
 indent_size = 2
 
 ###############################################################################
@@ -365,6 +365,8 @@ csharp_style_expression_bodied_operators = when_on_single_line:suggestion
 csharp_style_expression_bodied_properties = when_on_single_line:suggestion
 
 csharp_style_inlined_variable_declaration = true:suggestion
+
+csharp_style_namespace_declarations = file_scoped:suggestion
 
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion

@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-
-    <LrTableFile>$(MSBuildThisFileDirectory)\Parsing\Parser.Generated.cs</LrTableFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,24 +14,5 @@
   <ItemGroup>
     <Using Remove="System.IO" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference
-      Include="../../tools/ParserGenerator/PipeDream.Tools.ParserGenerator.csproj"
-      ReferenceOutputAssembly="false"
-      OutputItemType="ParserGenerator" />
-  </ItemGroup>
-
-  <Target Name="GenerateParserTables" BeforeTargets="BeforeCompile">
-    <Message Importance="High" Text="Generating parser tables..." />
-
-    <Exec Command="dotnet exec @(ParserGenerator) $(LrTableFile)" Outputs="$(LrTableFile)">
-      <Output ItemName="Generated" TaskParameter="Outputs" />
-    </Exec>
-
-    <ItemGroup>
-      <FileWrites Include="@(Generated)" />
-    </ItemGroup>
-  </Target>
 
 </Project>
