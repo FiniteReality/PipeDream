@@ -1,5 +1,21 @@
 <Grammar>
 
+  <KindDef Name="OpenBraceToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>{</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CloseBraceToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>}</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="OpenParenthesisToken" Group="Punctuation">
     <Comment>
       <summary>

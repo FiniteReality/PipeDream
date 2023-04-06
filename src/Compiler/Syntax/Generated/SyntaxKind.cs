@@ -614,6 +614,11 @@ public enum SyntaxKind
     CaretToken,
 
     /// <summary>
+    /// Represents the <c>}</c> token.
+    /// </summary>
+    CloseBraceToken,
+
+    /// <summary>
     /// Represents the <c>)</c> token.
     /// </summary>
     CloseParenthesisToken,
@@ -654,6 +659,11 @@ public enum SyntaxKind
     MinusToken,
 
     /// <summary>
+    /// Represents the <c>{</c> token.
+    /// </summary>
+    OpenBraceToken,
+
+    /// <summary>
     /// Represents the <c>(</c> token.
     /// </summary>
     OpenParenthesisToken,
@@ -682,4 +692,9 @@ public enum SyntaxKind
     /// Represents the <c>~</c> token.
     /// </summary>
     TildeToken,
+
+    // Group: Statement
+    /// <summary>
+    /// A <see cref="BlockStatementNode" /></summary>
+    Block,
 }

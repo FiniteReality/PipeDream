@@ -50,6 +50,14 @@
     </Comment>
   </AbstractNode>
 
+  <AbstractNode Type="StatementSyntax" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record from which statement nodes are derived.
+      </summary>
+    </Comment>
+  </AbstractNode>
+
   <Node Type="SyntaxToken" Base="SyntaxNode">
     <Comment>
       <summary>

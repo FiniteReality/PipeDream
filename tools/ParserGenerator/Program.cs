@@ -6,15 +6,22 @@ var grammar = MergeGrammars(
     ReadGrammar("grammar/kinds/tokens.xml"),
     ReadGrammar("grammar/kinds/keywords.xml"),
     ReadGrammar("grammar/kinds/expressions.xml"),
-    ReadGrammar("grammar/kinds/blocks.xml"),
+    ReadGrammar("grammar/kinds/statements.xml"),
+    ReadGrammar("grammar/kinds/declarations.xml"),
+
     ReadGrammar("grammar/nodes/base.xml"),
     ReadGrammar("grammar/nodes/expressions.xml"),
-    ReadGrammar("grammar/nodes/blocks.xml"));
+    ReadGrammar("grammar/nodes/statements.xml"),
+    ReadGrammar("grammar/nodes/declarations.xml"));
+
+var location = args[0]
+    ?? throw new InvalidOperationException("Expected location");
 
 var builtGrammar = Grammar.BuildGrammar(grammar);
-var dir = Directory.CreateDirectory("Generated");
+_ = Directory.CreateDirectory(location);
 builtGrammar.WriteCode(
-    location => new StreamWriter(File.OpenWrite($"Generated/{location}.cs")),
+    file => new StreamWriter(File.OpenWrite(
+        Path.Combine(location, $"{file}.cs"))),
     @namespace: "PipeDream.Compiler.Syntax",
     @usings: Enumerable.Empty<string>());
 

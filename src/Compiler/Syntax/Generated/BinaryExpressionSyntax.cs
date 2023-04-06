@@ -20,29 +20,29 @@ public sealed partial record BinaryExpressionSyntax(
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {
-            SyntaxKind.IntegerModuloExpression or
-            SyntaxKind.NotEquivalentExpression or
-            SyntaxKind.RightShiftExpression or
             SyntaxKind.LessThanOrEqualExpression or
-            SyntaxKind.EquivalentExpression or
-            SyntaxKind.AddExpression or
-            SyntaxKind.ExponentiationExpression or
-            SyntaxKind.GreaterThanExpression or
+            SyntaxKind.LogicalOrExpression or
             SyntaxKind.InExpression or
-            SyntaxKind.LogicalAndExpression or
-            SyntaxKind.EqualsExpression or
-            SyntaxKind.BitwiseAndExpression or
+            SyntaxKind.LeftShiftExpression or
             SyntaxKind.LessThanExpression or
-            SyntaxKind.FloatModuloExpression or
             SyntaxKind.DivideExpression or
+            SyntaxKind.SubtractExpression or
+            SyntaxKind.EqualsExpression or
+            SyntaxKind.BitwiseOrExpression or
+            SyntaxKind.RightShiftExpression or
             SyntaxKind.NotEqualsExpression or
             SyntaxKind.ExclusiveOrExpression or
+            SyntaxKind.LogicalAndExpression or
+            SyntaxKind.NotEquivalentExpression or
+            SyntaxKind.IntegerModuloExpression or
+            SyntaxKind.FloatModuloExpression or
             SyntaxKind.MultiplyExpression or
-            SyntaxKind.BitwiseOrExpression or
-            SyntaxKind.SubtractExpression or
+            SyntaxKind.BitwiseAndExpression or
             SyntaxKind.GreaterThanOrEqualExpression or
-            SyntaxKind.LogicalOrExpression or
-            SyntaxKind.LeftShiftExpression
+            SyntaxKind.ExponentiationExpression or
+            SyntaxKind.GreaterThanExpression or
+            SyntaxKind.AddExpression or
+            SyntaxKind.EquivalentExpression
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",
@@ -70,29 +70,29 @@ public sealed partial record BinaryExpressionSyntax(
         => value.Kind switch
         {
             SyntaxKind.TildeEqualsToken or
-            SyntaxKind.TildeExclamationToken or
             SyntaxKind.ExclamationEqualsToken or
-            SyntaxKind.PlusToken or
-            SyntaxKind.BarBarToken or
-            SyntaxKind.LessThanEqualsToken or
-            SyntaxKind.LessThanGreaterThanToken or
             SyntaxKind.EqualsEqualsToken or
-            SyntaxKind.SlashToken or
-            SyntaxKind.LessThanToken or
-            SyntaxKind.CaretToken or
+            SyntaxKind.GreaterThanGreaterThanToken or
+            SyntaxKind.TildeExclamationToken or
             SyntaxKind.AsteriskAsteriskToken or
-            SyntaxKind.LessThanLessThanToken or
-            SyntaxKind.AmpersandAmpersandToken or
-            SyntaxKind.PercentPercentToken or
-            SyntaxKind.BarToken or
-            SyntaxKind.InKeyword or
-            SyntaxKind.PercentToken or
-            SyntaxKind.GreaterThanToken or
-            SyntaxKind.AsteriskToken or
+            SyntaxKind.PlusToken or
+            SyntaxKind.LessThanEqualsToken or
+            SyntaxKind.CaretToken or
+            SyntaxKind.BarBarToken or
             SyntaxKind.AmpersandToken or
+            SyntaxKind.PercentPercentToken or
+            SyntaxKind.LessThanLessThanToken or
+            SyntaxKind.SlashToken or
+            SyntaxKind.PercentToken or
+            SyntaxKind.AmpersandAmpersandToken or
             SyntaxKind.GreaterThanEqualsToken or
+            SyntaxKind.BarToken or
+            SyntaxKind.LessThanToken or
+            SyntaxKind.AsteriskToken or
+            SyntaxKind.GreaterThanToken or
             SyntaxKind.MinusToken or
-            SyntaxKind.GreaterThanGreaterThanToken
+            SyntaxKind.InKeyword or
+            SyntaxKind.LessThanGreaterThanToken
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",

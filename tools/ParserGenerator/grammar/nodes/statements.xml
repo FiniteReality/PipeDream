@@ -1,0 +1,44 @@
+<Grammar>
+
+  <Node Type="BlockSyntax" Base="StatementSyntax">
+    <Comment>
+      <Summary>
+        Defines a record representing a block of code.
+      </Summary>
+    </Comment>
+
+    <Kind Name="Block" />
+
+    <Member Name="OpenBraceToken" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the <see cref="SyntaxToken" /> representing the open brace for
+          this block.
+        </summary>
+      </Comment>
+
+      <Kind Name="OpenBraceToken" />
+    </Member>
+
+    <Member Name="Statements" Type="SyntaxList&lt;StatementSyntax&gt;">
+      <Comment>
+        <summary>
+          Gets the <see cref="SyntaxList{T}" /> of <see cref="StatementSyntax" />
+          contained in this block.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Member Name="CloseBraceToken" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the <see cref="SyntaxToken" /> representing the close brace for
+          this block.
+        </summary>
+      </Comment>
+
+      <Kind Name="CloseBraceToken" />
+    </Member>
+  </Node>
+
+</Grammar>
