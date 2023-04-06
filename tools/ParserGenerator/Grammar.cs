@@ -5,14 +5,24 @@ using System.Xml.Linq;
 namespace PipeDream.Tools.ParserGenerator;
 
 public sealed record Grammar(
-    IReadOnlyDictionary<string, Kind> Kinds,
-    IReadOnlyDictionary<string, GrammarItem> Items,
+    IReadOnlyCollection<Kind> Kinds,
+    IReadOnlyCollection<GrammarItem> Items,
     GrammarItem RootItem)
 {
+    private static readonly Comparer<Kind> KindNameComparer
+        = Comparer<Kind>.Create(
+            (l, r) => string.Compare(l.Name, r.Name,
+                StringComparison.Ordinal));
+
+    private static readonly Comparer<GrammarItem> ItemTypeComparer
+        = Comparer<GrammarItem>.Create(
+            (l, r) => string.Compare(l.Type, r.Type,
+                StringComparison.Ordinal));
+
     public static Grammar BuildGrammar(XmlGrammar grammar)
     {
-        var kinds = ImmutableDictionary.CreateBuilder<string, Kind>();
-        var items = ImmutableDictionary.CreateBuilder<string, GrammarItem>();
+        var kinds = new Dictionary<string, Kind>();
+        var items = new Dictionary<string, GrammarItem>();
 
         foreach (var kind in grammar.Elements.OfType<XmlKindDefinition>())
         {
@@ -44,16 +54,16 @@ public sealed record Grammar(
             ? throw new InvalidOperationException(
                 "Grammar is missing root item")
             : new(
-                Kinds: kinds.ToImmutable(),
-                Items: items.ToImmutable(),
+                Kinds: kinds.Values.ToImmutableSortedSet(KindNameComparer),
+                Items: items.Values.ToImmutableSortedSet(ItemTypeComparer),
                 RootItem: root);
 
-        static ImmutableHashSet<Kind> BuildKinds(
+        static ImmutableSortedSet<Kind> BuildKinds(
             string name,
             XmlKind[]? kinds,
-            ImmutableDictionary<string, Kind>.Builder builtKinds)
+            Dictionary<string, Kind> builtKinds)
         {
-            var builder = ImmutableHashSet.CreateBuilder<Kind>();
+            var builder = ImmutableSortedSet.CreateBuilder(KindNameComparer);
             foreach (var kind in kinds ?? Array.Empty<XmlKind>())
             {
                 if (!builtKinds.TryGetValue(kind.Kind, out var found))
@@ -69,8 +79,8 @@ public sealed record Grammar(
         }
 
         static GrammarItem GetOrBuildItem(XmlGrammar grammar, string name,
-            ImmutableDictionary<string, GrammarItem>.Builder builtItems,
-            ImmutableDictionary<string, Kind>.Builder builtKinds)
+            Dictionary<string, GrammarItem> builtItems,
+            Dictionary<string, Kind> builtKinds)
         {
             var builtItem = builtItems.GetValueOrDefault(name);
             if (builtItem == null)
@@ -92,8 +102,8 @@ public sealed record Grammar(
         static GrammarItem BuildItem(
             XmlGrammar grammar,
             XmlGrammarItem item,
-            ImmutableDictionary<string, GrammarItem>.Builder builtItems,
-            ImmutableDictionary<string, Kind>.Builder builtKinds)
+            Dictionary<string, GrammarItem> builtItems,
+            Dictionary<string, Kind> builtKinds)
         {
             return item switch
             {
@@ -141,8 +151,8 @@ public sealed record Grammar(
 
         static Member BuildMember(XmlGrammar grammar,
             XmlMember member,
-            ImmutableDictionary<string, GrammarItem>.Builder builtItems,
-            ImmutableDictionary<string, Kind>.Builder builtKinds)
+            Dictionary<string, GrammarItem> builtItems,
+            Dictionary<string, Kind> builtKinds)
         {
             return new(
                 DocumentationComment: member.Comment,

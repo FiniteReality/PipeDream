@@ -20,13 +20,18 @@ var location = args[0]
 var builtGrammar = Grammar.BuildGrammar(grammar);
 _ = Directory.CreateDirectory(location);
 builtGrammar.WriteCode(
-    file => new StreamWriter(File.OpenWrite(
-        Path.Combine(location, $"{file}.cs"))),
+    file => {
+        var f = File.OpenWrite(Path.Combine(location, $"{file}.cs"));
+        f.SetLength(0);
+        return new StreamWriter(f);
+    },
     @namespace: "PipeDream.Compiler.Syntax",
     @usings: Enumerable.Empty<string>());
 
 static XmlGrammar MergeGrammars(params XmlGrammar[] grammars)
-    => new(grammars.SelectMany(x => x.Elements).ToArray());
+    => new(grammars.SelectMany(
+        x => x.Elements ?? Array.Empty<XmlGrammarElement>())
+        .ToArray());
 
 static XmlGrammar ReadGrammar(string path)
 {

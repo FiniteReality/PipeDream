@@ -3,7 +3,7 @@
   <KindDef Name="Block" Group="Statement">
     <Comment>
       <summary>
-        A <see cref="BlockStatementNode" />
+        A <see cref="BlockSyntax" />
       </summary>
     </Comment>
   </KindDef>

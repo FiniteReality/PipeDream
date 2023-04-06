@@ -20,11 +20,11 @@ internal static partial class CodeGeneratorExtensions
         {
             WriteFile(
                 openForWriting,
-                item.Key,
+                item.Type,
                 @namespace,
                 usings,
                 static (w, i) => WriteItem(w, i),
-                item.Value);
+                item);
         }
 
         static bool WriteUsings(TextWriter writer,

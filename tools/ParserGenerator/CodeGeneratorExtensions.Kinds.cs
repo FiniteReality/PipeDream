@@ -20,7 +20,7 @@ internal static partial class CodeGeneratorExtensions
             writer.WriteLine("{");
 
             var firstGroup = true;
-            foreach (var group in grammar.Kinds.Values
+            foreach (var group in grammar.Kinds
                 .GroupBy(x => x.Group)
                 .OrderBy(x => x.Key))
             {
@@ -54,12 +54,14 @@ internal static partial class CodeGeneratorExtensions
             writer.WriteLine("{");
 
             var firstGroup = true;
-            foreach (var kind in grammar.Kinds.Values.DistinctBy(x => x.Group))
+            foreach (var kind in grammar.Kinds
+                .DistinctBy(x => x.Group)
+                .OrderBy(x => x.Group))
             {
                 if (!firstGroup)
                     writer.WriteLine();
 
-                writer.WriteLine($"   {kind.Group},");
+                writer.WriteLine($"    {kind.Group},");
                 firstGroup = false;
             }
 
@@ -68,35 +70,28 @@ internal static partial class CodeGeneratorExtensions
 
         static void WriteGroupLookup(TextWriter writer, Grammar grammar)
         {
-            writer.WriteLine("internal static class SyntaxKindExtensions");
-            writer.WriteLine("{");
-
             writer.WriteLine(
-@"    private static ReadOnlySpan<byte> AllGroups
-        => new byte[]{");
-            var firstKind = true;
-            foreach (var kind in grammar.Kinds.Values)
+@"internal static class SyntaxKindExtensions
+{
+    public static SyntaxGroup GetGroup(this SyntaxKind kind)
+        => (int)kind switch
+        {");
+
+            var lastCount = 0;
+            foreach (var (count, Key) in grammar.Kinds
+                .GroupBy(x => x.Group)
+                .OrderBy(x => x.Key)
+                .Select(x => (x.Count(), x.Key)))
             {
-                if (!firstKind)
-                    writer.WriteLine(",");
-                
                 writer.WriteLine(
-$"            // {kind.Name}");
-                writer.Write(
-$"            (byte)SyntaxGroup.{kind.Group}");
-                firstKind = false;
+$"            < {lastCount + count} => SyntaxGroup.{Key},");
+                lastCount += count;
             }
 
-            if (!firstKind)
-                writer.WriteLine();
+            writer.WriteLine(
+@"            _ => throw new InvalidOperationException(""Unreachable"")");
 
             writer.WriteLine("        };");
-            writer.WriteLine();
-
-            writer.WriteLine(
-@"    public static SyntaxGroup GetGroup(this SyntaxKind kind)
-        => (SyntaxGroup)AllGroups[(int)kind];");
-
             writer.WriteLine("}");
         }
     }
