@@ -19,8 +19,8 @@ public sealed partial record PostfixUnaryExpressionSyntax(
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {
-            SyntaxKind.PostDecrementExpression or
-            SyntaxKind.PostIncrementExpression
+            SyntaxKind.PostIncrementExpression or
+            SyntaxKind.PostDecrementExpression
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",

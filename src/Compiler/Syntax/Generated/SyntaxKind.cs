@@ -698,3 +698,304 @@ public enum SyntaxKind
     /// A <see cref="BlockStatementNode" /></summary>
     Block,
 }
+
+internal enum SyntaxGroup : byte
+{
+   Expression,
+
+   Keyword,
+
+   ContextualKeyword,
+
+   Punctuation,
+
+   CompoundPunctuation,
+
+   Statement,
+
+   Block,
+}
+
+internal static class SyntaxKindExtensions
+{
+    private static ReadOnlySpan<byte> AllGroups
+        => new byte[]{
+            // PostIncrementExpression
+            (byte)SyntaxGroup.Expression,
+            // TryKeyword
+            (byte)SyntaxGroup.Keyword,
+            // ProcKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // FloatModuloExpression
+            (byte)SyntaxGroup.Expression,
+            // BarToken
+            (byte)SyntaxGroup.Punctuation,
+            // StepKeyword
+            (byte)SyntaxGroup.Keyword,
+            // MutableAppearanceKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // AsteriskAsteriskToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // EqualsExpression
+            (byte)SyntaxGroup.Expression,
+            // BarBarToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // ForKeyword
+            (byte)SyntaxGroup.Keyword,
+            // SleepKeyword
+            (byte)SyntaxGroup.Keyword,
+            // ListKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // PercentEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // TildeToken
+            (byte)SyntaxGroup.Punctuation,
+            // AtomKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // DoKeyword
+            (byte)SyntaxGroup.Keyword,
+            // ContinueKeyword
+            (byte)SyntaxGroup.Keyword,
+            // WorldKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // ExclamationEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // PostDecrementExpression
+            (byte)SyntaxGroup.Expression,
+            // AsteriskEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // CaretToken
+            (byte)SyntaxGroup.Punctuation,
+            // AsteriskToken
+            (byte)SyntaxGroup.Punctuation,
+            // IconKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // PreIncrementExpression
+            (byte)SyntaxGroup.Expression,
+            // ToKeyword
+            (byte)SyntaxGroup.Keyword,
+            // LogicalAndExpression
+            (byte)SyntaxGroup.Expression,
+            // LeftShiftExpression
+            (byte)SyntaxGroup.Expression,
+            // ExclamationToken
+            (byte)SyntaxGroup.Punctuation,
+            // RightShiftExpression
+            (byte)SyntaxGroup.Expression,
+            // UnaryMinusExpression
+            (byte)SyntaxGroup.Expression,
+            // BitwiseOrExpression
+            (byte)SyntaxGroup.Expression,
+            // DatabaseKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // IntegerModuloExpression
+            (byte)SyntaxGroup.Expression,
+            // NotEqualsExpression
+            (byte)SyntaxGroup.Expression,
+            // GotoKeyword
+            (byte)SyntaxGroup.Keyword,
+            // WhileKeyword
+            (byte)SyntaxGroup.Keyword,
+            // SlashToken
+            (byte)SyntaxGroup.Punctuation,
+            // LessThanOrEqualExpression
+            (byte)SyntaxGroup.Expression,
+            // DotToken
+            (byte)SyntaxGroup.Punctuation,
+            // OpenBraceToken
+            (byte)SyntaxGroup.Punctuation,
+            // GlobalKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // LogicalOrExpression
+            (byte)SyntaxGroup.Expression,
+            // AmpersandToken
+            (byte)SyntaxGroup.Punctuation,
+            // QuestionToken
+            (byte)SyntaxGroup.Punctuation,
+            // PercentToken
+            (byte)SyntaxGroup.Punctuation,
+            // MatrixKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // GreaterThanGreaterThanEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // AddressOfExpression
+            (byte)SyntaxGroup.Expression,
+            // SwitchKeyword
+            (byte)SyntaxGroup.Keyword,
+            // InKeyword
+            (byte)SyntaxGroup.Keyword,
+            // BreakKeyword
+            (byte)SyntaxGroup.Keyword,
+            // NotEquivalentExpression
+            (byte)SyntaxGroup.Expression,
+            // GreaterThanGreaterThanToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // NewKeyword
+            (byte)SyntaxGroup.Keyword,
+            // CloseBraceToken
+            (byte)SyntaxGroup.Punctuation,
+            // ExclusiveOrExpression
+            (byte)SyntaxGroup.Expression,
+            // SoundKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // PlusPlusToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // TildeEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // ColonColonToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // TextKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // BarBarEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // SetKeyword
+            (byte)SyntaxGroup.Keyword,
+            // VarKeyword
+            (byte)SyntaxGroup.Keyword,
+            // SlashEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // LogicalNotExpression
+            (byte)SyntaxGroup.Expression,
+            // DatumKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // ClientKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // LessThanLessThanToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // Block
+            (byte)SyntaxGroup.Statement,
+            // AddExpression
+            (byte)SyntaxGroup.Expression,
+            // CloseParenthesisToken
+            (byte)SyntaxGroup.Punctuation,
+            // LessThanLessThanEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // SavefileKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // MultiplyExpression
+            (byte)SyntaxGroup.Expression,
+            // MinusToken
+            (byte)SyntaxGroup.Punctuation,
+            // GreaterThanEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // TmpKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // OperatorKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // SpawnKeyword
+            (byte)SyntaxGroup.Keyword,
+            // PreDecrementExpression
+            (byte)SyntaxGroup.Expression,
+            // DelKeyword
+            (byte)SyntaxGroup.Keyword,
+            // GreaterThanToken
+            (byte)SyntaxGroup.Punctuation,
+            // EquivalentExpression
+            (byte)SyntaxGroup.Expression,
+            // LessThanToken
+            (byte)SyntaxGroup.Punctuation,
+            // FinalKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // NullKeyword
+            (byte)SyntaxGroup.Keyword,
+            // MinusEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // EqualsToken
+            (byte)SyntaxGroup.Punctuation,
+            // BitwiseAndExpression
+            (byte)SyntaxGroup.Expression,
+            // RegexKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // LessThanExpression
+            (byte)SyntaxGroup.Expression,
+            // ObjKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // ReturnKeyword
+            (byte)SyntaxGroup.Keyword,
+            // MobKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // ColonEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // CompilationUnit
+            (byte)SyntaxGroup.Block,
+            // LessThanGreaterThanToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // PercentPercentToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // AmpersandAmpersandToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // ImageKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // AreaKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // EqualsEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // QuestionColonToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // PlusToken
+            (byte)SyntaxGroup.Punctuation,
+            // BitwiseNotExpression
+            (byte)SyntaxGroup.Expression,
+            // GreaterThanExpression
+            (byte)SyntaxGroup.Expression,
+            // MinusMinusToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // PercentPercentEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // ConditionalExpression
+            (byte)SyntaxGroup.Expression,
+            // ThrowKeyword
+            (byte)SyntaxGroup.Keyword,
+            // CallKeyword
+            (byte)SyntaxGroup.Keyword,
+            // DivideExpression
+            (byte)SyntaxGroup.Expression,
+            // BarEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // ConstKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // CatchKeyword
+            (byte)SyntaxGroup.Keyword,
+            // ElseKeyword
+            (byte)SyntaxGroup.Keyword,
+            // PlusEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // AmpersandAmpersandEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // ColonToken
+            (byte)SyntaxGroup.Punctuation,
+            // TurfKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // AmpersandEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // CaretEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // AsKeyword
+            (byte)SyntaxGroup.Keyword,
+            // SubtractExpression
+            (byte)SyntaxGroup.Expression,
+            // GreaterThanOrEqualExpression
+            (byte)SyntaxGroup.Expression,
+            // IfKeyword
+            (byte)SyntaxGroup.Keyword,
+            // DereferenceExpression
+            (byte)SyntaxGroup.Expression,
+            // QuestionDotToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // OpenParenthesisToken
+            (byte)SyntaxGroup.Punctuation,
+            // VerbKeyword
+            (byte)SyntaxGroup.ContextualKeyword,
+            // TildeExclamationToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // LessThanEqualsToken
+            (byte)SyntaxGroup.CompoundPunctuation,
+            // ExponentiationExpression
+            (byte)SyntaxGroup.Expression,
+            // InExpression
+            (byte)SyntaxGroup.Expression
+        };
+
+    public static SyntaxGroup GetGroup(this SyntaxKind kind)
+        => (SyntaxGroup)AllGroups[(int)kind];
+}
