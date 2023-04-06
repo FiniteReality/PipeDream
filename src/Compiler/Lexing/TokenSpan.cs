@@ -1,4 +1,4 @@
-namespace PipeDream.Compiler.Parsing;
+namespace PipeDream.Compiler.Lexing;
 
 /// <summary>
 /// Defines a struct which contains information about the location of a syntax

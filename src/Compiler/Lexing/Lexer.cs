@@ -1,7 +1,7 @@
 using System.Buffers;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using PipeDream.Compiler.Parsing;
+using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
 
@@ -27,7 +27,7 @@ public ref partial struct Lexer
     private long _lineStartOffset;
 
     // Current token information
-    private Token _lastValidToken;
+    private SyntaxToken? _lastValidToken;
     private SequencePosition _start;
     private TokenPosition _tokenStart;
 
@@ -83,7 +83,7 @@ public ref partial struct Lexer
     /// <summary>
     /// Gets the current token that was successfully parsed.
     /// </summary>
-    public Token CurrentToken
+    public SyntaxToken? CurrentToken
         => _lastValidToken;
 
     /// <summary>
@@ -199,14 +199,20 @@ public ref partial struct Lexer
     private bool Token(SyntaxKind kind, LexerMode mode)
     {
         _mode = mode;
-        _lastValidToken = new Token(kind, GetCurrentSpan());
+        Debug.Assert(kind.GetGroup() is
+            SyntaxGroup.Punctuation or
+            SyntaxGroup.CompoundPunctuation);
+        _lastValidToken = new SyntaxToken(kind, default, default, default);
         return true;
     }
 
-    private bool Token(SyntaxKind kind, LexerMode mode, object? value)
+    private bool Token<T>(SyntaxKind kind, LexerMode mode, T value)
     {
         _mode = mode;
-        _lastValidToken = new Token(kind, GetCurrentSpan(), value);
+        Debug.Assert(kind.GetGroup() is
+            SyntaxGroup.Punctuation or
+            SyntaxGroup.CompoundPunctuation);
+        _lastValidToken = new SyntaxToken(kind, default, default, default);
         return true;
     }
 
