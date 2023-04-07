@@ -692,6 +692,11 @@ public enum SyntaxKind
     /// Represents the <c>~</c> token.
     /// </summary>
     TildeToken,
+
+    // Group: Statement
+    /// <summary>
+    /// A <see cref="BlockSyntax" /></summary>
+    Block,
 }
 
 internal enum SyntaxGroup : byte
@@ -707,6 +712,8 @@ internal enum SyntaxGroup : byte
     Keyword,
 
     Punctuation,
+
+    Statement,
 }
 
 internal static class SyntaxKindExtensions
@@ -720,6 +727,7 @@ internal static class SyntaxKindExtensions
             < 91 => SyntaxGroup.Expression,
             < 116 => SyntaxGroup.Keyword,
             < 136 => SyntaxGroup.Punctuation,
+            < 137 => SyntaxGroup.Statement,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }
