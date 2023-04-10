@@ -104,8 +104,7 @@ public sealed record Grammar(
             XmlGrammarItem item,
             Dictionary<string, GrammarItem> builtItems,
             Dictionary<string, Kind> builtKinds)
-        {
-            return item switch
+            => item switch
             {
                 XmlRootGrammarItem root
                     => new RootGrammarItem(
@@ -147,19 +146,16 @@ public sealed record Grammar(
                 _ => throw new InvalidOperationException(
                     "Unknown XML grammar item")
             };
-        }
 
         static Member BuildMember(XmlGrammar grammar,
             XmlMember member,
             Dictionary<string, GrammarItem> builtItems,
             Dictionary<string, Kind> builtKinds)
-        {
-            return new(
+            => new(
                 DocumentationComment: member.Comment,
                 Kinds: BuildKinds(member.Name, member.Kinds, builtKinds),
                 Name: member.Name,
                 Type: member.Type);
-        }
     }
 }
 

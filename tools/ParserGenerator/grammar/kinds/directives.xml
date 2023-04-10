@@ -1,0 +1,91 @@
+<Grammar>
+
+  <KindDef Name="DefineKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>define</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ElifKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>elif</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EndIfKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>endif</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ErrorKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>error</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IfDefKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>ifdef</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IfNDefKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>ifndef</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IncludeKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>include</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PipeDreamKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>pipedream</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="PragmaKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>pragma</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="UndefKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>undef</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="WarnKeyword" Group="PreprocessorKeyword">
+    <Comment>
+      <summary>
+        Represents the <c>warn</c> keyword.
+      </summary>
+    </Comment>
+  </KindDef>
+
+</Grammar>

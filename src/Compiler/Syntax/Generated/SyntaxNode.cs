@@ -6,8 +6,8 @@ namespace PipeDream.Compiler.Syntax;
 public abstract partial record SyntaxNode(
     SyntaxKind Kind,
     SyntaxSpan Span,
-    SyntaxTriviaList LeadingTrivia,
-    SyntaxTriviaList TrailingTrivia)
+    SyntaxList<TriviaSyntax> LeadingTrivia,
+    SyntaxList<TriviaSyntax> TrailingTrivia)
 {
     /// <summary>
     /// Gets the kind of this syntax node.
@@ -23,11 +23,11 @@ public abstract partial record SyntaxNode(
     /// Gets the list of trivia that appears before this node in the source
     /// code.
     /// </summary>
-    public SyntaxTriviaList LeadingTrivia { get; init; } = LeadingTrivia;
+    public SyntaxList<TriviaSyntax> LeadingTrivia { get; init; } = LeadingTrivia;
 
     /// <summary>
     /// Gets the list of trivia that appears before this node in the source
     /// code.
     /// </summary>
-    public SyntaxTriviaList TrailingTrivia { get; init; } = TrailingTrivia;
+    public SyntaxList<TriviaSyntax> TrailingTrivia { get; init; } = TrailingTrivia;
 }

@@ -4,10 +4,11 @@ namespace PipeDream.Compiler.Syntax;
 /// Defines a record which represents a token in the syntax tree.
 /// </summary>
 public sealed partial record SyntaxToken(
+    string Text,
     SyntaxKind Kind,
     SyntaxSpan Span,
-    SyntaxTriviaList LeadingTrivia,
-    SyntaxTriviaList TrailingTrivia)
+    SyntaxList<TriviaSyntax> LeadingTrivia,
+    SyntaxList<TriviaSyntax> TrailingTrivia)
     : SyntaxNode(
         Kind: ValidateKind(Kind, nameof(Kind)),
         Span: Span,
@@ -27,6 +28,8 @@ public sealed partial record SyntaxToken(
             SyntaxKind.AsteriskEqualsToken or
             SyntaxKind.AsteriskToken or
             SyntaxKind.AtomKeyword or
+            SyntaxKind.BackslashToken or
+            SyntaxKind.BadToken or
             SyntaxKind.BarBarEqualsToken or
             SyntaxKind.BarBarToken or
             SyntaxKind.BarEqualsToken or
@@ -45,12 +48,18 @@ public sealed partial record SyntaxToken(
             SyntaxKind.ContinueKeyword or
             SyntaxKind.DatabaseKeyword or
             SyntaxKind.DatumKeyword or
+            SyntaxKind.DefineKeyword or
             SyntaxKind.DelKeyword or
             SyntaxKind.DoKeyword or
+            SyntaxKind.DotDotToken or
             SyntaxKind.DotToken or
+            SyntaxKind.ElifKeyword or
             SyntaxKind.ElseKeyword or
+            SyntaxKind.EndIfKeyword or
+            SyntaxKind.EndOfFileToken or
             SyntaxKind.EqualsEqualsToken or
             SyntaxKind.EqualsToken or
+            SyntaxKind.ErrorKeyword or
             SyntaxKind.ExclamationEqualsToken or
             SyntaxKind.ExclamationToken or
             SyntaxKind.FinalKeyword or
@@ -61,10 +70,15 @@ public sealed partial record SyntaxToken(
             SyntaxKind.GreaterThanGreaterThanEqualsToken or
             SyntaxKind.GreaterThanGreaterThanToken or
             SyntaxKind.GreaterThanToken or
+            SyntaxKind.HashToken or
             SyntaxKind.IconKeyword or
+            SyntaxKind.IdentifierToken or
+            SyntaxKind.IfDefKeyword or
             SyntaxKind.IfKeyword or
+            SyntaxKind.IfNDefKeyword or
             SyntaxKind.ImageKeyword or
             SyntaxKind.InKeyword or
+            SyntaxKind.IncludeKeyword or
             SyntaxKind.LessThanEqualsToken or
             SyntaxKind.LessThanGreaterThanToken or
             SyntaxKind.LessThanLessThanEqualsToken or
@@ -79,6 +93,7 @@ public sealed partial record SyntaxToken(
             SyntaxKind.MutableAppearanceKeyword or
             SyntaxKind.NewKeyword or
             SyntaxKind.NullKeyword or
+            SyntaxKind.NumberToken or
             SyntaxKind.ObjKeyword or
             SyntaxKind.OpenParenthesisToken or
             SyntaxKind.OperatorKeyword or
@@ -86,9 +101,11 @@ public sealed partial record SyntaxToken(
             SyntaxKind.PercentPercentEqualsToken or
             SyntaxKind.PercentPercentToken or
             SyntaxKind.PercentToken or
+            SyntaxKind.PipeDreamKeyword or
             SyntaxKind.PlusEqualsToken or
             SyntaxKind.PlusPlusToken or
             SyntaxKind.PlusToken or
+            SyntaxKind.PragmaKeyword or
             SyntaxKind.ProcKeyword or
             SyntaxKind.QuestionColonToken or
             SyntaxKind.QuestionDotToken or
@@ -113,8 +130,10 @@ public sealed partial record SyntaxToken(
             SyntaxKind.ToKeyword or
             SyntaxKind.TryKeyword or
             SyntaxKind.TurfKeyword or
+            SyntaxKind.UndefKeyword or
             SyntaxKind.VarKeyword or
             SyntaxKind.VerbKeyword or
+            SyntaxKind.WarnKeyword or
             SyntaxKind.WhileKeyword or
             SyntaxKind.WorldKeyword
                 => value,
@@ -122,4 +141,8 @@ public sealed partial record SyntaxToken(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+    /// <summary>
+    /// Gets the original text for this token.
+    /// </summary>
+    public string Text { get; init; } = Text;
 }

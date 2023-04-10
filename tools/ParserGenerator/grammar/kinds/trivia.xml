@@ -1,0 +1,27 @@
+<Grammar>
+
+  <KindDef Name="WhitespaceTrivia" Group="Trivia">
+    <Comment>
+      <summary>
+        A whitespace in the syntax tree.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EndOfLineTrivia" Group="Trivia">
+    <Comment>
+      <summary>
+        An end of line in the syntax tree.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SingleLineCommentTrivia" Group="Trivia">
+    <Comment>
+      <summary>
+        A single line comment in the syntax tree.
+      </summary>
+    </Comment>
+  </KindDef>
+
+</Grammar>

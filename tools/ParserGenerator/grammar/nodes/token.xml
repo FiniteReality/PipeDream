@@ -1,0 +1,167 @@
+<Grammar>
+
+  <Node Type="SyntaxToken" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record which represents a token in the syntax tree.
+      </summary>
+    </Comment>
+
+    <Member Name="Text" Type="string">
+      <Comment>
+        <summary>
+          Gets the original text for this token.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Kind Name="BadToken" />
+
+    <!-- Datum keywords -->
+    <Kind Name="AreaKeyword" />
+    <Kind Name="AtomKeyword" />
+    <Kind Name="ClientKeyword" />
+    <Kind Name="DatabaseKeyword" />
+    <Kind Name="DatumKeyword" />
+    <Kind Name="IconKeyword" />
+    <Kind Name="ImageKeyword" />
+    <Kind Name="ListKeyword" />
+    <Kind Name="MatrixKeyword" />
+    <Kind Name="MobKeyword" />
+    <Kind Name="MutableAppearanceKeyword" />
+    <Kind Name="ObjKeyword" />
+    <Kind Name="ProcKeyword" />
+    <Kind Name="RegexKeyword" />
+    <Kind Name="SavefileKeyword" />
+    <Kind Name="SoundKeyword" />
+    <Kind Name="TextKeyword" />
+    <Kind Name="TurfKeyword" />
+    <Kind Name="WorldKeyword" />
+
+    <!-- Variable keywords -->
+    <Kind Name="VarKeyword" />
+    <Kind Name="ConstKeyword" />
+    <Kind Name="FinalKeyword" />
+    <Kind Name="GlobalKeyword" />
+    <Kind Name="OperatorKeyword" />
+    <Kind Name="TmpKeyword" />
+    <Kind Name="VerbKeyword" />
+
+    <!-- Control keywords -->
+    <Kind Name="AsKeyword" />
+    <Kind Name="BreakKeyword" />
+    <Kind Name="CallKeyword" />
+    <Kind Name="CatchKeyword" />
+    <Kind Name="ContinueKeyword" />
+    <Kind Name="DelKeyword" />
+    <Kind Name="DoKeyword" />
+    <Kind Name="ElseKeyword" />
+    <Kind Name="ForKeyword" />
+    <Kind Name="GotoKeyword" />
+    <Kind Name="IfKeyword" />
+    <Kind Name="InKeyword" />
+    <Kind Name="NewKeyword" />
+    <Kind Name="NullKeyword" />
+    <Kind Name="ReturnKeyword" />
+    <Kind Name="SetKeyword" />
+    <Kind Name="SleepKeyword" />
+    <Kind Name="SpawnKeyword" />
+    <Kind Name="StepKeyword" />
+    <Kind Name="SwitchKeyword" />
+    <Kind Name="ThrowKeyword" />
+    <Kind Name="ToKeyword" />
+    <Kind Name="TryKeyword" />
+    <Kind Name="WhileKeyword" />
+
+    <!-- Preprocessor directives -->
+    <Kind Name="DefineKeyword" />
+    <Kind Name="ElifKeyword" />
+    <Kind Name="EndIfKeyword" />
+    <Kind Name="ErrorKeyword" />
+    <Kind Name="IfDefKeyword" />
+    <Kind Name="IfNDefKeyword" />
+    <Kind Name="IncludeKeyword" />
+    <Kind Name="PipeDreamKeyword" />
+    <Kind Name="PragmaKeyword" />
+    <Kind Name="UndefKeyword" />
+    <Kind Name="WarnKeyword" />
+
+    <Kind Name="HashToken" />
+
+    <Kind Name="OpenParenthesisToken" />
+    <Kind Name="CloseParenthesisToken" />
+    <Kind Name="DotToken" />
+    <Kind Name="SlashToken" />
+    <Kind Name="ColonToken" />
+    <Kind Name="ColonColonToken" />
+
+    <Kind Name="QuestionDotToken" />
+    <Kind Name="QuestionColonToken" />
+
+    <Kind Name="TildeToken" />
+    <Kind Name="ExclamationToken" />
+    <Kind Name="MinusToken" />
+    <Kind Name="PlusPlusToken" />
+    <Kind Name="MinusMinusToken" />
+    <Kind Name="AsteriskToken" />
+    <Kind Name="AmpersandToken" />
+
+    <Kind Name="AsteriskAsteriskToken" />
+
+    <!-- <Kind Name="AsteriskToken" /> -->
+    <!-- <Kind Name="SlashToken" /> -->
+    <Kind Name="PercentToken" />
+    <Kind Name="PercentPercentToken" />
+
+    <Kind Name="PlusToken" />
+    <!-- <Kind Name="MinusToken" /> -->
+    <Kind Name="LessThanToken" />
+    <Kind Name="LessThanEqualsToken" />
+    <Kind Name="GreaterThanToken" />
+    <Kind Name="GreaterThanEqualsToken" />
+
+    <Kind Name="LessThanLessThanToken" />
+    <Kind Name="GreaterThanGreaterThanToken" />
+
+    <Kind Name="EqualsEqualsToken" />
+    <Kind Name="ExclamationEqualsToken" />
+    <Kind Name="LessThanGreaterThanToken" />
+    <Kind Name="TildeEqualsToken" />
+    <Kind Name="TildeExclamationToken" />
+
+    <!-- <Kind Name="AmpersandToken" /> -->
+    <Kind Name="CaretToken" />
+
+    <Kind Name="BarToken" />
+
+    <Kind Name="AmpersandAmpersandToken" />
+
+    <Kind Name="BarBarToken" />
+
+    <Kind Name="QuestionToken" />
+
+    <Kind Name="EqualsToken" />
+    <Kind Name="PlusEqualsToken" />
+    <Kind Name="MinusEqualsToken" />
+    <Kind Name="AsteriskEqualsToken" />
+    <Kind Name="SlashEqualsToken" />
+    <Kind Name="PercentEqualsToken" />
+    <Kind Name="PercentPercentEqualsToken" />
+    <Kind Name="AmpersandEqualsToken" />
+    <Kind Name="BarEqualsToken" />
+    <Kind Name="CaretEqualsToken" />
+    <Kind Name="LessThanLessThanEqualsToken" />
+    <Kind Name="GreaterThanGreaterThanEqualsToken" />
+    <Kind Name="ColonEqualsToken" />
+    <Kind Name="AmpersandAmpersandEqualsToken" />
+    <Kind Name="BarBarEqualsToken" />
+
+    <Kind Name="BackslashToken" />
+    <Kind Name="DotDotToken" />
+
+    <Kind Name="IdentifierToken" />
+    <Kind Name="NumberToken" />
+    <Kind Name="EndOfFileToken" />
+  </Node>
+
+</Grammar>

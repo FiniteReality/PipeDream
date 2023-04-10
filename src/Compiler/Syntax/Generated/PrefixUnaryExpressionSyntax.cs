@@ -8,8 +8,8 @@ public sealed partial record PrefixUnaryExpressionSyntax(
     ExpressionSyntax Operand,
     SyntaxKind Kind,
     SyntaxSpan Span,
-    SyntaxTriviaList LeadingTrivia,
-    SyntaxTriviaList TrailingTrivia)
+    SyntaxList<TriviaSyntax> LeadingTrivia,
+    SyntaxList<TriviaSyntax> TrailingTrivia)
     : ExpressionSyntax(
         Kind: ValidateKind(Kind, nameof(Kind)),
         Span: Span,

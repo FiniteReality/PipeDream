@@ -1,5 +1,37 @@
 <Grammar>
 
+  <KindDef Name="BadToken" Group="Invalid">
+    <Comment>
+      <summary>
+        Represents an invalid token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="HashToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>#</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CommaToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>,</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BackslashToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>\</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="OpenBraceToken" Group="Punctuation">
     <Comment>
       <summary>
@@ -32,7 +64,31 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="OpenBracketToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>[</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CloseBracketToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>]</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="DotToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>.</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DotDotToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
         Represents the <c>.</c> token.
@@ -339,7 +395,7 @@
   <KindDef Name="PercentEqualsToken" Group="CompoundPunctuation">
     <Comment>
       <summary>
-        Represents the <c>/=</c> token.
+        Represents the <c>%=</c> token.
       </summary>
     </Comment>
   </KindDef>
@@ -415,5 +471,30 @@
       </summary>
     </Comment>
   </KindDef>
+
+  <KindDef Name="IdentifierToken" Group="Textual">
+    <Comment>
+      <summary>
+        Represents an identifier in source code.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="NumberToken" Group="Numeric">
+    <Comment>
+      <summary>
+        Represents a number in source code.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EndOfFileToken" Group="File">
+    <Comment>
+      <summary>
+        The end of a file.
+      </summary>
+    </Comment>
+  </KindDef>
+
 
 </Grammar>

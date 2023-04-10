@@ -9,8 +9,8 @@ public sealed partial record BinaryExpressionSyntax(
     ExpressionSyntax Right,
     SyntaxKind Kind,
     SyntaxSpan Span,
-    SyntaxTriviaList LeadingTrivia,
-    SyntaxTriviaList TrailingTrivia)
+    SyntaxList<TriviaSyntax> LeadingTrivia,
+    SyntaxList<TriviaSyntax> TrailingTrivia)
     : ExpressionSyntax(
         Kind: ValidateKind(Kind, nameof(Kind)),
         Span: Span,

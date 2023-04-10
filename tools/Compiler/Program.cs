@@ -1,11 +1,7 @@
-using System.Buffers;
-using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Text;
 using PipeDream.Compiler.Lexing;
-using PipeDream.Compiler.Parsing;
-using PipeDream.Compiler.Parsing.Tree;
-using PipeDream.Compiler.Preprocessing;
+using PipeDream.Compiler.Syntax;
 
 if (args.Length < 1)
 {
@@ -23,96 +19,39 @@ using var transcode = Encoding.CreateTranscodingStream(
 var reader = PipeReader.Create(transcode);
 
 ReadResult result = default;
-LexerState lexState = new();
-ParserState parseState = new();
 while (!result.IsCompleted || !result.Buffer.IsEmpty)
 {
     result = await reader.ReadAsync();
-    var pos = Lex(result, ref lexState, ref parseState);
-
-    if (lexState.HasErrors || parseState.HasErrors)
-        break;
+    var pos = Lex(result);
 
     reader.AdvanceTo(pos, result.Buffer.End);
 }
 
-if (lexState.HasErrors)
-    foreach (var error in lexState.Errors)
-        Console.Error.WriteLine($"{args[0]}({error.Span}): {error.Message}");
-
-if (parseState.HasErrors)
-    foreach (var error in parseState.Errors)
-        Console.Error.WriteLine($"{args[0]}({error.Span}): {error.Message}");
-
-if (parseState.CompilationUnit is null)
-    throw new InvalidOperationException("Failed to get compilation unit");
-
-var tree = new Preprocessor().Preprocess(parseState.CompilationUnit);
-new TreePrinter().Visit(tree);
-
 return 0;
 
-static SequencePosition Lex(ReadResult result,
-    ref LexerState lexState, ref ParserState parseState)
+static SequencePosition Lex(ReadResult result)
 {
-    var lexer = new Lexer(result.Buffer, result.IsCompleted, lexState);
-    var parser = new Parser(parseState);
-
-    while (lexer.Lex() && !parser.IsAccept)
+    var lexer = new Lexer(result.Buffer, result.IsCompleted);
+    while (lexer.Lex())
     {
-        bool queueFailed = false;
-        do
+        var token = (lexer.Current as SyntaxToken)!;
+        Console.WriteLine($"{token.Kind}");
+        foreach (var thing in token.LeadingTrivia)
         {
-            if (!parser.Queue(lexer.CurrentToken))
-            {
-                queueFailed = true;
-                break;
-            }
+            var trivia = (thing as SimpleTriviaSyntax)!;
+            Console.WriteLine($"    {trivia.Kind}");
+            Console.WriteLine($"        '{trivia.Text.Replace("\r", "\\r").Replace("\n", "\\n")}'");
         }
-        while (lexer.Lex() && lexer.CurrentToken.Kind != SyntaxKind.EndOfFile);
 
-        // Parse as much as possible based on the queued tokens
-        if (parser.Parse())
+        Console.WriteLine($"    '{token.Text}'");
+
+        foreach (var thing in token.TrailingTrivia)
         {
-            // Assuming we consumed some tokens, try and queue the token we failed
-            // to parse
-            if (queueFailed && !parser.Queue(lexer.CurrentToken))
-                throw new InvalidOperationException(
-                    "Somehow failed to enqueue token");
+            var trivia = (thing as SimpleTriviaSyntax)!;
+            Console.WriteLine($"    {trivia.Kind}");
+            Console.WriteLine($"        '{trivia.Text.Replace("\r", "\\r").Replace("\n", "\\n")}'");
         }
     }
-
-    /*if (result.IsCompleted)
-    {
-        // We don't care if the parse succeeds or not at this point,
-        // we're not processing any more so we'll handle errors anyway.
-        _ = parser.Parse();
-    }*/
-
-    lexState = lexer.CurrentState;
-    parseState = parser.CurrentState;
 
     return lexer.Position;
-}
-
-internal class TreePrinter : SyntaxVisitor
-{
-    private int _indentLevel = -1;
-
-    protected override void Accept(SyntaxNode node)
-        => Console.WriteLine(
-            $"{new string(' ', _indentLevel)}{node.Span}: " +
-            $"{node.GetType().Name}");
-
-    protected override void BeforeVisit(SyntaxNode node)
-    {
-        if (node is not StatementListNode)
-            _indentLevel++;
-    }
-
-    protected override void AfterVisit(SyntaxNode node)
-    {
-        if (node is not StatementListNode)
-            _indentLevel--;
-    }
 }

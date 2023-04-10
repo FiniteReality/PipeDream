@@ -70,6 +70,11 @@ public enum SyntaxKind
     ColonEqualsToken,
 
     /// <summary>
+    /// Represents the <c>.</c> token.
+    /// </summary>
+    DotDotToken,
+
+    /// <summary>
     /// Represents the <c>==</c> token.
     /// </summary>
     EqualsEqualsToken,
@@ -125,7 +130,7 @@ public enum SyntaxKind
     MinusMinusToken,
 
     /// <summary>
-    /// Represents the <c>/=</c> token.
+    /// Represents the <c>%=</c> token.
     /// </summary>
     PercentEqualsToken,
 
@@ -466,6 +471,18 @@ public enum SyntaxKind
     /// </summary>
     UnaryMinusExpression,
 
+    // Group: File
+    /// <summary>
+    /// The end of a file.
+    /// </summary>
+    EndOfFileToken,
+
+    // Group: Invalid
+    /// <summary>
+    /// Represents an invalid token.
+    /// </summary>
+    BadToken,
+
     // Group: Keyword
     /// <summary>
     /// Represents the <c>as</c> keyword.
@@ -592,6 +609,68 @@ public enum SyntaxKind
     /// </summary>
     WhileKeyword,
 
+    // Group: Numeric
+    /// <summary>
+    /// Represents a number in source code.
+    /// </summary>
+    NumberToken,
+
+    // Group: PreprocessorKeyword
+    /// <summary>
+    /// Represents the <c>define</c> keyword.
+    /// </summary>
+    DefineKeyword,
+
+    /// <summary>
+    /// Represents the <c>elif</c> keyword.
+    /// </summary>
+    ElifKeyword,
+
+    /// <summary>
+    /// Represents the <c>endif</c> keyword.
+    /// </summary>
+    EndIfKeyword,
+
+    /// <summary>
+    /// Represents the <c>error</c> keyword.
+    /// </summary>
+    ErrorKeyword,
+
+    /// <summary>
+    /// Represents the <c>ifdef</c> keyword.
+    /// </summary>
+    IfDefKeyword,
+
+    /// <summary>
+    /// Represents the <c>ifndef</c> keyword.
+    /// </summary>
+    IfNDefKeyword,
+
+    /// <summary>
+    /// Represents the <c>include</c> keyword.
+    /// </summary>
+    IncludeKeyword,
+
+    /// <summary>
+    /// Represents the <c>pipedream</c> keyword.
+    /// </summary>
+    PipeDreamKeyword,
+
+    /// <summary>
+    /// Represents the <c>pragma</c> keyword.
+    /// </summary>
+    PragmaKeyword,
+
+    /// <summary>
+    /// Represents the <c>undef</c> keyword.
+    /// </summary>
+    UndefKeyword,
+
+    /// <summary>
+    /// Represents the <c>warn</c> keyword.
+    /// </summary>
+    WarnKeyword,
+
     // Group: Punctuation
     /// <summary>
     /// Represents the <c>&amp;</c> token.
@@ -602,6 +681,11 @@ public enum SyntaxKind
     /// Represents the <c>*</c> token.
     /// </summary>
     AsteriskToken,
+
+    /// <summary>
+    /// Represents the <c>\</c> token.
+    /// </summary>
+    BackslashToken,
 
     /// <summary>
     /// Represents the <c>|</c> token.
@@ -619,6 +703,11 @@ public enum SyntaxKind
     CloseBraceToken,
 
     /// <summary>
+    /// Represents the <c>]</c> token.
+    /// </summary>
+    CloseBracketToken,
+
+    /// <summary>
     /// Represents the <c>)</c> token.
     /// </summary>
     CloseParenthesisToken,
@@ -627,6 +716,11 @@ public enum SyntaxKind
     /// Represents the <c>:</c> token.
     /// </summary>
     ColonToken,
+
+    /// <summary>
+    /// Represents the <c>,</c> token.
+    /// </summary>
+    CommaToken,
 
     /// <summary>
     /// Represents the <c>.</c> token.
@@ -649,6 +743,11 @@ public enum SyntaxKind
     GreaterThanToken,
 
     /// <summary>
+    /// Represents the <c>#</c> token.
+    /// </summary>
+    HashToken,
+
+    /// <summary>
     /// Represents the <c>&lt;</c> token.
     /// </summary>
     LessThanToken,
@@ -662,6 +761,11 @@ public enum SyntaxKind
     /// Represents the <c>{</c> token.
     /// </summary>
     OpenBraceToken,
+
+    /// <summary>
+    /// Represents the <c>[</c> token.
+    /// </summary>
+    OpenBracketToken,
 
     /// <summary>
     /// Represents the <c>(</c> token.
@@ -697,6 +801,28 @@ public enum SyntaxKind
     /// <summary>
     /// A <see cref="BlockSyntax" /></summary>
     Block,
+
+    // Group: Textual
+    /// <summary>
+    /// Represents an identifier in source code.
+    /// </summary>
+    IdentifierToken,
+
+    // Group: Trivia
+    /// <summary>
+    /// An end of line in the syntax tree.
+    /// </summary>
+    EndOfLineTrivia,
+
+    /// <summary>
+    /// A single line comment in the syntax tree.
+    /// </summary>
+    SingleLineCommentTrivia,
+
+    /// <summary>
+    /// A whitespace in the syntax tree.
+    /// </summary>
+    WhitespaceTrivia,
 }
 
 internal enum SyntaxGroup : byte
@@ -709,11 +835,23 @@ internal enum SyntaxGroup : byte
 
     Expression,
 
+    File,
+
+    Invalid,
+
     Keyword,
+
+    Numeric,
+
+    PreprocessorKeyword,
 
     Punctuation,
 
     Statement,
+
+    Textual,
+
+    Trivia,
 }
 
 internal static class SyntaxKindExtensions
@@ -722,12 +860,18 @@ internal static class SyntaxKindExtensions
         => (int)kind switch
         {
             < 1 => SyntaxGroup.Block,
-            < 33 => SyntaxGroup.CompoundPunctuation,
-            < 58 => SyntaxGroup.ContextualKeyword,
-            < 91 => SyntaxGroup.Expression,
-            < 116 => SyntaxGroup.Keyword,
-            < 136 => SyntaxGroup.Punctuation,
-            < 137 => SyntaxGroup.Statement,
+            < 34 => SyntaxGroup.CompoundPunctuation,
+            < 59 => SyntaxGroup.ContextualKeyword,
+            < 92 => SyntaxGroup.Expression,
+            < 93 => SyntaxGroup.File,
+            < 94 => SyntaxGroup.Invalid,
+            < 119 => SyntaxGroup.Keyword,
+            < 120 => SyntaxGroup.Numeric,
+            < 131 => SyntaxGroup.PreprocessorKeyword,
+            < 156 => SyntaxGroup.Punctuation,
+            < 157 => SyntaxGroup.Statement,
+            < 158 => SyntaxGroup.Textual,
+            < 161 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

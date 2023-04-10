@@ -1,0 +1,40 @@
+<Grammar>
+
+  <Node Type="SkippedTokensTriviaSyntax" Base="TriviaSyntax">
+    <Comment>
+      <summary>
+        Defines a record which represents skipped tokens in the syntax tree.
+      </summary>
+    </Comment>
+
+    <Member Name="Tokens" Type="SyntaxList&lt;SyntaxToken&gt;">
+      <Comment>
+        <summary>
+          Gets the tokens which were skipped in order to successfully parse the
+          next token.
+        </summary>
+      </Comment>
+    </Member>
+  </Node>
+
+  <Node Type="SimpleTriviaSyntax" Base="TriviaSyntax">
+    <Comment>
+      <summary>
+        Defines a record which represents unstructured trivia.
+      </summary>
+    </Comment>
+
+    <Member Name="Text" Type="string">
+      <Comment>
+        <summary>
+          Gets the text of this trivia.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Kind Name="SingleLineCommentTrivia" />
+    <Kind Name="EndOfLineTrivia" />
+    <Kind Name="WhitespaceTrivia" />
+  </Node>
+
+</Grammar>

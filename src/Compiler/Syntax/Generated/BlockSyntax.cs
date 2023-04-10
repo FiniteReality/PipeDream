@@ -9,8 +9,8 @@ public sealed partial record BlockSyntax(
     SyntaxToken CloseBraceToken,
     SyntaxKind Kind,
     SyntaxSpan Span,
-    SyntaxTriviaList LeadingTrivia,
-    SyntaxTriviaList TrailingTrivia)
+    SyntaxList<TriviaSyntax> LeadingTrivia,
+    SyntaxList<TriviaSyntax> TrailingTrivia)
     : StatementSyntax(
         Kind: ValidateKind(Kind, nameof(Kind)),
         Span: Span,

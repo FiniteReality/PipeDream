@@ -4,12 +4,16 @@ using PipeDream.Tools.ParserGenerator;
 
 var grammar = MergeGrammars(
     ReadGrammar("grammar/kinds/tokens.xml"),
+    ReadGrammar("grammar/kinds/trivia.xml"),
     ReadGrammar("grammar/kinds/keywords.xml"),
+    ReadGrammar("grammar/kinds/directives.xml"),
     ReadGrammar("grammar/kinds/expressions.xml"),
     ReadGrammar("grammar/kinds/statements.xml"),
     ReadGrammar("grammar/kinds/declarations.xml"),
 
     ReadGrammar("grammar/nodes/base.xml"),
+    ReadGrammar("grammar/nodes/token.xml"),
+    ReadGrammar("grammar/nodes/trivia.xml"),
     ReadGrammar("grammar/nodes/expressions.xml"),
     ReadGrammar("grammar/nodes/statements.xml"),
     ReadGrammar("grammar/nodes/declarations.xml"));

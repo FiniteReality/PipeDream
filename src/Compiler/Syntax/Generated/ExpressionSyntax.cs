@@ -6,8 +6,8 @@ namespace PipeDream.Compiler.Syntax;
 public abstract partial record ExpressionSyntax(
     SyntaxKind Kind,
     SyntaxSpan Span,
-    SyntaxTriviaList LeadingTrivia,
-    SyntaxTriviaList TrailingTrivia)
+    SyntaxList<TriviaSyntax> LeadingTrivia,
+    SyntaxList<TriviaSyntax> TrailingTrivia)
     : SyntaxNode(
         Kind: Kind,
         Span: Span,

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 
 namespace PipeDream.Compiler.Syntax;
 
@@ -11,6 +12,19 @@ public readonly record struct SyntaxList<T>
     where T : SyntaxNode
 {
     private readonly ImmutableArray<T> _values;
+
+    /// <summary>
+    /// Creates an empty <see cref="SyntaxList{T}" />
+    /// </summary>
+    public SyntaxList()
+    {
+        _values = ImmutableArray.Create<T>();
+    }
+
+    internal SyntaxList(ImmutableArray<T> values)
+    {
+        _values = values;
+    }
 
     /// <inheritdoc />
     public T this[int index] => _values[index];
