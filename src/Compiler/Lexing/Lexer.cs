@@ -17,31 +17,46 @@ public ref partial struct Lexer
     private Reader _reader;
 
     private SequencePosition _tokenBeginning;
-
     /// <summary>
     /// Creates a lexer for the given block of input data.
     /// </summary>
+    /// <param name="state">
+    /// The previous state to resume lexing from.
+    /// </param>
     /// <param name="sequence">
     /// The input text to parse.
     /// </param>
     /// <param name="isFinalBlock">
     /// <code>true</code> if no more data is expected to be read.
     /// </param>
-    public Lexer(ReadOnlySequence<byte> sequence, bool isFinalBlock)
+    public Lexer(LexerState state, ReadOnlySequence<byte> sequence,
+        bool isFinalBlock)
     {
         _reader = new(sequence, isFinalBlock);
-        _diagnostics = ImmutableArray.CreateBuilder<Diagnostic>();
+
+        _diagnostics = state.Diagnostics
+            ?? ImmutableArray.CreateBuilder<Diagnostic>();
+        Current = state.Current;
     }
 
     /// <summary>
     /// Gets the last valid position of the lexer.
     /// </summary>
-    public SequencePosition Position => _reader.TokenStart;
+    public SequencePosition Position => _reader.Position;
 
     /// <summary>
     /// Gets the current successfully parsed node.
     /// </summary>
     public SyntaxNode? Current { get; private set; }
+
+    /// <summary>
+    /// Gets the current state of the lexer, for resuming after slicing the
+    /// underlying buffer.
+    /// </summary>
+    public LexerState State
+        => new(
+            diagnostics: _diagnostics,
+            current: Current);
 
     /// <summary>
     /// Attempts to lex the next token in the stream.
@@ -51,7 +66,10 @@ public ref partial struct Lexer
     /// </returns>
     public bool Lex()
     {
-        if (_reader.IsStreamEnd)
+        // If we've already produced the EOF token, we don't need to produce
+        // more.
+        if (_reader.IsStreamEnd &&
+            Current is { Kind: SyntaxKind.EndOfFileToken })
             return false;
 
         BeginToken();

@@ -100,8 +100,8 @@ public ref partial struct Lexer
 
             token = new(
                 Kind: SyntaxKind.SingleLineCommentTrivia,
-                Start: _reader.TokenStart,
-                End: _reader.TokenEnd)
+                Start: _reader.TrackedPosition,
+                End: _reader.Position)
             {
                 StringValue = comment
             };
@@ -131,8 +131,8 @@ public ref partial struct Lexer
 
         token = new(
             Kind: SyntaxKind.WhitespaceTrivia,
-            Start: _reader.TokenStart,
-            End: _reader.TokenEnd)
+            Start: _reader.TrackedPosition,
+            End: _reader.Position)
         {
             StringValue = whitespace
         };
@@ -157,8 +157,8 @@ public ref partial struct Lexer
 
         token = new(
             Kind: SyntaxKind.EndOfLineTrivia,
-            Start: _reader.TokenStart,
-            End: _reader.TokenEnd)
+            Start: _reader.TrackedPosition,
+            End: _reader.Position)
         {
             StringValue = terminator
         };

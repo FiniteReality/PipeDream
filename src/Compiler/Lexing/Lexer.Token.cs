@@ -11,7 +11,7 @@ public ref partial struct Lexer
     private void BeginToken()
     {
         Tracing.TraceEvent(TraceEventType.Start, TraceIds.LexingToken);
-        _tokenBeginning = _reader.TokenStart;
+        _tokenBeginning = _reader.TrackedPosition;
     }
 
     private void EndToken(bool rewind)
@@ -32,8 +32,8 @@ public ref partial struct Lexer
             {
                 token = new(
                     Kind: SyntaxKind.EndOfFileToken,
-                    Start: _reader.TokenStart,
-                    End: _reader.TokenEnd);
+                    Start: _reader.TrackedPosition,
+                    End: _reader.Position);
                 return OperationStatus.Done;
             }
 
@@ -79,7 +79,7 @@ public ref partial struct Lexer
                 }
 
                 token = new(SyntaxKind.BadToken,
-                    _reader.TokenStart, _reader.TokenEnd)
+                    _reader.TrackedPosition, _reader.Position)
                 {
                     StringValue = invalid
                 };

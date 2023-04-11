@@ -29,8 +29,8 @@ public ref partial struct Lexer
 
         token = new(
             Kind: SyntaxKind.IdentifierToken,
-            Start: _reader.TokenStart,
-            End: _reader.TokenEnd)
+            Start: _reader.TrackedPosition,
+            End: _reader.Position)
         {
             StringValue = identifier
         };

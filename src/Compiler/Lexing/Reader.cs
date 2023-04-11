@@ -19,8 +19,8 @@ internal ref struct Reader
 
     public bool IsSegmentEnd => _reader.End;
     public bool IsStreamEnd => _reader.End && _isFinalBlock;
-    public SequencePosition TokenEnd => _reader.Position;
-    public SequencePosition TokenStart => _trackedPosition;
+    public SequencePosition Position => _reader.Position;
+    public SequencePosition TrackedPosition => _trackedPosition;
 
     public bool TryRead(out byte read)
         => _reader.TryRead(out read);
@@ -48,7 +48,7 @@ internal ref struct Reader
 
     public OperationStatus TryGetString(out string? value)
     {
-        var sequence = _reader.Sequence.Slice(TokenStart, TokenEnd);
+        var sequence = _reader.Sequence.Slice(TrackedPosition, Position);
 
         if (sequence.Length > int.MaxValue)
         {

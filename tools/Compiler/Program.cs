@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Text;
 using PipeDream.Compiler.Lexing;
@@ -18,24 +19,31 @@ using var transcode = Encoding.CreateTranscodingStream(
     file, encoding, Encoding.UTF8, false);
 var reader = PipeReader.Create(transcode);
 
+var timer = Stopwatch.StartNew();
 ReadResult result = default;
+LexerState state = default;
 while (!result.IsCompleted || !result.Buffer.IsEmpty)
 {
     result = await reader.ReadAsync();
-    var pos = Lex(result);
+    if (!result.Buffer.IsEmpty)
+    {
+        var pos = Lex(result, ref state);
 
-    reader.AdvanceTo(pos, result.Buffer.End);
+        reader.AdvanceTo(pos, result.Buffer.End);
+    }
 }
+Console.WriteLine(
+    $"Lexing {file.Length} bytes took {timer.ElapsedMilliseconds}ms");
 
 return 0;
 
-static SequencePosition Lex(ReadResult result)
+static SequencePosition Lex(ReadResult result, ref LexerState state)
 {
-    var lexer = new Lexer(result.Buffer, result.IsCompleted);
+    var lexer = new Lexer(state, result.Buffer, result.IsCompleted);
     while (lexer.Lex())
     {
         var token = (lexer.Current as SyntaxToken)!;
-        Console.WriteLine($"{token.Kind}");
+        /*Console.WriteLine($"{token.Kind}");
         foreach (var thing in token.LeadingTrivia)
         {
             var trivia = (thing as SimpleTriviaSyntax)!;
@@ -50,8 +58,9 @@ static SequencePosition Lex(ReadResult result)
             var trivia = (thing as SimpleTriviaSyntax)!;
             Console.WriteLine($"    {trivia.Kind}");
             Console.WriteLine($"        '{trivia.Text.Replace("\r", "\\r").Replace("\n", "\\n")}'");
-        }
+        }*/
     }
 
+    state = lexer.State;
     return lexer.Position;
 }
