@@ -615,6 +615,17 @@ public enum SyntaxKind
     /// </summary>
     NumberToken,
 
+    // Group: Preprocessor
+    /// <summary>
+    /// A preprocessor <c>#define</c> directive.
+    /// </summary>
+    DefineDirectiveTrivia,
+
+    /// <summary>
+    /// A preprocessor <c>#include</c> directive.
+    /// </summary>
+    IncludeDirectiveTrivia,
+
     // Group: PreprocessorKeyword
     /// <summary>
     /// Represents the <c>define</c> keyword.
@@ -848,6 +859,17 @@ public enum SyntaxKind
     /// </summary>
     StringTextToken,
 
+    // Group: Strings
+    /// <summary>
+    /// A string, containing one or more interpolated sections.
+    /// </summary>
+    InterpolatedString,
+
+    /// <summary>
+    /// A string literal, containing no interpolated sections.
+    /// </summary>
+    LiteralString,
+
     // Group: Textual
     /// <summary>
     /// Represents an identifier in source code.
@@ -889,6 +911,8 @@ internal enum SyntaxGroup : byte
 
     Numeric,
 
+    Preprocessor,
+
     PreprocessorKeyword,
 
     Punctuation,
@@ -896,6 +920,8 @@ internal enum SyntaxGroup : byte
     Statement,
 
     String,
+
+    Strings,
 
     Textual,
 
@@ -915,12 +941,14 @@ internal static class SyntaxKindExtensions
             < 94 => SyntaxGroup.Invalid,
             < 119 => SyntaxGroup.Keyword,
             < 120 => SyntaxGroup.Numeric,
-            < 131 => SyntaxGroup.PreprocessorKeyword,
-            < 156 => SyntaxGroup.Punctuation,
-            < 157 => SyntaxGroup.Statement,
-            < 166 => SyntaxGroup.String,
-            < 167 => SyntaxGroup.Textual,
-            < 170 => SyntaxGroup.Trivia,
+            < 122 => SyntaxGroup.Preprocessor,
+            < 133 => SyntaxGroup.PreprocessorKeyword,
+            < 158 => SyntaxGroup.Punctuation,
+            < 159 => SyntaxGroup.Statement,
+            < 168 => SyntaxGroup.String,
+            < 170 => SyntaxGroup.Strings,
+            < 171 => SyntaxGroup.Textual,
+            < 174 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

@@ -1,0 +1,93 @@
+<Grammar>
+
+  <AbstractNode Type="DirectiveTriviaSyntax" Base="TriviaSyntax">
+    <Comment>
+      <summary>
+        Defines a record from which preprocessor directive nodes are derived.
+      </summary>
+    </Comment>
+
+    <Member Name="HashToken" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the hash token used to mark this directive.
+        </summary>
+      </Comment>
+
+      <Kind Name="HashToken" />
+    </Member>
+  </AbstractNode>
+
+  <Node Type="DefineDirectiveTriviaSyntax" Base="DirectiveTriviaSyntax">
+    <Comment>
+      <summary>
+        Defines a record containing information about a preprocessor definition
+        trivia.
+      </summary>
+    </Comment>
+
+    <Member Name="DefineKeyword" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the define keyword for this directive.
+        </summary>
+      </Comment>
+
+      <Kind Name="DefineKeyword" />
+    </Member>
+
+    <Member Name="Name" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the name of the preprocessor variable to define.
+        </summary>
+      </Comment>
+
+      <Kind Name="IdentifierToken" />
+    </Member>
+
+    <!-- TODO: parameters -->
+
+    <Member Name="Value" Type="SyntaxNode">
+      <Comment>
+        <summary>
+          Gets the value to be substituted in place of <see cref="Name" />.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Kind Name="DefineDirectiveTrivia" />
+  </Node>
+
+  <Node Type="IncludeDirectiveTriviaSyntax" Base="DirectiveTriviaSyntax">
+    <Comment>
+      <summary>
+        Defines a record containing information about a preprocessor include
+        trivia.
+      </summary>
+    </Comment>
+
+    <Member Name="IncludeKeyword" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the include keyword for this directive.
+        </summary>
+      </Comment>
+
+      <Kind Name="IncludeKeyword" />
+    </Member>
+
+    <Member Name="File" Type="StringSyntax">
+      <Comment>
+        <summary>
+          Gets the relative path to the file to include for this directive.
+        </summary>
+      </Comment>
+
+      <Kind Name="LiteralString" />
+    </Member>
+
+    <Kind Name="IncludeDirectiveTrivia" />
+  </Node>
+
+</Grammar>

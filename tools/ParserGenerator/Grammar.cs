@@ -151,11 +151,22 @@ public sealed record Grammar(
             XmlMember member,
             Dictionary<string, GrammarItem> builtItems,
             Dictionary<string, Kind> builtKinds)
-            => new(
+        {
+            if (member.Override && member.Kinds?.Length == 0)
+                throw new InvalidOperationException(
+                    "Cannot override if not specifying kinds");
+            if (member.Virtual && member.Override)
+                throw new InvalidOperationException(
+                    "Cannot specify both Virtual and Override");
+
+            return new(
                 DocumentationComment: member.Comment,
                 Kinds: BuildKinds(member.Name, member.Kinds, builtKinds),
                 Name: member.Name,
-                Type: member.Type);
+                Override: member.Override,
+                Type: member.Type,
+                Virtual: member.Virtual);
+        }
     }
 }
 
@@ -212,4 +223,6 @@ public sealed record Member(
     XElement? DocumentationComment,
     IReadOnlyCollection<Kind> Kinds,
     string Name,
-    string Type);
+    bool Override,
+    string Type,
+    bool Virtual);

@@ -28,6 +28,7 @@ public sealed partial record ConditionalExpressionSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
     /// <summary>
     /// Gets the <see cref="ExpressionSyntax" /> node representing the
     /// condition of the conditional expression.

@@ -26,6 +26,7 @@ public sealed partial record PostfixUnaryExpressionSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
     /// <summary>
     /// Gets the <see cref="ExpressionSyntax" /> representing the operand of
     /// the postfix unary expression.

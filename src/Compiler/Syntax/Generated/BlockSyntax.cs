@@ -26,6 +26,7 @@ public sealed partial record BlockSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
     private SyntaxToken _openBraceToken = ValidateOpenBraceToken(OpenBraceToken, nameof(OpenBraceToken));
 
     /// <summary>

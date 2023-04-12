@@ -1,0 +1,81 @@
+<Grammar>
+
+  <AbstractNode Type="StringSyntax" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record containing information about a string.
+      </summary>
+    </Comment>
+
+    <Member Name="StringStartToken" Type="SyntaxToken" Virtual="true">
+      <Comment>
+        <summary>
+          Gets the start token of this string.
+        </summary>
+      </Comment>
+
+      <Kind Name="InterpolatedStringStartToken" />
+      <Kind Name="InterpolatedVerbatimStringStartToken" />
+      <Kind Name="RawStringStartToken" />
+      <Kind Name="RawVerbatimStringStartToken" />
+    </Member>
+
+    <Member Name="StringEndToken" Type="SyntaxToken" Virtual="true">
+      <Comment>
+        <summary>
+          Gets the end token of this string.
+        </summary>
+      </Comment>
+
+      <Kind Name="InterpolatedStringEndToken" />
+      <Kind Name="InterpolatedVerbatimStringEndToken" />
+      <Kind Name="RawStringEndToken" />
+      <Kind Name="RawVerbatimStringEndToken" />
+    </Member>
+
+    <Kind Name="LiteralString" />
+    <Kind Name="InterpolatedString" />
+  </AbstractNode>
+
+  <AbstractNode Type="LiteralStringSyntax" Base="StringSyntax">
+    <Comment>
+      <summary>
+        Defines a record containing information about a string with no
+        interpolated sections.
+      </summary>
+    </Comment>
+
+    <Member Name="StringStartToken" Type="SyntaxToken" Override="true">
+      <Comment>
+        <summary>
+          Gets the start token of this string.
+        </summary>
+      </Comment>
+
+      <Kind Name="InterpolatedStringStartToken" />
+    </Member>
+
+    <Member Name="Text" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the text of this string.
+        </summary>
+      </Comment>
+
+      <Kind Name="StringTextToken" />
+    </Member>
+
+    <Member Name="StringEndToken" Type="SyntaxToken" Override="true">
+      <Comment>
+        <summary>
+          Gets the end token of this string.
+        </summary>
+      </Comment>
+
+      <Kind Name="InterpolatedStringEndToken" />
+    </Member>
+
+    <Kind Name="LiteralString" />
+  </AbstractNode>
+
+</Grammar>

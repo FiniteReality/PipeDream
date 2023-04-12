@@ -31,6 +31,7 @@ public sealed partial record PrefixUnaryExpressionSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
     /// <summary>
     /// Gets the <see cref="SyntaxToken" /> representing the kind of operator
     /// of the prefix unary expression.

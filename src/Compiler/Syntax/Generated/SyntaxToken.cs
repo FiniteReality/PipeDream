@@ -150,6 +150,7 @@ public sealed partial record SyntaxToken(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
     /// <summary>
     /// Gets the original text for this token.
     /// </summary>

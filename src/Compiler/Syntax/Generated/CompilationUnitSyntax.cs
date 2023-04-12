@@ -23,4 +23,5 @@ public sealed partial record CompilationUnitSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
 }

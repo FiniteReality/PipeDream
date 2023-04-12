@@ -138,14 +138,20 @@ public sealed record XmlMember(
     XmlKind[] Kinds,
     [property: XmlAttribute("Name")]
     string Name,
+    [property: XmlAttribute("Override")]
+    bool Override,
     [property: XmlAttribute("Type")]
-    string Type)
+    string Type,
+    [property: XmlAttribute("Virtual")]
+    bool Virtual)
 {
     private XmlMember()
         : this(
             Comment: null,
             Kinds: Array.Empty<XmlKind>(),
             Name: null!,
-            Type: null!)
+            Override: false,
+            Type: null!,
+            Virtual: false)
     { }
 }

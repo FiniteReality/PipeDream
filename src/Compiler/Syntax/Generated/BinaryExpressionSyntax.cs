@@ -48,6 +48,7 @@ public sealed partial record BinaryExpressionSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
     /// <summary>
     /// Gets the <see cref="ExpressionSyntax" /> node representing the
     /// expression on the left of the binary operator.

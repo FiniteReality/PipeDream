@@ -58,6 +58,8 @@ public ref partial struct Lexer
             }
         }
 
+        // Could we produce multiple StringTextTokens here? It might be an
+        // option for very large strings...
         token = default;
         return OperationStatus.NeedMoreData;
 

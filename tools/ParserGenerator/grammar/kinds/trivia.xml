@@ -24,4 +24,20 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="DefineDirectiveTrivia" Group="Preprocessor">
+    <Comment>
+      <summary>
+        A preprocessor <c>#define</c> directive.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IncludeDirectiveTrivia" Group="Preprocessor">
+    <Comment>
+      <summary>
+        A preprocessor <c>#include</c> directive.
+      </summary>
+    </Comment>
+  </KindDef>
+
 </Grammar>

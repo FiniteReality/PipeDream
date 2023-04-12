@@ -1,0 +1,19 @@
+<Grammar>
+
+  <KindDef Name="LiteralString" Group="Strings">
+    <Comment>
+      <summary>
+        A string literal, containing no interpolated sections.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="InterpolatedString" Group="Strings">
+    <Comment>
+      <summary>
+        A string, containing one or more interpolated sections.
+      </summary>
+    </Comment>
+  </KindDef>
+
+</Grammar>

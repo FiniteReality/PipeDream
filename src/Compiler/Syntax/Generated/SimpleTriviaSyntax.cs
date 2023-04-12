@@ -26,6 +26,7 @@ public sealed partial record SimpleTriviaSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
     /// <summary>
     /// Gets the text of this trivia.
     /// </summary>

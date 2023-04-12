@@ -23,7 +23,10 @@ internal static partial class CodeGeneratorExtensions
         writer.WriteLine("{");
 
         if (item.Kinds.Count > 0)
+        {
             WriteValidateMethod(writer, "Kind", item.Kinds);
+            writer.WriteLine();
+        }
 
         bool first = true;
         foreach (var member in item.Members)
@@ -59,13 +62,15 @@ internal static partial class CodeGeneratorExtensions
                         "        ",
                         m => m.Name == "Kind"
                             ? $"{m.Name}: ValidateKind({m.Name}, nameof({m.Name}))"
-                            : $"{m.Name}: {m.Name}",
-                        false);
+                            : item.Members.Any(x => x.Name == m.Name)
+                                ? $"{m.Name}: Validate{m.Name}({m.Name}, nameof({m.Name}))"
+                                : $"{m.Name}: {m.Name}");
                 else
                     WriteConstructor(writer, baseType,
                         "        ",
-                        m => $"{m.Name}: {m.Name}",
-                        false);
+                        m => item.Members.Any(x => x.Name == m.Name)
+                            ? $"{m.Name}: Validate{m.Name}({m.Name}, nameof({m.Name}))"
+                            : $"{m.Name}: {m.Name}");
             }
         }
 
@@ -104,7 +109,10 @@ internal static partial class CodeGeneratorExtensions
                 foreach (var member in recursive
                     ? GetSetOfAllMembers(baseType)
                     : baseType.Members)
-                    yield return member;
+                {
+                    if (item.Members.All(x => x.Name != member.Name))
+                        yield return member;
+                }
         }
 
         static void WriteMember(TextWriter writer, Member member)
@@ -116,8 +124,32 @@ internal static partial class CodeGeneratorExtensions
                         member.DocumentationComment,
                         "    /// ");
 
+                writer.Write("    public ");
+                if (member.Virtual)
+                    writer.Write("virtual ");
+                writer.Write(member.Type);
+                writer.Write($" {member.Name} ");
+                writer.Write("{ get; init; } = ");
+                writer.WriteLine($"{member.Name};");
+            }
+            else if (member.Override)
+            {
+                if (member.DocumentationComment != null)
+                    WriteXmlComment(writer,
+                        member.DocumentationComment,
+                        "    /// ");
+
                 writer.WriteLine(
-$"    public {member.Type} {member.Name} {{ get; init; }} = {member.Name};");
+$"    public override {member.Type} {member.Name}\n" +
+"    {\n" +
+$"        get => base.{member.Name};\n" +
+$"        init => base.{member.Name} = Validate{member.Name}(value, nameof({member.Name}));\n" +
+"    }");
+                writer.WriteLine();
+                WriteValidateMethod(writer,
+                    member.Name,
+                    member.Kinds,
+                    member.Type);
             }
             else
             {
@@ -133,8 +165,12 @@ $"Validate{member.Name}({member.Name}, nameof({member.Name}));");
                         member.DocumentationComment,
                         "    /// ");
 
-                writer.WriteLine(
-$"    public {member.Type} {member.Name}");
+                writer.Write($"    public ");
+                if (member.Virtual)
+                    writer.Write("virtual ");
+                writer.Write(member.Type);
+                writer.WriteLine($" {member.Name}");
+    
                 writer.WriteLine(
 "    {\n" +
 $"        get => {backingField};\n" +
