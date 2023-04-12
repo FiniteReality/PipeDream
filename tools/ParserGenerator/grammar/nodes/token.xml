@@ -161,6 +161,15 @@
 
     <Kind Name="IdentifierToken" />
     <Kind Name="NumberToken" />
+    <Kind Name="InterpolatedStringStartToken" />
+    <Kind Name="InterpolatedStringEndToken" />
+    <Kind Name="InterpolatedVerbatimStringStartToken" />
+    <Kind Name="InterpolatedVerbatimStringEndToken" />
+    <Kind Name="RawStringStartToken" />
+    <Kind Name="RawStringEndToken" />
+    <Kind Name="RawVerbatimStringStartToken" />
+    <Kind Name="RawVerbatimStringEndToken" />
+    <Kind Name="StringTextToken" />
     <Kind Name="EndOfFileToken" />
   </Node>
 

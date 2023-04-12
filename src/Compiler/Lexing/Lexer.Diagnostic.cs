@@ -13,4 +13,7 @@ internal static class LexError
 
     public static Diagnostic UnexpectedCharacter(byte unexpected)
         => Diagnostic(KnownDiagnostics.UnexpectedCharacter, (char)unexpected);
+
+    public static Diagnostic UnterminatedString()
+        => Diagnostic(KnownDiagnostics.UnterminatedString);
 }

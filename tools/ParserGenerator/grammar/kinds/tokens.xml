@@ -488,6 +488,78 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="InterpolatedStringStartToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>"</c> token at the beginning of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="InterpolatedStringEndToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>"</c> token at the end of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="InterpolatedVerbatimStringStartToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>{"</c> token at the beginning of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="InterpolatedVerbatimStringEndToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>"}</c> token at the end of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="RawStringStartToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>@"</c> token at the beginning of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="RawStringEndToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>"</c> token at the end of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="RawVerbatimStringStartToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>@{"</c> token at the beginning of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="RawVerbatimStringEndToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>"}</c> token at the end of a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="StringTextToken" Group="String">
+    <Comment>
+      <summary>
+        Represents text within a string.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="EndOfFileToken" Group="File">
     <Comment>
       <summary>

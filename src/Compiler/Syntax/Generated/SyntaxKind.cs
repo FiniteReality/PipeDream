@@ -802,6 +802,52 @@ public enum SyntaxKind
     /// A <see cref="BlockSyntax" /></summary>
     Block,
 
+    // Group: String
+    /// <summary>
+    /// Represents the <c>"</c> token at the end of a string.
+    /// </summary>
+    InterpolatedStringEndToken,
+
+    /// <summary>
+    /// Represents the <c>"</c> token at the beginning of a string.
+    /// </summary>
+    InterpolatedStringStartToken,
+
+    /// <summary>
+    /// Represents the <c>"}</c> token at the end of a string.
+    /// </summary>
+    InterpolatedVerbatimStringEndToken,
+
+    /// <summary>
+    /// Represents the <c>{"</c> token at the beginning of a string.
+    /// </summary>
+    InterpolatedVerbatimStringStartToken,
+
+    /// <summary>
+    /// Represents the <c>"</c> token at the end of a string.
+    /// </summary>
+    RawStringEndToken,
+
+    /// <summary>
+    /// Represents the <c>@"</c> token at the beginning of a string.
+    /// </summary>
+    RawStringStartToken,
+
+    /// <summary>
+    /// Represents the <c>"}</c> token at the end of a string.
+    /// </summary>
+    RawVerbatimStringEndToken,
+
+    /// <summary>
+    /// Represents the <c>@{"</c> token at the beginning of a string.
+    /// </summary>
+    RawVerbatimStringStartToken,
+
+    /// <summary>
+    /// Represents text within a string.
+    /// </summary>
+    StringTextToken,
+
     // Group: Textual
     /// <summary>
     /// Represents an identifier in source code.
@@ -849,6 +895,8 @@ internal enum SyntaxGroup : byte
 
     Statement,
 
+    String,
+
     Textual,
 
     Trivia,
@@ -870,8 +918,9 @@ internal static class SyntaxKindExtensions
             < 131 => SyntaxGroup.PreprocessorKeyword,
             < 156 => SyntaxGroup.Punctuation,
             < 157 => SyntaxGroup.Statement,
-            < 158 => SyntaxGroup.Textual,
-            < 161 => SyntaxGroup.Trivia,
+            < 166 => SyntaxGroup.String,
+            < 167 => SyntaxGroup.Textual,
+            < 170 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

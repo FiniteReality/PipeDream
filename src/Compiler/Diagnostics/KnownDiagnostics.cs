@@ -20,4 +20,10 @@ internal static class KnownDiagnostics
             Id: "DM0002",
             Description: "Unexpected character '{0}'",
             DefaultSeverity: DiagnosticSeverity.Error);
+
+    public static DiagnosticDefinition UnterminatedString
+        = new(
+            Id: "DM0003",
+            Description: "Unterminated string literal",
+            DefaultSeverity: DiagnosticSeverity.Error);
 }

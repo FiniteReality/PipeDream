@@ -14,8 +14,11 @@ public ref partial struct Lexer
     // State shared between multiple instances
     private readonly ImmutableArray<Diagnostic>.Builder _diagnostics;
 
+    // Exists for the duration of this instance
     private Reader _reader;
+    private LexerMode _mode;
 
+    // Exists for the duration of Lex()
     private SequencePosition _tokenBeginning;
     /// <summary>
     /// Creates a lexer for the given block of input data.
@@ -36,7 +39,13 @@ public ref partial struct Lexer
 
         _diagnostics = state.Diagnostics
             ?? ImmutableArray.CreateBuilder<Diagnostic>();
+        _mode = state.Mode;
         Current = state.Current;
+
+        // In case the mode was somehow initialized to all zeros, put us in a
+        // sane state.
+        if (_mode == LexerMode.Invalid)
+            _mode = LexerMode.Normal;
     }
 
     /// <summary>
@@ -56,7 +65,8 @@ public ref partial struct Lexer
     public LexerState State
         => new(
             diagnostics: _diagnostics,
-            current: Current);
+            current: Current,
+            mode: _mode);
 
     /// <summary>
     /// Attempts to lex the next token in the stream.
@@ -66,22 +76,44 @@ public ref partial struct Lexer
     /// </returns>
     public bool Lex()
     {
-        // If we've already produced the EOF token, we don't need to produce
-        // more.
-        if (_reader.IsStreamEnd &&
-            Current is { Kind: SyntaxKind.EndOfFileToken })
-            return false;
+        if (_reader.IsStreamEnd)
+        {
+            // If we've already produced the EOF token, we don't need to
+            // produce more.
+            if (Current is { Kind: SyntaxKind.EndOfFileToken })
+                return false;
+
+            Current = ProduceToken(
+                token: new(
+                    Kind: SyntaxKind.EndOfFileToken,
+                    Start: _reader.Position,
+                    End: _reader.Position),
+                leading: new(),
+                trailing: new());
+            return true;
+        }
 
         BeginToken();
 
-        SyntaxListBuilder<TriviaSyntax> leading = new();
-        var status = LexTriviaList(trailing: false, ref leading);
+        SyntaxListBuilder<TriviaSyntax> leading = default;
+        SyntaxListBuilder<TriviaSyntax> trailing = default;
+        var status = OperationStatus.Done;
+        if ((_mode & LexerMode.Normal) != 0)
+            status = LexTriviaList(trailing: false, ref leading);
 
         LexerToken token = default;
         if (status == OperationStatus.Done)
-            status = LexToken(out token);
-        SyntaxListBuilder<TriviaSyntax> trailing = new();
-        if (status != OperationStatus.NeedMoreData)
+        {
+            if ((_mode & LexerMode.Normal) != 0)
+                status = LexToken(out token);
+            else if ((_mode & LexerMode.String) != 0)
+                status = LexStringText(out token);
+            else
+                Debug.Fail($"Unknown mode {_mode}");
+        }
+
+        if ((_mode & LexerMode.Normal) != 0
+            && status != OperationStatus.NeedMoreData)
             status = LexTriviaList(trailing: true, ref trailing);
 
         if (status == OperationStatus.InvalidData)

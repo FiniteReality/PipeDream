@@ -11,7 +11,7 @@ public ref partial struct Lexer
     private void BeginToken()
     {
         Tracing.TraceEvent(TraceEventType.Start, TraceIds.LexingToken);
-        _tokenBeginning = _reader.TrackedPosition;
+        _tokenBeginning = _reader.Position;
     }
 
     private void EndToken(bool rewind)
@@ -28,15 +28,6 @@ public ref partial struct Lexer
 
         if (!_reader.TryPeek(out var read))
         {
-            if (_reader.IsStreamEnd)
-            {
-                token = new(
-                    Kind: SyntaxKind.EndOfFileToken,
-                    Start: _reader.TrackedPosition,
-                    End: _reader.Position);
-                return OperationStatus.Done;
-            }
-
             token = default;
             return OperationStatus.NeedMoreData;
         }
@@ -56,10 +47,6 @@ public ref partial struct Lexer
             // If it starts with a digit, it can only be a number
             case >= (byte)'0' and <= (byte)'9':
                 return LexNumber(out token);
-
-            case (byte)'{' or (byte)'@' or (byte)'"':
-                // Strings aren't handled yet.
-                goto default;
 
             // TODO: other punctuation tokens
             case (>= (byte)'!' and <= (byte)'/') or

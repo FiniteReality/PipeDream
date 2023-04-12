@@ -79,6 +79,10 @@ public sealed partial record SyntaxToken(
             SyntaxKind.ImageKeyword or
             SyntaxKind.InKeyword or
             SyntaxKind.IncludeKeyword or
+            SyntaxKind.InterpolatedStringEndToken or
+            SyntaxKind.InterpolatedStringStartToken or
+            SyntaxKind.InterpolatedVerbatimStringEndToken or
+            SyntaxKind.InterpolatedVerbatimStringStartToken or
             SyntaxKind.LessThanEqualsToken or
             SyntaxKind.LessThanGreaterThanToken or
             SyntaxKind.LessThanLessThanEqualsToken or
@@ -110,6 +114,10 @@ public sealed partial record SyntaxToken(
             SyntaxKind.QuestionColonToken or
             SyntaxKind.QuestionDotToken or
             SyntaxKind.QuestionToken or
+            SyntaxKind.RawStringEndToken or
+            SyntaxKind.RawStringStartToken or
+            SyntaxKind.RawVerbatimStringEndToken or
+            SyntaxKind.RawVerbatimStringStartToken or
             SyntaxKind.RegexKeyword or
             SyntaxKind.ReturnKeyword or
             SyntaxKind.SavefileKeyword or
@@ -120,6 +128,7 @@ public sealed partial record SyntaxToken(
             SyntaxKind.SoundKeyword or
             SyntaxKind.SpawnKeyword or
             SyntaxKind.StepKeyword or
+            SyntaxKind.StringTextToken or
             SyntaxKind.SwitchKeyword or
             SyntaxKind.TextKeyword or
             SyntaxKind.ThrowKeyword or

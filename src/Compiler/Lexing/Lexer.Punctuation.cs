@@ -119,6 +119,25 @@ public ref partial struct Lexer
             ('~', '!', _) => (default, TildeExclamationToken),
             ('~', _, _) => (default, TildeToken),
 
+            ('"', -1, _) => (OperationStatus.NeedMoreData, default),
+            ('"', '}', _) when (_mode & LexerMode.Interpolated) != 0
+                => (default, InterpolatedVerbatimStringEndToken),
+            ('"', '}', _) when (_mode & LexerMode.Interpolated) == 0
+                => (default, RawVerbatimStringEndToken),
+            ('"', >= 0, _) when (_mode & LexerMode.String) != 0
+                && (_mode & LexerMode.Interpolated) != 0
+                => (default, InterpolatedStringEndToken),
+            ('"', >= 0, _) when (_mode & LexerMode.String) != 0
+                && (_mode & LexerMode.Interpolated) == 0
+                => (default, RawStringEndToken),
+            ('"', >= 0, _) when (_mode & LexerMode.String) == 0
+                => (default, InterpolatedStringStartToken),
+
+            ('@', -1, _) => (OperationStatus.NeedMoreData, default),
+            ('@', '{', -1) => (OperationStatus.NeedMoreData, default),
+            ('@', '{', '"') => (default, RawVerbatimStringStartToken),
+            ('@', '"', _) => (default, RawStringStartToken),
+
             _ => (OperationStatus.InvalidData, default)
         };
 
@@ -137,7 +156,9 @@ public ref partial struct Lexer
             LessThanToken or GreaterThanToken or QuestionToken or CaretToken or
             OpenBraceToken or CloseBraceToken or TildeToken or EqualsToken or
             CommaToken or OpenBracketToken or CloseBracketToken or
-            BackslashToken or OpenParenthesisToken or CloseParenthesisToken
+            BackslashToken or OpenParenthesisToken or CloseParenthesisToken or
+            InterpolatedStringStartToken or InterpolatedStringEndToken or
+            RawStringEndToken
                 => 1,
 
             ExclamationEqualsToken or PercentEqualsToken or
@@ -148,11 +169,14 @@ public ref partial struct Lexer
             ColonEqualsToken or ColonColonToken or LessThanEqualsToken or
             LessThanLessThanToken or GreaterThanGreaterThanToken or
             QuestionDotToken or QuestionColonToken or CaretEqualsToken or
-            TildeEqualsToken or TildeExclamationToken or DotDotToken
+            TildeEqualsToken or TildeExclamationToken or DotDotToken or
+            RawStringStartToken or RawVerbatimStringEndToken or
+            InterpolatedVerbatimStringEndToken
                 => 2,
 
             PercentPercentEqualsToken or AmpersandAmpersandEqualsToken or
-            LessThanLessThanEqualsToken or GreaterThanGreaterThanEqualsToken
+            LessThanLessThanEqualsToken or GreaterThanGreaterThanEqualsToken or
+            RawVerbatimStringStartToken
                 => 3,
 
             var fail => throw new InvalidOperationException($"Oops! {fail}")
@@ -169,6 +193,46 @@ public ref partial struct Lexer
         {
             token = default;
             return status;
+        }
+
+        switch (kind)
+        {
+            case CloseBracketToken when (_mode & LexerMode.String) != 0:
+                _mode &= ~LexerMode.Normal;
+                break;
+
+            case InterpolatedVerbatimStringStartToken:
+                _mode |= LexerMode.Verbatim;
+                _mode |= LexerMode.Interpolated;
+                _mode |= LexerMode.String;
+                _mode &= ~LexerMode.Normal;
+                break;
+
+            case InterpolatedStringStartToken:
+                _mode |= LexerMode.Interpolated;
+                _mode |= LexerMode.String;
+                _mode &= ~LexerMode.Normal;
+                break;
+
+            case RawVerbatimStringStartToken:
+                _mode |= LexerMode.Verbatim;
+                _mode |= LexerMode.String;
+                _mode &= ~LexerMode.Normal;
+                break;
+
+            case RawStringStartToken:
+                _mode |= LexerMode.String;
+                _mode &= ~LexerMode.Normal;
+                break;
+
+            case InterpolatedStringEndToken:
+            case InterpolatedVerbatimStringEndToken:
+            case RawStringEndToken:
+            case RawVerbatimStringEndToken:
+                _mode &= ~LexerMode.Verbatim;
+                _mode &= ~LexerMode.Interpolated;
+                _mode &= ~LexerMode.String;
+                break;
         }
 
         token = new(
