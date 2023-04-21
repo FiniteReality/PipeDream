@@ -32,25 +32,19 @@ public sealed partial record PrefixUnaryExpressionSyntax(
                 paramName)
         };
 
+    private SyntaxToken _operatorToken = ValidateOperatorToken(OperatorToken, nameof(OperatorToken));
+
     /// <summary>
     /// Gets the <see cref="SyntaxToken" /> representing the kind of operator
     /// of the prefix unary expression.
     /// </summary>
-    public SyntaxToken OperatorToken { get; init; } = OperatorToken;
-
-    private ExpressionSyntax _operand = ValidateOperand(Operand, nameof(Operand));
-
-    /// <summary>
-    /// Gets the <see cref="ExpressionSyntax" /> representing the operand of
-    /// the prefix unary expression.
-    /// </summary>
-    public ExpressionSyntax Operand
+    public SyntaxToken OperatorToken
     {
-        get => _operand;
-        init => _operand = ValidateOperand(value, nameof(Operand));
+        get => _operatorToken;
+        init => _operatorToken = ValidateOperatorToken(value, nameof(OperatorToken));
     }
 
-    private static ExpressionSyntax ValidateOperand(ExpressionSyntax value, string paramName)
+    private static SyntaxToken ValidateOperatorToken(SyntaxToken value, string paramName)
         => value.Kind switch
         {
             SyntaxKind.AmpersandToken or
@@ -65,4 +59,10 @@ public sealed partial record PrefixUnaryExpressionSyntax(
                 $"The kind '{value}' is not a supported kind.",
                 paramName)
         };
+
+    /// <summary>
+    /// Gets the <see cref="ExpressionSyntax" /> representing the operand of
+    /// the prefix unary expression.
+    /// </summary>
+    public ExpressionSyntax Operand { get; init; } = Operand;
 }

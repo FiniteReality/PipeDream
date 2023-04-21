@@ -6,6 +6,82 @@ namespace PipeDream.Compiler.Syntax;
 /// </summary>
 public enum SyntaxKind
 {
+    // Group: AssignmentExpression
+    /// <summary>
+    /// An addition assignment expression of the form <c>a += b</c>.
+    /// </summary>
+    AddAssignmentExpression,
+
+    /// <summary>
+    /// A bitwise and assignment expression of the form <c>a &amp;= b</c>.
+    /// </summary>
+    BitwiseAndAssignmentExpression,
+
+    /// <summary>
+    /// A bitwise or assignment expression of the form <c>a |= b</c>.
+    /// </summary>
+    BitwiseOrAssignmentExpression,
+
+    /// <summary>
+    /// A destructuring assignment expression of the form <c>a := b</c>.
+    /// </summary>
+    DestructureAssignmentExpression,
+
+    /// <summary>
+    /// A division assignment expression of the form <c>a /= b</c>.
+    /// </summary>
+    DivideAssignmentExpression,
+
+    /// <summary>
+    /// An exclusive or assignment expression of the form <c>a ^= b</c>.
+    /// </summary>
+    ExclusiveOrAssignmentExpression,
+
+    /// <summary>
+    /// A float modulo assignment expression of the form <c>a %%= b</c>.
+    /// </summary>
+    FloatModuloAssignmentExpression,
+
+    /// <summary>
+    /// An integer modulo assignment expression of the form <c>a %= b</c>.
+    /// </summary>
+    IntegerModuloAssignmentExpression,
+
+    /// <summary>
+    /// A left shift assignment expression of the form <c>a &lt;&lt;= b</c>.
+    /// </summary>
+    LeftShiftAssignmentExpression,
+
+    /// <summary>
+    /// A logical and assignment expression of the form <c>a &amp;&amp;= b</c>.
+    /// </summary>
+    LogicalAndAssignmentExpression,
+
+    /// <summary>
+    /// A logical or assignment expression of the form <c>a ||= b</c>.
+    /// </summary>
+    LogicalOrAssignmentExpression,
+
+    /// <summary>
+    /// A multiplication assignment expression of the form <c>a *= b</c>.
+    /// </summary>
+    MultiplyAssignmentExpression,
+
+    /// <summary>
+    /// A right shift assignment expression of the form <c>a &gt;&gt;= b</c>.
+    /// </summary>
+    RightShiftAssignmentExpression,
+
+    /// <summary>
+    /// A simple assignment expression of the form <c>a = b</c>.
+    /// </summary>
+    SimpleAssignmentExpression,
+
+    /// <summary>
+    /// A subtraction assignment expression of the form <c>a -= b</c>.
+    /// </summary>
+    SubtractAssignmentExpression,
+
     // Group: Block
     /// <summary>
     /// An entire compilation unit.
@@ -483,6 +559,11 @@ public enum SyntaxKind
     /// </summary>
     BadToken,
 
+    /// <summary>
+    /// Represents an unknown syntax kind.
+    /// </summary>
+    Unknown,
+
     // Group: Keyword
     /// <summary>
     /// Represents the <c>as</c> keyword.
@@ -608,6 +689,17 @@ public enum SyntaxKind
     /// Represents the <c>while</c> keyword.
     /// </summary>
     WhileKeyword,
+
+    // Group: Names
+    /// <summary>
+    /// A qualified name, sometimes called a path.
+    /// </summary>
+    QualifiedName,
+
+    /// <summary>
+    /// A simple name, consisting of purely valid identifier characters.
+    /// </summary>
+    SimpleName,
 
     // Group: Numeric
     /// <summary>
@@ -895,6 +987,8 @@ public enum SyntaxKind
 
 internal enum SyntaxGroup : byte
 {
+    AssignmentExpression,
+
     Block,
 
     CompoundPunctuation,
@@ -908,6 +1002,8 @@ internal enum SyntaxGroup : byte
     Invalid,
 
     Keyword,
+
+    Names,
 
     Numeric,
 
@@ -933,22 +1029,24 @@ internal static class SyntaxKindExtensions
     public static SyntaxGroup GetGroup(this SyntaxKind kind)
         => (int)kind switch
         {
-            < 1 => SyntaxGroup.Block,
-            < 34 => SyntaxGroup.CompoundPunctuation,
-            < 59 => SyntaxGroup.ContextualKeyword,
-            < 92 => SyntaxGroup.Expression,
-            < 93 => SyntaxGroup.File,
-            < 94 => SyntaxGroup.Invalid,
-            < 119 => SyntaxGroup.Keyword,
-            < 120 => SyntaxGroup.Numeric,
-            < 122 => SyntaxGroup.Preprocessor,
-            < 133 => SyntaxGroup.PreprocessorKeyword,
-            < 158 => SyntaxGroup.Punctuation,
-            < 159 => SyntaxGroup.Statement,
-            < 168 => SyntaxGroup.String,
-            < 170 => SyntaxGroup.Strings,
-            < 171 => SyntaxGroup.Textual,
-            < 174 => SyntaxGroup.Trivia,
+            < 15 => SyntaxGroup.AssignmentExpression,
+            < 16 => SyntaxGroup.Block,
+            < 49 => SyntaxGroup.CompoundPunctuation,
+            < 74 => SyntaxGroup.ContextualKeyword,
+            < 107 => SyntaxGroup.Expression,
+            < 108 => SyntaxGroup.File,
+            < 110 => SyntaxGroup.Invalid,
+            < 135 => SyntaxGroup.Keyword,
+            < 137 => SyntaxGroup.Names,
+            < 138 => SyntaxGroup.Numeric,
+            < 140 => SyntaxGroup.Preprocessor,
+            < 151 => SyntaxGroup.PreprocessorKeyword,
+            < 176 => SyntaxGroup.Punctuation,
+            < 177 => SyntaxGroup.Statement,
+            < 186 => SyntaxGroup.String,
+            < 188 => SyntaxGroup.Strings,
+            < 189 => SyntaxGroup.Textual,
+            < 192 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }
