@@ -1,7 +1,5 @@
 using System.Diagnostics;
-using System.IO.Compression;
 using PipeDream.Compiler.Diagnostics;
-using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
 
@@ -16,4 +14,30 @@ internal static class LexError
 
     public static Diagnostic UnterminatedString()
         => Diagnostic(KnownDiagnostics.UnterminatedString);
+}
+
+public ref partial struct Lexer
+{
+    private readonly void ProduceDiagnostic<T>(T state,
+        Func<T, Diagnostic> handler)
+    {
+        var diagnostic = handler(state);
+
+        Tracing.TraceData(TraceEventType.Error,
+            TraceIds.DiagnosticProduced,
+            diagnostic);
+
+        _diagnostics.Add(diagnostic);
+    }
+
+    private readonly void ProduceDiagnostic(Func<Diagnostic> handler)
+    {
+        var diagnostic = handler();
+
+        Tracing.TraceData(TraceEventType.Error,
+            TraceIds.DiagnosticProduced,
+            diagnostic);
+
+        _diagnostics.Add(diagnostic);
+    }
 }

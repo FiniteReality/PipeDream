@@ -74,27 +74,4 @@ public ref partial struct Lexer
                 return OperationStatus.InvalidData;
         }
     }
-
-    private readonly void ProduceDiagnostic<T>(T state,
-        Func<T, Diagnostic> handler)
-    {
-        var diagnostic = handler(state);
-
-        Tracing.TraceData(TraceEventType.Error,
-            TraceIds.DiagnosticProduced,
-            diagnostic);
-
-        _diagnostics.Add(diagnostic);
-    }
-
-    private readonly void ProduceDiagnostic(Func<Diagnostic> handler)
-    {
-        var diagnostic = handler();
-
-        Tracing.TraceData(TraceEventType.Error,
-            TraceIds.DiagnosticProduced,
-            diagnostic);
-
-        _diagnostics.Add(diagnostic);
-    }
 }

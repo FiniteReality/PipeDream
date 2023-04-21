@@ -1,9 +1,4 @@
 using System.Buffers;
-using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
 using PipeDream.Compiler.Syntax;
 
 using static PipeDream.Compiler.Syntax.SyntaxKind;

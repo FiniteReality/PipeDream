@@ -11,6 +11,6 @@ public ref partial struct Lexer
     {
         public const int LexingToken = 1;
 
-        public const int DiagnosticProduced = 1;
+        public const int DiagnosticProduced = 2;
     }
 }
