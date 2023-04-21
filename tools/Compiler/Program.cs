@@ -1,7 +1,10 @@
+using System.Buffers;
 using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Text;
+using System.Threading.Channels;
 using PipeDream.Compiler.Lexing;
+using PipeDream.Compiler.Parsing;
 using PipeDream.Compiler.Syntax;
 
 if (args.Length < 1)
@@ -14,51 +17,75 @@ var encoding = args.Length < 2
     ? Encoding.UTF8
     : Encoding.GetEncoding(args[1]);
 
-using var file = File.OpenRead(args[0]);
-using var transcode = Encoding.CreateTranscodingStream(
-    file, encoding, Encoding.UTF8, false);
-var reader = PipeReader.Create(transcode);
+var channel = Channel.CreateBounded<SyntaxToken>(64);
+var parser = new Parser(channel.Reader);
+var cancelToken = CancellationToken.None;
 
-var timer = Stopwatch.StartNew();
-ReadResult result = default;
-LexerState state = default;
-while (!result.IsCompleted || !result.Buffer.IsEmpty)
-{
-    result = await reader.ReadAsync();
-    if (!result.Buffer.IsEmpty)
-    {
-        var pos = Lex(result, ref state);
+var parseTask = parser.RunAsync(cancelToken).AsTask();
+await Task.WhenAll(
+    parseTask,
+    ProduceTokensAsync(args[0], encoding, channel.Writer, cancelToken))
+    .ConfigureAwait(false);
 
-        reader.AdvanceTo(pos, result.Buffer.End);
-    }
-}
-Console.WriteLine(
-    $"Lexing {file.Length} bytes took {timer.ElapsedMilliseconds}ms");
+Console.WriteLine(parseTask.Result);
 
 return 0;
 
-static SequencePosition Lex(ReadResult result, ref LexerState state)
+static async Task ProduceTokensAsync(string path, Encoding encoding,
+    ChannelWriter<SyntaxToken> writer, CancellationToken cancellationToken)
 {
-    var lexer = new Lexer(state, result.Buffer, result.IsCompleted);
-    while (lexer.Lex())
+    try
     {
-        var token = (lexer.Current as SyntaxToken)!;
-        /*Console.WriteLine($"{token.Kind}");
-        foreach (var thing in token.LeadingTrivia)
+        using var file = File.OpenRead(path);
+        using var transcode = Encoding.CreateTranscodingStream(
+            file, encoding, Encoding.UTF8, false);
+        var reader = PipeReader.Create(transcode);
+
+        ReadResult result = default;
+        LexerState state = default;
+        while (!result.IsCompleted || !result.Buffer.IsEmpty)
         {
-            var trivia = (thing as SimpleTriviaSyntax)!;
-            Console.WriteLine($"    {trivia.Kind}");
-            Console.WriteLine($"        '{trivia.Text.Replace("\r", "\\r").Replace("\n", "\\n")}'");
+            result = await reader.ReadAsync(cancellationToken);
+            if (!result.Buffer.IsEmpty)
+            {
+                var sequence = result.Buffer;
+                var lastPosition = sequence.Start;
+
+                while (!sequence.IsEmpty &&
+                    await writer.WaitToWriteAsync(cancellationToken))
+                {
+                    lastPosition = Lex(sequence, result.IsCompleted,
+                        writer, ref state);
+
+                    sequence = sequence.Slice(lastPosition);
+                }
+
+                reader.AdvanceTo(lastPosition, result.Buffer.End);
+            }
         }
 
-        Console.WriteLine($"    '{token.Text}'");
+        writer.Complete();
+    }
+    catch (Exception e)
+    {
+        writer.Complete(e);
+    }
+}
 
-        foreach (var thing in token.TrailingTrivia)
-        {
-            var trivia = (thing as SimpleTriviaSyntax)!;
-            Console.WriteLine($"    {trivia.Kind}");
-            Console.WriteLine($"        '{trivia.Text.Replace("\r", "\\r").Replace("\n", "\\n")}'");
-        }*/
+static SequencePosition Lex(
+    ReadOnlySequence<byte> sequence,
+    bool isCompleted,
+    ChannelWriter<SyntaxToken> writer,
+    ref LexerState state)
+{
+    var lexer = new Lexer(state, sequence, isCompleted);
+    while (lexer.Lex())
+    {
+        var current = lexer.Current
+            ?? throw new InvalidOperationException("Should be unreachable");
+
+        if (!writer.TryWrite(current))
+            break;
     }
 
     state = lexer.State;

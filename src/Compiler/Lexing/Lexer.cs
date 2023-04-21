@@ -56,7 +56,7 @@ public ref partial struct Lexer
     /// <summary>
     /// Gets the current successfully parsed node.
     /// </summary>
-    public SyntaxNode? Current { get; private set; }
+    public SyntaxToken? Current { get; private set; }
 
     /// <summary>
     /// Gets the current state of the lexer, for resuming after slicing the
@@ -142,10 +142,10 @@ public ref partial struct Lexer
         }
     }
 
-    private SyntaxNode ProduceToken(LexerToken token,
+    private readonly SyntaxToken ProduceToken(LexerToken token,
         SyntaxList<TriviaSyntax> leading,
         SyntaxList<TriviaSyntax> trailing)
-        => new SyntaxToken(
+        => new(
             Kind: token.Kind,
             Text: token.StringValue!,
             Span: new(),
