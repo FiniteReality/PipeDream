@@ -1,13 +1,5 @@
 <Grammar>
 
-  <KindDef Name="BadToken" Group="Invalid">
-    <Comment>
-      <summary>
-        Represents an invalid token.
-      </summary>
-    </Comment>
-  </KindDef>
-
   <KindDef Name="HashToken" Group="Punctuation">
     <Comment>
       <summary>

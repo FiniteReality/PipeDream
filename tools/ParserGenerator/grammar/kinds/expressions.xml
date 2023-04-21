@@ -263,4 +263,140 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="SimpleAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A simple assignment expression of the form <c>a = b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="AddAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        An addition assignment expression of the form <c>a += b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SubtractAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A subtraction assignment expression of the form <c>a -= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MultiplyAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A multiplication assignment expression of the form <c>a *= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DivideAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A division assignment expression of the form <c>a /= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="IntegerModuloAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        An integer modulo assignment expression of the form <c>a %= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="FloatModuloAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A float modulo assignment expression of the form <c>a %%= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BitwiseAndAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A bitwise and assignment expression of the form <c>a &amp;= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BitwiseOrAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A bitwise or assignment expression of the form <c>a |= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ExclusiveOrAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        An exclusive or assignment expression of the form <c>a ^= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LeftShiftAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A left shift assignment expression of the form <c>a &lt;&lt;= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="RightShiftAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A right shift assignment expression of the form <c>a &gt;&gt;= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="DestructureAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A destructuring assignment expression of the form <c>a := b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LogicalAndAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A logical and assignment expression of the form <c>a &amp;&amp;= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="LogicalOrAssignmentExpression" Group="AssignmentExpression">
+    <Comment>
+      <summary>
+        A logical or assignment expression of the form <c>a ||= b</c>.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="QualifiedName" Group="Names">
+    <Comment>
+      <summary>
+        A qualified name, sometimes called a path.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="SimpleName" Group="Names">
+    <Comment>
+      <summary>
+        A simple name, consisting of purely valid identifier characters.
+      </summary>
+    </Comment>
+  </KindDef>
+
 </Grammar>

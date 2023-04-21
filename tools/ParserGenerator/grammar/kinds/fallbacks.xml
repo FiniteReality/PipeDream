@@ -1,0 +1,19 @@
+<Grammar>
+
+  <KindDef Name="Unknown" Group="Invalid" Value="0">
+    <Comment>
+      <summary>
+        Represents an unknown syntax kind.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="BadToken" Group="Invalid">
+    <Comment>
+      <summary>
+        Represents an invalid token.
+      </summary>
+    </Comment>
+  </KindDef>
+
+</Grammar>

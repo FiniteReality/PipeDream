@@ -22,14 +22,6 @@
           of the prefix unary expression.
         </summary>
       </Comment>
-    </Member>
-    <Member Name="Operand" Type="ExpressionSyntax">
-      <Comment>
-        <summary>
-          Gets the <see cref="ExpressionSyntax" /> representing the operand of
-          the prefix unary expression.
-        </summary>
-      </Comment>
 
       <Kind Name="ExclamationToken" />
       <Kind Name="TildeToken" />
@@ -38,6 +30,15 @@
       <Kind Name="MinusMinusToken" />
       <Kind Name="AsteriskToken" />
       <Kind Name="AmpersandToken" />
+    </Member>
+
+    <Member Name="Operand" Type="ExpressionSyntax">
+      <Comment>
+        <summary>
+          Gets the <see cref="ExpressionSyntax" /> representing the operand of
+          the prefix unary expression.
+        </summary>
+      </Comment>
     </Member>
   </Node>
 
@@ -218,6 +219,108 @@
           expression to be evaluated when the condition is false.
         </summary>
       </Comment>
+    </Member>
+  </Node>
+
+  <Node Type="AssignmentExpressionSyntax" Base="ExpressionSyntax">
+    <Comment>
+      <summary>
+        Defines a record representing an assignment expression.
+      </summary>
+    </Comment>
+
+    <Kind Name="SimpleAssignmentExpression" />
+    <Kind Name="AddAssignmentExpression" />
+    <Kind Name="SubtractAssignmentExpression" />
+    <Kind Name="MultiplyAssignmentExpression" />
+    <Kind Name="DivideAssignmentExpression" />
+    <Kind Name="IntegerModuloAssignmentExpression" />
+    <Kind Name="FloatModuloAssignmentExpression" />
+    <Kind Name="BitwiseAndAssignmentExpression" />
+    <Kind Name="BitwiseOrAssignmentExpression" />
+    <Kind Name="ExclusiveOrAssignmentExpression" />
+    <Kind Name="LeftShiftAssignmentExpression" />
+    <Kind Name="RightShiftAssignmentExpression" />
+    <Kind Name="DestructureAssignmentExpression" />
+    <Kind Name="LogicalAndAssignmentExpression" />
+    <Kind Name="LogicalOrAssignmentExpression" />
+
+    <Member Name="Left" Type="ExpressionSyntax">
+      <Comment>
+        <summary>
+          Gets the expression on the left of the assignment operator.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Member Name="OperatorToken" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the token representing the operator of the assignment expression.
+        </summary>
+      </Comment>
+
+      <Kind Name="EqualsToken" />
+      <Kind Name="PlusEqualsToken" />
+      <Kind Name="MinusEqualsToken" />
+      <Kind Name="AsteriskEqualsToken" />
+      <Kind Name="SlashEqualsToken" />
+      <Kind Name="PercentEqualsToken" />
+      <Kind Name="PercentPercentEqualsToken" />
+      <Kind Name="AmpersandEqualsToken" />
+      <Kind Name="BarEqualsToken" />
+      <Kind Name="CaretEqualsToken" />
+      <Kind Name="LessThanLessThanEqualsToken" />
+      <Kind Name="GreaterThanGreaterThanEqualsToken" />
+      <Kind Name="ColonEqualsToken" />
+      <Kind Name="AmpersandAmpersandEqualsToken" />
+      <Kind Name="BarBarEqualsToken" />
+    </Member>
+
+    <Member Name="Right" Type="ExpressionSyntax">
+      <Comment>
+        <summary>
+          Gets the expression on the right of the assignment operator.
+        </summary>
+      </Comment>
+    </Member>
+  </Node>
+
+  <Node Type="QualifiedNameSyntax" Base="ExpressionSyntax">
+    <Comment>
+      <summary>
+        Defines a record representing a qualified name.
+      </summary>
+    </Comment>
+
+    <Kind Name="QualifiedName" />
+
+    <Member Name="Parts" Type="SeparatedSyntaxList&lt;SimpleNameSyntax&gt;">
+      <Comment>
+        <summary>
+          Gets the parts of this qualified name.
+        </summary>
+      </Comment>
+    </Member>
+  </Node>
+
+  <Node Type="SimpleNameSyntax" Base="NameSyntax">
+    <Comment>
+      <summary>
+        Defines a record representing a simple name.
+      </summary>
+    </Comment>
+
+    <Kind Name="SimpleName" />
+
+    <Member Name="Name" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the syntax token representing the identifier of this name.
+        </summary>
+      </Comment>
+
+      <Kind Name="IdentifierToken" />
     </Member>
   </Node>
 

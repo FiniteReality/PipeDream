@@ -66,4 +66,12 @@
     </Comment>
   </AbstractNode>
 
+  <AbstractNode Type="NameSyntax" Base="ExpressionSyntax">
+    <Comment>
+      <summary>
+        Defines a record from which name syntax nodes are derived.
+      </summary>
+    </Comment>
+  </AbstractNode>
+
 </Grammar>
