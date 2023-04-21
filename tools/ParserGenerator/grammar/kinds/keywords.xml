@@ -251,7 +251,7 @@
   <KindDef Name="AreaKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Area</c> keyword.
+        Represents the <c>area</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -259,7 +259,7 @@
   <KindDef Name="AtomKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Atom</c> keyword.
+        Represents the <c>atom</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -267,7 +267,7 @@
   <KindDef Name="ClientKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Client</c> keyword.
+        Represents the <c>client</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -275,7 +275,7 @@
   <KindDef Name="DatabaseKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Database</c> keyword.
+        Represents the <c>database</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -283,7 +283,7 @@
   <KindDef Name="DatumKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Datum</c> keyword.
+        Represents the <c>datum</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -291,7 +291,7 @@
   <KindDef Name="IconKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Icon</c> keyword.
+        Represents the <c>icon</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -299,7 +299,7 @@
   <KindDef Name="ImageKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Image</c> keyword.
+        Represents the <c>image</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -307,7 +307,7 @@
   <KindDef Name="ListKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>List</c> keyword.
+        Represents the <c>list</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -315,7 +315,7 @@
   <KindDef Name="MatrixKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Matrix</c> keyword.
+        Represents the <c>matrix</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -323,7 +323,7 @@
   <KindDef Name="MobKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Mob</c> keyword.
+        Represents the <c>mob</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -331,7 +331,7 @@
   <KindDef Name="MutableAppearanceKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>MutableAppearance</c> keyword.
+        Represents the <c>mutable_appearance</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -339,7 +339,7 @@
   <KindDef Name="ObjKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Obj</c> keyword.
+        Represents the <c>obj</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -347,7 +347,7 @@
   <KindDef Name="ProcKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Proc</c> keyword.
+        Represents the <c>proc</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -355,7 +355,7 @@
   <KindDef Name="RegexKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Regex</c> keyword.
+        Represents the <c>regex</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -363,7 +363,7 @@
   <KindDef Name="SavefileKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Savefile</c> keyword.
+        Represents the <c>savefile</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -371,7 +371,7 @@
   <KindDef Name="SoundKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Sound</c> keyword.
+        Represents the <c>sound</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -379,7 +379,7 @@
   <KindDef Name="TextKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Text</c> keyword.
+        Represents the <c>text</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -387,7 +387,7 @@
   <KindDef Name="TurfKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>Turf</c> keyword.
+        Represents the <c>turf</c> keyword.
       </summary>
     </Comment>
   </KindDef>
@@ -395,7 +395,7 @@
   <KindDef Name="WorldKeyword" Group="ContextualKeyword">
     <Comment>
       <summary>
-        Represents the <c>World</c> keyword.
+        Represents the <c>world</c> keyword.
       </summary>
     </Comment>
   </KindDef>

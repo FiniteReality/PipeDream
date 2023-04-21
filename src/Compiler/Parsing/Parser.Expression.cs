@@ -84,28 +84,25 @@ public sealed partial class Parser
         if (equalsToken == null)
             return null;
 
-        switch (equalsToken.Kind)
-        {
-            case SyntaxKind.EqualsToken:
-            case SyntaxKind.PlusEqualsToken:
-            case SyntaxKind.MinusEqualsToken:
-            case SyntaxKind.AsteriskEqualsToken:
-            case SyntaxKind.SlashEqualsToken:
-            case SyntaxKind.PercentEqualsToken:
-            case SyntaxKind.PercentPercentEqualsToken:
-            case SyntaxKind.AmpersandEqualsToken:
-            case SyntaxKind.BarEqualsToken:
-            case SyntaxKind.CaretEqualsToken:
-            case SyntaxKind.LessThanLessThanEqualsToken:
-            case SyntaxKind.GreaterThanGreaterThanEqualsToken:
-            case SyntaxKind.ColonEqualsToken:
-            case SyntaxKind.AmpersandAmpersandEqualsToken:
-            case SyntaxKind.BarBarEqualsToken:
-                _ = await AdvanceAsync(cancellationToken);
-                break;
-            default:
-                return null;
-        }
+        if (equalsToken.Kind is
+            SyntaxKind.EqualsToken or
+            SyntaxKind.PlusEqualsToken or
+            SyntaxKind.MinusEqualsToken or
+            SyntaxKind.AsteriskEqualsToken or
+            SyntaxKind.SlashEqualsToken or
+            SyntaxKind.PercentEqualsToken or
+            SyntaxKind.PercentPercentEqualsToken or
+            SyntaxKind.AmpersandEqualsToken or
+            SyntaxKind.BarEqualsToken or
+            SyntaxKind.CaretEqualsToken or
+            SyntaxKind.LessThanLessThanEqualsToken or
+            SyntaxKind.GreaterThanGreaterThanEqualsToken or
+            SyntaxKind.ColonEqualsToken or
+            SyntaxKind.AmpersandAmpersandEqualsToken or
+            SyntaxKind.BarBarEqualsToken)
+            _ = await AdvanceAsync(cancellationToken);
+        else
+            return null;
 
         var right = await ParseExpressionAsync(cancellationToken);
         if (right == null)

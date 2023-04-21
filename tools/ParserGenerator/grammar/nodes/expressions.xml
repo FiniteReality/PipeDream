@@ -321,6 +321,61 @@
       </Comment>
 
       <Kind Name="IdentifierToken" />
+      <Kind Name="NewKeyword" />
+      <Kind Name="VarKeyword" />
+      <Kind Name="ConstKeyword" />
+      <Kind Name="FinalKeyword" />
+      <Kind Name="GlobalKeyword" />
+      <Kind Name="OperatorKeyword" />
+      <Kind Name="TmpKeyword" />
+      <Kind Name="VerbKeyword" />
+      <Kind Name="AreaKeyword" />
+      <Kind Name="AtomKeyword" />
+      <Kind Name="ClientKeyword" />
+      <Kind Name="DatabaseKeyword" />
+      <Kind Name="DatumKeyword" />
+      <Kind Name="IconKeyword" />
+      <Kind Name="ImageKeyword" />
+      <Kind Name="ListKeyword" />
+      <Kind Name="MatrixKeyword" />
+      <Kind Name="MutableAppearanceKeyword" />
+      <Kind Name="ObjKeyword" />
+      <Kind Name="ProcKeyword" />
+      <Kind Name="RegexKeyword" />
+      <Kind Name="SoundKeyword" />
+      <Kind Name="TextKeyword" />
+      <Kind Name="TurfKeyword" />
+      <Kind Name="WorldKeyword" />
+    </Member>
+  </Node>
+
+  <Node Type="RootedNameSyntax" Base="NameSyntax">
+    <Comment>
+      <summary>
+        Defines a record representing a rooted name.
+      </summary>
+    </Comment>
+
+    <Kind Name="RootedName" />
+
+    <Member Name="PathRootToken" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the syntax token representing the path root token.
+        </summary>
+      </Comment>
+
+      <Kind Name="SlashToken" />
+    </Member>
+
+    <Member Name="Name" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the syntax token representing the identifier of this name.
+        </summary>
+      </Comment>
+
+      <Kind Name="IdentifierToken" />
     </Member>
   </Node>
 

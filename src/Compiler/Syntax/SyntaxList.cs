@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 
 namespace PipeDream.Compiler.Syntax;
 
@@ -50,7 +49,7 @@ public readonly record struct SyntaxList<T>
         => ((IEnumerable)_values).GetEnumerator();
 
     /// <summary>
-    /// An array enumerator.
+    /// Defines an enumerator for syntax lists.
     /// </summary>
     public struct Enumerator
     {

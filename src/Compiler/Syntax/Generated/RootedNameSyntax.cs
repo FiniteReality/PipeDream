@@ -1,9 +1,10 @@
 namespace PipeDream.Compiler.Syntax;
 
 /// <summary>
-/// Defines a record representing a simple name.
+/// Defines a record representing a rooted name.
 /// </summary>
-public sealed partial record SimpleNameSyntax(
+public sealed partial record RootedNameSyntax(
+    SyntaxToken PathRootToken,
     SyntaxToken Name,
     SyntaxKind Kind,
     SyntaxSpan Span,
@@ -18,7 +19,28 @@ public sealed partial record SimpleNameSyntax(
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {
-            SyntaxKind.SimpleName
+            SyntaxKind.RootedName
+                => value,
+            _ => throw new ArgumentException(
+                $"The kind '{value}' is not a supported kind.",
+                paramName)
+        };
+
+    private SyntaxToken _pathRootToken = ValidatePathRootToken(PathRootToken, nameof(PathRootToken));
+
+    /// <summary>
+    /// Gets the syntax token representing the path root token.
+    /// </summary>
+    public SyntaxToken PathRootToken
+    {
+        get => _pathRootToken;
+        init => _pathRootToken = ValidatePathRootToken(value, nameof(PathRootToken));
+    }
+
+    private static SyntaxToken ValidatePathRootToken(SyntaxToken value, string paramName)
+        => value.Kind switch
+        {
+            SyntaxKind.SlashToken
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",
@@ -39,32 +61,7 @@ public sealed partial record SimpleNameSyntax(
     private static SyntaxToken ValidateName(SyntaxToken value, string paramName)
         => value.Kind switch
         {
-            SyntaxKind.AreaKeyword or
-            SyntaxKind.AtomKeyword or
-            SyntaxKind.ClientKeyword or
-            SyntaxKind.ConstKeyword or
-            SyntaxKind.DatabaseKeyword or
-            SyntaxKind.DatumKeyword or
-            SyntaxKind.FinalKeyword or
-            SyntaxKind.GlobalKeyword or
-            SyntaxKind.IconKeyword or
-            SyntaxKind.IdentifierToken or
-            SyntaxKind.ImageKeyword or
-            SyntaxKind.ListKeyword or
-            SyntaxKind.MatrixKeyword or
-            SyntaxKind.MutableAppearanceKeyword or
-            SyntaxKind.NewKeyword or
-            SyntaxKind.ObjKeyword or
-            SyntaxKind.OperatorKeyword or
-            SyntaxKind.ProcKeyword or
-            SyntaxKind.RegexKeyword or
-            SyntaxKind.SoundKeyword or
-            SyntaxKind.TextKeyword or
-            SyntaxKind.TmpKeyword or
-            SyntaxKind.TurfKeyword or
-            SyntaxKind.VarKeyword or
-            SyntaxKind.VerbKeyword or
-            SyntaxKind.WorldKeyword
+            SyntaxKind.IdentifierToken
                 => value,
             _ => throw new ArgumentException(
                 $"The kind '{value}' is not a supported kind.",

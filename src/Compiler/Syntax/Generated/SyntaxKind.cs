@@ -257,17 +257,17 @@ public enum SyntaxKind
 
     // Group: ContextualKeyword
     /// <summary>
-    /// Represents the <c>Area</c> keyword.
+    /// Represents the <c>area</c> keyword.
     /// </summary>
     AreaKeyword,
 
     /// <summary>
-    /// Represents the <c>Atom</c> keyword.
+    /// Represents the <c>atom</c> keyword.
     /// </summary>
     AtomKeyword,
 
     /// <summary>
-    /// Represents the <c>Client</c> keyword.
+    /// Represents the <c>client</c> keyword.
     /// </summary>
     ClientKeyword,
 
@@ -277,12 +277,12 @@ public enum SyntaxKind
     ConstKeyword,
 
     /// <summary>
-    /// Represents the <c>Database</c> keyword.
+    /// Represents the <c>database</c> keyword.
     /// </summary>
     DatabaseKeyword,
 
     /// <summary>
-    /// Represents the <c>Datum</c> keyword.
+    /// Represents the <c>datum</c> keyword.
     /// </summary>
     DatumKeyword,
 
@@ -297,37 +297,37 @@ public enum SyntaxKind
     GlobalKeyword,
 
     /// <summary>
-    /// Represents the <c>Icon</c> keyword.
+    /// Represents the <c>icon</c> keyword.
     /// </summary>
     IconKeyword,
 
     /// <summary>
-    /// Represents the <c>Image</c> keyword.
+    /// Represents the <c>image</c> keyword.
     /// </summary>
     ImageKeyword,
 
     /// <summary>
-    /// Represents the <c>List</c> keyword.
+    /// Represents the <c>list</c> keyword.
     /// </summary>
     ListKeyword,
 
     /// <summary>
-    /// Represents the <c>Matrix</c> keyword.
+    /// Represents the <c>matrix</c> keyword.
     /// </summary>
     MatrixKeyword,
 
     /// <summary>
-    /// Represents the <c>Mob</c> keyword.
+    /// Represents the <c>mob</c> keyword.
     /// </summary>
     MobKeyword,
 
     /// <summary>
-    /// Represents the <c>MutableAppearance</c> keyword.
+    /// Represents the <c>mutable_appearance</c> keyword.
     /// </summary>
     MutableAppearanceKeyword,
 
     /// <summary>
-    /// Represents the <c>Obj</c> keyword.
+    /// Represents the <c>obj</c> keyword.
     /// </summary>
     ObjKeyword,
 
@@ -337,27 +337,27 @@ public enum SyntaxKind
     OperatorKeyword,
 
     /// <summary>
-    /// Represents the <c>Proc</c> keyword.
+    /// Represents the <c>proc</c> keyword.
     /// </summary>
     ProcKeyword,
 
     /// <summary>
-    /// Represents the <c>Regex</c> keyword.
+    /// Represents the <c>regex</c> keyword.
     /// </summary>
     RegexKeyword,
 
     /// <summary>
-    /// Represents the <c>Savefile</c> keyword.
+    /// Represents the <c>savefile</c> keyword.
     /// </summary>
     SavefileKeyword,
 
     /// <summary>
-    /// Represents the <c>Sound</c> keyword.
+    /// Represents the <c>sound</c> keyword.
     /// </summary>
     SoundKeyword,
 
     /// <summary>
-    /// Represents the <c>Text</c> keyword.
+    /// Represents the <c>text</c> keyword.
     /// </summary>
     TextKeyword,
 
@@ -367,7 +367,7 @@ public enum SyntaxKind
     TmpKeyword,
 
     /// <summary>
-    /// Represents the <c>Turf</c> keyword.
+    /// Represents the <c>turf</c> keyword.
     /// </summary>
     TurfKeyword,
 
@@ -377,7 +377,7 @@ public enum SyntaxKind
     VerbKeyword,
 
     /// <summary>
-    /// Represents the <c>World</c> keyword.
+    /// Represents the <c>world</c> keyword.
     /// </summary>
     WorldKeyword,
 
@@ -695,6 +695,11 @@ public enum SyntaxKind
     /// A qualified name, sometimes called a path.
     /// </summary>
     QualifiedName,
+
+    /// <summary>
+    /// A rooted name, from the root type path.
+    /// </summary>
+    RootedName,
 
     /// <summary>
     /// A simple name, consisting of purely valid identifier characters.
@@ -1037,16 +1042,16 @@ internal static class SyntaxKindExtensions
             < 108 => SyntaxGroup.File,
             < 110 => SyntaxGroup.Invalid,
             < 135 => SyntaxGroup.Keyword,
-            < 137 => SyntaxGroup.Names,
-            < 138 => SyntaxGroup.Numeric,
-            < 140 => SyntaxGroup.Preprocessor,
-            < 151 => SyntaxGroup.PreprocessorKeyword,
-            < 176 => SyntaxGroup.Punctuation,
-            < 177 => SyntaxGroup.Statement,
-            < 186 => SyntaxGroup.String,
-            < 188 => SyntaxGroup.Strings,
-            < 189 => SyntaxGroup.Textual,
-            < 192 => SyntaxGroup.Trivia,
+            < 138 => SyntaxGroup.Names,
+            < 139 => SyntaxGroup.Numeric,
+            < 141 => SyntaxGroup.Preprocessor,
+            < 152 => SyntaxGroup.PreprocessorKeyword,
+            < 177 => SyntaxGroup.Punctuation,
+            < 178 => SyntaxGroup.Statement,
+            < 187 => SyntaxGroup.String,
+            < 189 => SyntaxGroup.Strings,
+            < 190 => SyntaxGroup.Textual,
+            < 193 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

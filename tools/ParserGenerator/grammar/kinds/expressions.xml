@@ -399,4 +399,12 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="RootedName" Group="Names">
+    <Comment>
+      <summary>
+        A rooted name, from the root type path.
+      </summary>
+    </Comment>
+  </KindDef>
+
 </Grammar>
