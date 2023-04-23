@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Reflection.Metadata.Ecma335;
 using System.Xml.Linq;
 
 namespace PipeDream.Tools.ParserGenerator;

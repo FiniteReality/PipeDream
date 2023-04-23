@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;

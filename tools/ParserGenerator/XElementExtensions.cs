@@ -1,4 +1,3 @@
-using System.Buffers;
 using System.Xml.Linq;
 
 namespace PipeDream.Tools.ParserGenerator;

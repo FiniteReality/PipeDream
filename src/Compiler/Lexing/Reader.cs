@@ -1,6 +1,4 @@
 using System.Buffers;
-using PipeDream.Compiler.Diagnostics;
-using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
 

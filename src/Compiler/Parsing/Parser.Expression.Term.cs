@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using PipeDream.Compiler.Diagnostics;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Parsing;
