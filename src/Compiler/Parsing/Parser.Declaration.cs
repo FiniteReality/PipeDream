@@ -7,6 +7,7 @@ public sealed partial class Parser
     private async ValueTask<CompilationUnitSyntax> ParseCompilationUnitAsync(
         CancellationToken cancellationToken)
     {
-        return default!;
+        await default(ValueTask);
+        return null!;
     }
 }

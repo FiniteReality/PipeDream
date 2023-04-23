@@ -33,7 +33,7 @@ public ref partial struct Lexer
         while (true);
     }
 
-    private TriviaSyntax ProduceTrivia(LexerToken token)
+    private readonly TriviaSyntax ProduceTrivia(LexerToken token)
         => new SimpleTriviaSyntax(
             Kind: token.Kind,
             Text: token.StringValue!,

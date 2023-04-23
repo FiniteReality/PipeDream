@@ -10,12 +10,35 @@ public sealed partial class Parser
     private async ValueTask<ExpressionSyntax?> ParseExpressionAsync(
         CancellationToken cancellationToken)
     {
-        var left = await ParsePrefixUnaryExpressionSyntaxAsync(cancellationToken)
-            ?? await ParseTermAsync(cancellationToken);
+        var left =
+            await ParsePrefixUnaryExpressionAsync(cancellationToken)
+            ?? await ParseNameAndPostfixUnaryExpressionAsync(cancellationToken);
+
+        // TODO: this should produce an error
+        if (left == null)
+            return null;
+
+        // TODO: other expression types
+        return await ParseAssignmentExpressionAsync(left, cancellationToken)
+            ?? left;
+    }
+
+    private async ValueTask<ExpressionSyntax?> ParseNameAndPostfixUnaryExpressionAsync(
+        CancellationToken cancellationToken)
+    {
+        var name =
+            (NameSyntax?)await ParseQualifiedNameAsync(cancellationToken)
+            ?? await ParseSimpleNameAsync(cancellationToken);
+
+        if (name == null)
+            return null;
+
+        // TODO: postfix operators
+        return await ParsePostfixUnaryExpressionAsync(name, cancellationToken);
     }
 
     private async ValueTask<PrefixUnaryExpressionSyntax?>
-        ParsePrefixUnaryExpressionSyntaxAsync(
+        ParsePrefixUnaryExpressionAsync(
             CancellationToken cancellationToken)
     {
         var token = await PeekAsync(cancellationToken);
@@ -63,6 +86,55 @@ public sealed partial class Parser
                     => SyntaxKind.DereferenceExpression,
                 SyntaxKind.AmpersandToken
                     => SyntaxKind.AddressOfExpression,
+                _ => UnreachableSyntaxKind(this)
+            });
+
+        [DoesNotReturn]
+        static SyntaxKind UnreachableSyntaxKind(Parser @this)
+        {
+            Debug.Fail("Unreachable syntax kind");
+            @this.ProduceDiagnostic(() => new(KnownDiagnostics.Unknown));
+            return SyntaxKind.Unknown;
+        }
+    }
+
+    private async ValueTask<PostfixUnaryExpressionSyntax?>
+        ParsePostfixUnaryExpressionAsync(
+            ExpressionSyntax name,
+            CancellationToken cancellationToken)
+    {
+        var token = await PeekAsync(cancellationToken);
+        if (token == null)
+            return null;
+
+        if (token.Kind is
+            SyntaxKind.PlusPlusToken or
+            SyntaxKind.MinusMinusToken or
+            SyntaxKind.AsteriskToken or
+            SyntaxKind.AmpersandToken)
+            _ = await AdvanceAsync(cancellationToken);
+        else
+            return null;
+
+        var operand = await ParseExpressionAsync(cancellationToken);
+        if (operand == null)
+        {
+            ProduceDiagnostic(ParseError.ExpectedExpression);
+            return null;
+        }
+
+        return new PostfixUnaryExpressionSyntax(
+            OperatorToken: token,
+            Operand: operand,
+            Span: default,
+            LeadingTrivia: default,
+            TrailingTrivia: default,
+            Kind: token.Kind switch
+            {
+                SyntaxKind.PlusPlusToken
+                    => SyntaxKind.PostIncrementExpression,
+                SyntaxKind.MinusMinusToken
+                    => SyntaxKind.PostDecrementExpression,
                 _ => UnreachableSyntaxKind(this)
             });
 

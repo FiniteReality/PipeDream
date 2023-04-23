@@ -18,6 +18,8 @@ internal struct SeparatedSyntaxListBuilder<T>
     private int _numberOfItems;
     private int _numberOfTokens;
 
+    public int Count => _numberOfItems;
+
     public readonly SeparatedSyntaxList<T> Build()
     {
         return _builder != null
