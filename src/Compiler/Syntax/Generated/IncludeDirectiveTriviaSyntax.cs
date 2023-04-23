@@ -8,27 +8,16 @@ public sealed partial record IncludeDirectiveTriviaSyntax(
     SyntaxToken IncludeKeyword,
     StringSyntax File,
     SyntaxToken HashToken,
-    SyntaxKind Kind,
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
     : DirectiveTriviaSyntax(
         HashToken: HashToken,
-        Kind: ValidateKind(Kind, nameof(Kind)),
+        Kind: SyntaxKind.IncludeDirectiveTrivia,
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
 {
-    private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
-        => value switch
-        {
-            SyntaxKind.IncludeDirectiveTrivia
-                => value,
-            _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
-                paramName)
-        };
-
     private SyntaxToken _includeKeyword = ValidateIncludeKeyword(IncludeKeyword, nameof(IncludeKeyword));
 
     /// <summary>

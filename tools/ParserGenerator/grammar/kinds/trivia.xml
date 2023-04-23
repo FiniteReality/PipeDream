@@ -1,5 +1,13 @@
 <Grammar>
 
+  <KindDef Name="SkippedTokensTrivia" Group="Trivia">
+    <Comment>
+      <summary>
+        Skipped tokens in the syntax tree.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="WhitespaceTrivia" Group="Trivia">
     <Comment>
       <summary>

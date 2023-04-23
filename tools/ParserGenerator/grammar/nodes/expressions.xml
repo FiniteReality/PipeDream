@@ -286,7 +286,7 @@
     </Member>
   </Node>
 
-  <Node Type="QualifiedNameSyntax" Base="ExpressionSyntax">
+  <Node Type="QualifiedNameSyntax" Base="NameSyntax">
     <Comment>
       <summary>
         Defines a record representing a qualified name.
@@ -295,7 +295,7 @@
 
     <Kind Name="QualifiedName" />
 
-    <Member Name="Parts" Type="SeparatedSyntaxList&lt;SimpleNameSyntax&gt;">
+    <Member Name="Parts" Type="SeparatedSyntaxList&lt;NameSyntax&gt;">
       <Comment>
         <summary>
           Gets the parts of this qualified name.
@@ -338,6 +338,7 @@
       <Kind Name="ImageKeyword" />
       <Kind Name="ListKeyword" />
       <Kind Name="MatrixKeyword" />
+      <Kind Name="MobKeyword" />
       <Kind Name="MutableAppearanceKeyword" />
       <Kind Name="ObjKeyword" />
       <Kind Name="ProcKeyword" />

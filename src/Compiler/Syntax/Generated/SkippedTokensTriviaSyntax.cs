@@ -5,12 +5,11 @@ namespace PipeDream.Compiler.Syntax;
 /// </summary>
 public sealed partial record SkippedTokensTriviaSyntax(
     SyntaxList<SyntaxToken> Tokens,
-    SyntaxKind Kind,
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
     : TriviaSyntax(
-        Kind: Kind,
+        Kind: SyntaxKind.SkippedTokensTrivia,
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)

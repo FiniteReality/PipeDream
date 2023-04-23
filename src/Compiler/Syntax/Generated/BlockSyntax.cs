@@ -7,26 +7,15 @@ public sealed partial record BlockSyntax(
     SyntaxToken OpenBraceToken,
     SyntaxList<StatementSyntax> Statements,
     SyntaxToken CloseBraceToken,
-    SyntaxKind Kind,
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
     : StatementSyntax(
-        Kind: ValidateKind(Kind, nameof(Kind)),
+        Kind: SyntaxKind.Block,
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
 {
-    private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
-        => value switch
-        {
-            SyntaxKind.Block
-                => value,
-            _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
-                paramName)
-        };
-
     private SyntaxToken _openBraceToken = ValidateOpenBraceToken(OpenBraceToken, nameof(OpenBraceToken));
 
     /// <summary>

@@ -8,28 +8,17 @@ public abstract partial record LiteralStringSyntax(
     SyntaxToken StringStartToken,
     SyntaxToken Text,
     SyntaxToken StringEndToken,
-    SyntaxKind Kind,
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
     : StringSyntax(
         StringStartToken: ValidateStringStartToken(StringStartToken, nameof(StringStartToken)),
         StringEndToken: ValidateStringEndToken(StringEndToken, nameof(StringEndToken)),
-        Kind: ValidateKind(Kind, nameof(Kind)),
+        Kind: SyntaxKind.LiteralString,
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
 {
-    private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
-        => value switch
-        {
-            SyntaxKind.LiteralString
-                => value,
-            _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
-                paramName)
-        };
-
     /// <summary>
     /// Gets the start token of this string.
     /// </summary>

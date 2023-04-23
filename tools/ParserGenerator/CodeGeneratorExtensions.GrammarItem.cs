@@ -22,7 +22,7 @@ internal static partial class CodeGeneratorExtensions
 
         writer.WriteLine("{");
 
-        if (item.Kinds.Count > 0)
+        if (item.Kinds.Count > 1)
         {
             WriteValidateMethod(writer, "Kind", item.Kinds);
             writer.WriteLine();
@@ -51,17 +51,26 @@ internal static partial class CodeGeneratorExtensions
             writer.Write("partial record ");
             WriteConstructor(writer, item,
                 "    ",
-                m => $"{m.Type} {m.Name}");
+                m => $"{m.Type} {m.Name}",
+                includeKind: item.Kinds.Count != 1);
 
             if (item.BaseType is GrammarItem baseType)
             {
                 writer.Write($"    : ");
 
-                if (item.Kinds.Count > 0)
+                if (item.Kinds.Count > 1)
                     WriteConstructor(writer, baseType,
                         "        ",
                         m => m.Name == "Kind"
                             ? $"{m.Name}: ValidateKind({m.Name}, nameof({m.Name}))"
+                            : item.Members.Any(x => x.Name == m.Name)
+                                ? $"{m.Name}: Validate{m.Name}({m.Name}, nameof({m.Name}))"
+                                : $"{m.Name}: {m.Name}");
+                else if (item.Kinds.Count == 1)
+                    WriteConstructor(writer, baseType,
+                        "        ",
+                        m => m.Name == "Kind"
+                            ? $"{m.Name}: SyntaxKind.{item.Kinds.First().Name}"
                             : item.Members.Any(x => x.Name == m.Name)
                                 ? $"{m.Name}: Validate{m.Name}({m.Name}, nameof({m.Name}))"
                                 : $"{m.Name}: {m.Name}");
@@ -78,14 +87,16 @@ internal static partial class CodeGeneratorExtensions
             GrammarItem item,
             string indentation,
             Func<Member, string> memberSelector,
-            bool includeGrandparentMembers = true)
+            bool includeKind = true)
         {
             writer.Write($"{item.Type}(");
 
             var firstMember = true;
-            foreach (var member in GetSetOfAllMembers(item,
-                includeGrandparentMembers))
+            foreach (var member in GetSetOfAllMembers(item))
             {
+                if (member.Name == "Kind" && !includeKind)
+                    continue;
+
                 if (!firstMember)
                     writer.WriteLine(",");
                 else
@@ -98,17 +109,13 @@ internal static partial class CodeGeneratorExtensions
             writer.WriteLine(")");
         }
 
-        static IEnumerable<Member> GetSetOfAllMembers(
-            GrammarItem item,
-            bool recursive = true)
+        static IEnumerable<Member> GetSetOfAllMembers(GrammarItem item)
         {
             foreach (var member in item.Members)
                 yield return member;
 
             if (item.BaseType is GrammarItem baseType)
-                foreach (var member in recursive
-                    ? GetSetOfAllMembers(baseType)
-                    : baseType.Members)
+                foreach (var member in GetSetOfAllMembers(baseType))
                 {
                     if (item.Members.All(x => x.Name != member.Name))
                         yield return member;

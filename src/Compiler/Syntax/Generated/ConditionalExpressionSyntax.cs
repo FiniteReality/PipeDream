@@ -9,26 +9,15 @@ public sealed partial record ConditionalExpressionSyntax(
     ExpressionSyntax WhenTrue,
     SyntaxToken ColonToken,
     ExpressionSyntax WhenFalse,
-    SyntaxKind Kind,
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
     : ExpressionSyntax(
-        Kind: ValidateKind(Kind, nameof(Kind)),
+        Kind: SyntaxKind.ConditionalExpression,
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
 {
-    private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
-        => value switch
-        {
-            SyntaxKind.ConditionalExpression
-                => value,
-            _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
-                paramName)
-        };
-
     /// <summary>
     /// Gets the <see cref="ExpressionSyntax" /> node representing the
     /// condition of the conditional expression.

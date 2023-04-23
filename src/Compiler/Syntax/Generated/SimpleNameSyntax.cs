@@ -5,26 +5,15 @@ namespace PipeDream.Compiler.Syntax;
 /// </summary>
 public sealed partial record SimpleNameSyntax(
     SyntaxToken Name,
-    SyntaxKind Kind,
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
     : NameSyntax(
-        Kind: ValidateKind(Kind, nameof(Kind)),
+        Kind: SyntaxKind.SimpleName,
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
 {
-    private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
-        => value switch
-        {
-            SyntaxKind.SimpleName
-                => value,
-            _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
-                paramName)
-        };
-
     private SyntaxToken _name = ValidateName(Name, nameof(Name));
 
     /// <summary>
@@ -52,6 +41,7 @@ public sealed partial record SimpleNameSyntax(
             SyntaxKind.ImageKeyword or
             SyntaxKind.ListKeyword or
             SyntaxKind.MatrixKeyword or
+            SyntaxKind.MobKeyword or
             SyntaxKind.MutableAppearanceKeyword or
             SyntaxKind.NewKeyword or
             SyntaxKind.ObjKeyword or

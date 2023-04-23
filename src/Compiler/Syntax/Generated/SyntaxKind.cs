@@ -985,6 +985,11 @@ public enum SyntaxKind
     SingleLineCommentTrivia,
 
     /// <summary>
+    /// Skipped tokens in the syntax tree.
+    /// </summary>
+    SkippedTokensTrivia,
+
+    /// <summary>
     /// A whitespace in the syntax tree.
     /// </summary>
     WhitespaceTrivia,
@@ -1051,7 +1056,7 @@ internal static class SyntaxKindExtensions
             < 187 => SyntaxGroup.String,
             < 189 => SyntaxGroup.Strings,
             < 190 => SyntaxGroup.Textual,
-            < 193 => SyntaxGroup.Trivia,
+            < 194 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }
