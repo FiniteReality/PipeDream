@@ -17,6 +17,9 @@ internal static class ParseError
 
     public static Diagnostic ExpectedExpression()
         => Diagnostic(KnownDiagnostics.ExpectedExpression);
+
+    public static Diagnostic DirectiveMustBeFirstNonWhitespaceCharacter()
+        => Diagnostic(KnownDiagnostics.DirectiveMustBeFirstNonWhitespaceCharacter);
 }
 
 public sealed partial class Parser
@@ -26,10 +29,7 @@ public sealed partial class Parser
     {
         var diagnostic = handler(state);
 
-        Tracing.TraceData(TraceEventType.Error,
-            TraceIds.DiagnosticProduced,
-            diagnostic);
-
+        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 
@@ -37,10 +37,7 @@ public sealed partial class Parser
     {
         var diagnostic = handler();
 
-        Tracing.TraceData(TraceEventType.Error,
-            TraceIds.DiagnosticProduced,
-            diagnostic);
-
+        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 }

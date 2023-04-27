@@ -18,7 +18,14 @@ public abstract partial record LiteralStringSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<LiteralStringSyntax>
 {
+    static void IVisitable<LiteralStringSyntax>.Accept<TVisitor>(LiteralStringSyntax node, TVisitor visitor)
+        => visitor.VisitLiteralStringSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     /// <summary>
     /// Gets the start token of this string.
     /// </summary>

@@ -66,6 +66,9 @@ internal ref struct Reader
         return currentPosition - startOffset;
     }
 
+    public readonly long GetOffset()
+        => _reader.Sequence.GetOffset(_reader.Position);
+
     public bool Rewind()
         => Rewind(GetTokenWidth());
 

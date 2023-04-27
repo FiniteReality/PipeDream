@@ -503,6 +503,11 @@ public enum SyntaxKind
     MultiplyExpression,
 
     /// <summary>
+    /// A <c>new</c> expression.
+    /// </summary>
+    NewExpression,
+
+    /// <summary>
     /// An inequality <see cref="BinaryExpressionSyntax" />.
     /// </summary>
     NotEqualsExpression,
@@ -713,6 +718,11 @@ public enum SyntaxKind
     NumberToken,
 
     // Group: Preprocessor
+    /// <summary>
+    /// An invalid preprocessor directive.
+    /// </summary>
+    BadDirectiveTrivia,
+
     /// <summary>
     /// A preprocessor <c>#define</c> directive.
     /// </summary>
@@ -1043,20 +1053,20 @@ internal static class SyntaxKindExtensions
             < 16 => SyntaxGroup.Block,
             < 49 => SyntaxGroup.CompoundPunctuation,
             < 74 => SyntaxGroup.ContextualKeyword,
-            < 107 => SyntaxGroup.Expression,
-            < 108 => SyntaxGroup.File,
-            < 110 => SyntaxGroup.Invalid,
-            < 135 => SyntaxGroup.Keyword,
-            < 138 => SyntaxGroup.Names,
-            < 139 => SyntaxGroup.Numeric,
-            < 141 => SyntaxGroup.Preprocessor,
-            < 152 => SyntaxGroup.PreprocessorKeyword,
-            < 177 => SyntaxGroup.Punctuation,
-            < 178 => SyntaxGroup.Statement,
-            < 187 => SyntaxGroup.String,
-            < 189 => SyntaxGroup.Strings,
-            < 190 => SyntaxGroup.Textual,
-            < 194 => SyntaxGroup.Trivia,
+            < 108 => SyntaxGroup.Expression,
+            < 109 => SyntaxGroup.File,
+            < 111 => SyntaxGroup.Invalid,
+            < 136 => SyntaxGroup.Keyword,
+            < 139 => SyntaxGroup.Names,
+            < 140 => SyntaxGroup.Numeric,
+            < 143 => SyntaxGroup.Preprocessor,
+            < 154 => SyntaxGroup.PreprocessorKeyword,
+            < 179 => SyntaxGroup.Punctuation,
+            < 180 => SyntaxGroup.Statement,
+            < 189 => SyntaxGroup.String,
+            < 191 => SyntaxGroup.Strings,
+            < 192 => SyntaxGroup.Textual,
+            < 196 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

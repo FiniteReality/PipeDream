@@ -14,7 +14,14 @@ public sealed partial record SimpleTriviaSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<SimpleTriviaSyntax>
 {
+    static void IVisitable<SimpleTriviaSyntax>.Accept<TVisitor>(SimpleTriviaSyntax node, TVisitor visitor)
+        => visitor.VisitSimpleTriviaSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {

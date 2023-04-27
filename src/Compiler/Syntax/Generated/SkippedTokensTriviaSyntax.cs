@@ -13,7 +13,14 @@ public sealed partial record SkippedTokensTriviaSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<SkippedTokensTriviaSyntax>
 {
+    static void IVisitable<SkippedTokensTriviaSyntax>.Accept<TVisitor>(SkippedTokensTriviaSyntax node, TVisitor visitor)
+        => visitor.VisitSkippedTokensTriviaSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     /// <summary>
     /// Gets the tokens which were skipped in order to successfully parse the
     /// next token.

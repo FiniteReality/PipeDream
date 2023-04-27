@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Immutable;
+using System.Text;
 
 namespace PipeDream.Compiler.Syntax;
 
@@ -18,6 +19,11 @@ public readonly record struct SyntaxList<T>
     public SyntaxList()
     {
         _values = ImmutableArray.Create<T>();
+    }
+
+    internal SyntaxList(T value)
+    {
+        _values = ImmutableArray.Create(value);
     }
 
     internal SyntaxList(ImmutableArray<T> values)
@@ -47,6 +53,33 @@ public readonly record struct SyntaxList<T>
     /// <inheritdoc />
     IEnumerator IEnumerable.GetEnumerator()
         => ((IEnumerable)_values).GetEnumerator();
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        var builder = new StringBuilder()
+            .Append("SyntaxList")
+            .Append('<')
+            .Append(typeof(T).Name)
+            .Append('>')
+            .Append(" { ");
+
+        var first = true;
+        foreach (var item in this)
+        {
+            if (!first)
+                _ = builder.Append(", ");
+
+            _ = builder
+                .Append(item.ToString())
+                .Append(' ');
+            first = false;
+        }
+
+        return builder
+            .Append('}')
+            .ToString();
+    }
 
     /// <summary>
     /// Defines an enumerator for syntax lists.

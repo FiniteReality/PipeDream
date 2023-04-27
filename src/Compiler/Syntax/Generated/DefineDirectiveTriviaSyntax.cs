@@ -18,7 +18,14 @@ public sealed partial record DefineDirectiveTriviaSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<DefineDirectiveTriviaSyntax>
 {
+    static void IVisitable<DefineDirectiveTriviaSyntax>.Accept<TVisitor>(DefineDirectiveTriviaSyntax node, TVisitor visitor)
+        => visitor.VisitDefineDirectiveTriviaSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private SyntaxToken _defineKeyword = ValidateDefineKeyword(DefineKeyword, nameof(DefineKeyword));
 
     /// <summary>

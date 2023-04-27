@@ -14,7 +14,14 @@ public sealed partial record RootedNameSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<RootedNameSyntax>
 {
+    static void IVisitable<RootedNameSyntax>.Accept<TVisitor>(RootedNameSyntax node, TVisitor visitor)
+        => visitor.VisitRootedNameSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private SyntaxToken _pathRootToken = ValidatePathRootToken(PathRootToken, nameof(PathRootToken));
 
     /// <summary>

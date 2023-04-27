@@ -16,17 +16,37 @@ var encoding = args.Length < 2
     ? Encoding.UTF8
     : Encoding.GetEncoding(args[1]);
 
-var channel = Channel.CreateBounded<SyntaxToken>(64);
+// TODO: there's a race condition when using a bounded channel:
+// writing can fail as the channel is full and we don't correctly add missed
+// tokens when re-entering the Lex() loop.
+var channel = Channel.CreateUnbounded<SyntaxToken>();
 var parser = new Parser(channel.Reader);
-var cancelToken = CancellationToken.None;
+var cancelToken = new CancellationTokenSource();
 
-var parseTask = parser.RunAsync(cancelToken).AsTask();
-await Task.WhenAll(
-    parseTask,
-    ProduceTokensAsync(args[0], encoding, channel.Writer, cancelToken))
-    .ConfigureAwait(false);
+Console.CancelKeyPress += (_, e) => {
+    e.Cancel = true;
+    cancelToken.Cancel();
+};
 
-Console.WriteLine(parseTask.Result);
+try
+{
+    var parseTask = parser.RunAsync(cancelToken.Token).AsTask();
+    await Task.WhenAll(
+        parseTask,
+        ProduceTokensAsync(args[0], encoding, channel.Writer, cancelToken.Token))
+        .ConfigureAwait(false);
+
+    if (parseTask.Result != null)
+    {
+        var visitor = new Visitor();
+        visitor.Visit(parseTask.Result);
+    }
+}
+catch (Exception e)
+{
+    Console.WriteLine("Uncaught exception");
+    Console.WriteLine(e);
+}
 
 return 0;
 
@@ -53,10 +73,13 @@ static async Task ProduceTokensAsync(string path, Encoding encoding,
                 while (!sequence.IsEmpty &&
                     await writer.WaitToWriteAsync(cancellationToken))
                 {
-                    lastPosition = Lex(sequence, result.IsCompleted,
-                        writer, ref state);
+                    var status = Lex(sequence, result.IsCompleted,
+                        writer, ref state, out lastPosition);
 
                     sequence = sequence.Slice(lastPosition);
+
+                    if (status == OperationStatus.NeedMoreData)
+                        break;
                 }
 
                 reader.AdvanceTo(lastPosition, result.Buffer.End);
@@ -71,22 +94,69 @@ static async Task ProduceTokensAsync(string path, Encoding encoding,
     }
 }
 
-static SequencePosition Lex(
+static OperationStatus Lex(
     ReadOnlySequence<byte> sequence,
     bool isCompleted,
     ChannelWriter<SyntaxToken> writer,
-    ref LexerState state)
+    ref LexerState state,
+    out SequencePosition position)
 {
     var lexer = new Lexer(state, sequence, isCompleted);
-    while (lexer.Lex())
+    var status = lexer.Lex();
+    while (status == OperationStatus.Done)
     {
         var current = lexer.Current
             ?? throw new InvalidOperationException("Should be unreachable");
 
         if (!writer.TryWrite(current))
             break;
+
+        status = lexer.Lex();
     }
 
     state = lexer.State;
-    return lexer.Position;
+    position = lexer.Position;
+    return status;
+}
+
+internal class Visitor : SyntaxVisitor
+{
+    private int _indentation = -1;
+
+    protected override void BeforeVisit(SyntaxNode value)
+    {
+        foreach (var leading in value.LeadingTrivia)
+        {
+            Visit(leading);
+        }
+
+        _indentation++;
+    }
+
+    protected override void AfterVisit(SyntaxNode value)
+    {
+        foreach (var trailing in value.TrailingTrivia)
+            Visit(trailing);
+
+        _indentation--;
+    }
+
+    protected internal override void VisitSyntaxNode(SyntaxNode value)
+    {
+        Console.Write(new string('|', _indentation));
+        Console.Write("- ");
+        Console.Write(value.Kind);
+        Console.Write(" (");
+        Console.Write(value.GetType().Name);
+        Console.WriteLine(')');
+    }
+
+    protected internal override void VisitSyntaxToken(SyntaxToken value)
+    {
+        Console.Write(new string('|', _indentation));
+        Console.Write("- ");
+        Console.Write(value.Kind);
+        Console.Write(' ');
+        Console.WriteLine(value.Text.Replace("\n", "\\n"));
+    }
 }

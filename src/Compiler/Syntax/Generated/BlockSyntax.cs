@@ -15,7 +15,14 @@ public sealed partial record BlockSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<BlockSyntax>
 {
+    static void IVisitable<BlockSyntax>.Accept<TVisitor>(BlockSyntax node, TVisitor visitor)
+        => visitor.VisitBlockSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private SyntaxToken _openBraceToken = ValidateOpenBraceToken(OpenBraceToken, nameof(OpenBraceToken));
 
     /// <summary>

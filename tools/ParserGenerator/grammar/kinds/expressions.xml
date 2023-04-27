@@ -407,4 +407,12 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="NewExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A <c>new</c> expression.
+      </summary>
+    </Comment>
+  </KindDef>
+
 </Grammar>

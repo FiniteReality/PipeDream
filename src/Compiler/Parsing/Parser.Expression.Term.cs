@@ -5,6 +5,11 @@ namespace PipeDream.Compiler.Parsing;
 
 public sealed partial class Parser
 {
+    private async ValueTask<NameSyntax?> ParseNameAsync(
+        CancellationToken cancellationToken)
+        => (NameSyntax?)await ParseQualifiedNameAsync(cancellationToken)
+            ?? await ParseSimpleNameAsync(cancellationToken);
+
     private async ValueTask<QualifiedNameSyntax?> ParseQualifiedNameAsync(
         CancellationToken cancellationToken)
     {
@@ -14,10 +19,6 @@ public sealed partial class Parser
         bool firstSection = true;
         while (token != null)
         {
-            if (token.TrailingTrivia.Any(
-                x => x.Kind == SyntaxKind.WhitespaceTrivia))
-                break;
-
             if (token.Kind == SyntaxKind.SlashToken && firstSection)
             {
                 var root = await ParseRootedNameAsync(cancellationToken);
@@ -31,6 +32,7 @@ public sealed partial class Parser
             }
             else if (token.Kind == SyntaxKind.SlashToken && !firstSection)
             {
+                _ = await AdvanceAsync(cancellationToken);
                 path.AddSeparator(token);
             }
             else
@@ -44,6 +46,10 @@ public sealed partial class Parser
 
                 path.Add(name);
             }
+
+            if (token.TrailingTrivia.Any(
+                x => x.Kind == SyntaxKind.WhitespaceTrivia))
+                break;
 
             token = await PeekAsync(cancellationToken);
             firstSection = false;
@@ -107,6 +113,17 @@ public sealed partial class Parser
         return token != null
             && token.Kind is
                 SyntaxKind.IdentifierToken or
+                SyntaxKind.DefineKeyword or
+                SyntaxKind.ElifKeyword or
+                SyntaxKind.EndIfKeyword or
+                SyntaxKind.ErrorKeyword or
+                SyntaxKind.IfDefKeyword or
+                SyntaxKind.IfNDefKeyword or
+                SyntaxKind.IncludeKeyword or
+                SyntaxKind.PipeDreamKeyword or
+                SyntaxKind.PragmaKeyword or
+                SyntaxKind.UndefKeyword or
+                SyntaxKind.WarnKeyword or
                 SyntaxKind.NewKeyword or
                 SyntaxKind.VarKeyword or
                 SyntaxKind.ConstKeyword or

@@ -10,6 +10,8 @@ public sealed partial class Parser
     private async ValueTask<ExpressionSyntax?> ParseExpressionAsync(
         CancellationToken cancellationToken)
     {
+        var leadingDirectives = await ParseDirectivesAsync(cancellationToken);
+
         var left =
             await ParsePrefixUnaryExpressionAsync(cancellationToken)
             ?? await ParseNameAndPostfixUnaryExpressionAsync(cancellationToken);
@@ -19,22 +21,37 @@ public sealed partial class Parser
             return null;
 
         // TODO: other expression types
-        return await ParseAssignmentExpressionAsync(left, cancellationToken)
+        var result = await ParseAssignmentExpressionAsync(left, cancellationToken)
             ?? left;
+
+        var trailingDirectives = await ParseDirectivesAsync(cancellationToken);
+
+        return (leadingDirectives.Count, trailingDirectives.Count)
+            is ( > 0, > 0)
+            ? result
+            : result with
+            {
+                LeadingTrivia = leadingDirectives.Count > 0
+                    ? result.LeadingTrivia.Concat(leadingDirectives)
+                    : result.LeadingTrivia,
+                TrailingTrivia = trailingDirectives.Count > 0
+                    ? result.TrailingTrivia.Concat(trailingDirectives)
+                    : result.TrailingTrivia
+            };
     }
 
     private async ValueTask<ExpressionSyntax?> ParseNameAndPostfixUnaryExpressionAsync(
         CancellationToken cancellationToken)
     {
-        var name =
-            (NameSyntax?)await ParseQualifiedNameAsync(cancellationToken)
-            ?? await ParseSimpleNameAsync(cancellationToken);
+        var term =
+            await ParseNewExpressionAsync(cancellationToken)
+            ?? (ExpressionSyntax?)await ParseNameAsync(cancellationToken);
 
-        if (name == null)
+        if (term == null)
             return null;
 
-        // TODO: postfix operators
-        return await ParsePostfixUnaryExpressionAsync(name, cancellationToken);
+        return (ExpressionSyntax?)await ParsePostfixUnaryExpressionAsync(term, cancellationToken)
+            ?? term;
     }
 
     private async ValueTask<PrefixUnaryExpressionSyntax?>
@@ -98,6 +115,25 @@ public sealed partial class Parser
         }
     }
 
+    private async ValueTask<NewExpressionSyntax?> ParseNewExpressionAsync(
+        CancellationToken cancellationToken)
+    {
+        var @new = await PeekAsync(SyntaxKind.NewKeyword, cancellationToken);
+
+        if (@new == null)
+            return null;
+
+        _ = await AdvanceAsync(cancellationToken);
+        var name = await ParseNameAsync(cancellationToken);
+
+        return new NewExpressionSyntax(
+            NewKeyword: @new,
+            Type: name,
+            Span: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: new());
+    }
+
     private async ValueTask<PostfixUnaryExpressionSyntax?>
         ParsePostfixUnaryExpressionAsync(
             ExpressionSyntax name,
@@ -116,19 +152,12 @@ public sealed partial class Parser
         else
             return null;
 
-        var operand = await ParseExpressionAsync(cancellationToken);
-        if (operand == null)
-        {
-            ProduceDiagnostic(ParseError.ExpectedExpression);
-            return null;
-        }
-
         return new PostfixUnaryExpressionSyntax(
             OperatorToken: token,
-            Operand: operand,
+            Operand: name,
             Span: default,
-            LeadingTrivia: default,
-            TrailingTrivia: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: new(),
             Kind: token.Kind switch
             {
                 SyntaxKind.PlusPlusToken
@@ -188,8 +217,8 @@ public sealed partial class Parser
             OperatorToken: equalsToken,
             Right: right,
             Span: default,
-            LeadingTrivia: default,
-            TrailingTrivia: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: new(),
             Kind: equalsToken.Kind switch
             {
                 SyntaxKind.EqualsToken

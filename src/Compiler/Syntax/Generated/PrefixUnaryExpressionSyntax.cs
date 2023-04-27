@@ -15,7 +15,14 @@ public sealed partial record PrefixUnaryExpressionSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<PrefixUnaryExpressionSyntax>
 {
+    static void IVisitable<PrefixUnaryExpressionSyntax>.Accept<TVisitor>(PrefixUnaryExpressionSyntax node, TVisitor visitor)
+        => visitor.VisitPrefixUnaryExpressionSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {

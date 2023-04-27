@@ -321,6 +321,17 @@
       </Comment>
 
       <Kind Name="IdentifierToken" />
+      <Kind Name="DefineKeyword" />
+      <Kind Name="ElifKeyword" />
+      <Kind Name="EndIfKeyword" />
+      <Kind Name="ErrorKeyword" />
+      <Kind Name="IfDefKeyword" />
+      <Kind Name="IfNDefKeyword" />
+      <Kind Name="IncludeKeyword" />
+      <Kind Name="PipeDreamKeyword" />
+      <Kind Name="PragmaKeyword" />
+      <Kind Name="UndefKeyword" />
+      <Kind Name="WarnKeyword" />
       <Kind Name="NewKeyword" />
       <Kind Name="VarKeyword" />
       <Kind Name="ConstKeyword" />
@@ -378,6 +389,36 @@
 
       <Kind Name="IdentifierToken" />
     </Member>
+  </Node>
+
+  <Node Type="NewExpressionSyntax" Base="ExpressionSyntax">
+    <Comment>
+      <summary>
+        Defines a record representing a <c>new</c> expression.
+      </summary>
+    </Comment>
+
+    <Kind Name="NewExpression" />
+
+    <Member Name="NewKeyword" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the <c>new</c> keyword.
+        </summary>
+      </Comment>
+
+      <Kind Name="NewKeyword" />
+    </Member>
+
+    <Member Name="Type" Type="NameSyntax?">
+      <Comment>
+        <summary>
+          Gets the type to instantiate.
+        </summary>
+      </Comment>
+    </Member>
+
+    <!-- TODO: argument list -->
   </Node>
 
 </Grammar>

@@ -18,6 +18,25 @@
     </Member>
   </AbstractNode>
 
+  <Node Type="BadDirectiveTriviaSyntax" Base="DirectiveTriviaSyntax">
+    <Comment>
+      <summary>
+        Defines a record containing information about an invalid preprocessor
+        definition trivia.
+      </summary>
+    </Comment>
+
+    <Kind Name="BadDirectiveTrivia" />
+
+    <Member Name="Name" Type="NameSyntax?">
+      <Comment>
+        <summary>
+          Gets the name of this directive, or null if there was none.
+        </summary>
+      </Comment>
+    </Member>
+  </Node>
+
   <Node Type="DefineDirectiveTriviaSyntax" Base="DirectiveTriviaSyntax">
     <Comment>
       <summary>

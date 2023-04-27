@@ -13,5 +13,12 @@ public abstract partial record NameSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<NameSyntax>
 {
+    static void IVisitable<NameSyntax>.Accept<TVisitor>(NameSyntax node, TVisitor visitor)
+        => visitor.VisitNameSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
 }

@@ -22,6 +22,9 @@ internal static partial class CodeGeneratorExtensions
 
         writer.WriteLine("{");
 
+        WriteAcceptMethod(writer, item.Type);
+        writer.WriteLine();
+
         if (item.Kinds.Count > 1)
         {
             WriteValidateMethod(writer, "Kind", item.Kinds);
@@ -54,10 +57,10 @@ internal static partial class CodeGeneratorExtensions
                 m => $"{m.Type} {m.Name}",
                 includeKind: item.Kinds.Count != 1);
 
+            writer.Write($"    : ");
+
             if (item.BaseType is GrammarItem baseType)
             {
-                writer.Write($"    : ");
-
                 if (item.Kinds.Count > 1)
                     WriteConstructor(writer, baseType,
                         "        ",
@@ -80,7 +83,13 @@ internal static partial class CodeGeneratorExtensions
                         m => item.Members.Any(x => x.Name == m.Name)
                             ? $"{m.Name}: Validate{m.Name}({m.Name}, nameof({m.Name}))"
                             : $"{m.Name}: {m.Name}");
+
+                writer.Write("    , ");
             }
+
+            writer.Write("IVisitable<");
+            writer.Write(item.Type);
+            writer.WriteLine('>');
         }
 
         static void WriteConstructor(TextWriter writer,
@@ -177,7 +186,7 @@ $"Validate{member.Name}({member.Name}, nameof({member.Name}));");
                     writer.Write("virtual ");
                 writer.Write(member.Type);
                 writer.WriteLine($" {member.Name}");
-    
+
                 writer.WriteLine(
 "    {\n" +
 $"        get => {backingField};\n" +
@@ -194,17 +203,28 @@ $"        init => {backingField} = Validate{member.Name}(value, nameof({member.N
         static void WriteValidateMethod(TextWriter writer,
             string name,
             IReadOnlyCollection<Kind> kinds,
-            string? type = null)
+            string? type = null,
+            bool allowNull = false)
         {
             if (type != null)
+            {
+                if (type.EndsWith("?", StringComparison.OrdinalIgnoreCase))
+                    allowNull = true;
+
                 writer.WriteLine(
 $"    private static {type} Validate{name}({type} value, string paramName)\n" +
-$"        => value.Kind switch");
+$"        => value{(allowNull ? "?" : "")}.Kind switch");
+            }
             else
+            {
                 writer.WriteLine(
 $"    private static SyntaxKind Validate{name}(SyntaxKind value, string paramName)\n" +
 $"        => value switch");
+            }
             writer.WriteLine("        {");
+
+            if (allowNull)
+                writer.WriteLine("            null => null,");
 
             var firstKind = true;
             foreach (var kind in kinds)
@@ -229,6 +249,24 @@ $"            _ => throw new ArgumentException(\n" +
 "                $\"The kind '{value}' is not a supported kind.\",\n" +
 "                paramName)\n" +
 "        };");
+        }
+
+        static void WriteAcceptMethod(TextWriter writer,
+            string type)
+        {
+            writer.Write("    static void IVisitable<");
+            writer.Write(type);
+            writer.Write(">.Accept<TVisitor>(");
+            writer.Write(type);
+            writer.WriteLine(" node, TVisitor visitor)");
+            writer.Write("        => visitor.Visit");
+            writer.Write(type);
+            writer.WriteLine("(node);");
+            writer.WriteLine();
+            writer.Write(
+@"    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode");
+            writer.WriteLine("(this);");
         }
     }
 }

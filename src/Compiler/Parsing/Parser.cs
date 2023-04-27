@@ -15,6 +15,8 @@ public sealed partial class Parser
     private readonly ImmutableArray<Diagnostic>.Builder _diagnostics;
     private readonly ChannelReader<SyntaxToken> _reader;
 
+    private SyntaxToken? _lastReadToken;
+
     /// <summary>
     /// Creates a new instance of the <see cref="Parser"/> type.
     /// </summary>
@@ -38,7 +40,10 @@ public sealed partial class Parser
     /// tokens.
     /// </returns>
     public async ValueTask<SyntaxNode?> RunAsync(CancellationToken cancellationToken)
-        => await ParseCompilationUnitAsync(cancellationToken);
+    {
+        return await ParseExpressionAsync(cancellationToken);
+        //return await ParseCompilationUnitAsync(cancellationToken);
+    }
 
     private ValueTask<SyntaxToken?>
         ExpectAsync(
@@ -50,6 +55,7 @@ public sealed partial class Parser
         if (!_reader.TryRead(out var token))
             return GoAsync(this, _reader, kind, cancellationToken);
 
+        _lastReadToken = token;
         if (token.Kind == kind)
             return new(token);
 
@@ -66,6 +72,7 @@ public sealed partial class Parser
             {
                 if (reader.TryRead(out var token))
                 {
+                    @this._lastReadToken = token;
                     if (token.Kind == kind)
                         return token;
 
@@ -74,7 +81,33 @@ public sealed partial class Parser
                 }
             }
 
-            Debug.Fail("Should never fail to read a token?");
+            return null;
+        }
+    }
+
+    private ValueTask<SyntaxToken?> PeekAsync(
+        SyntaxKind kind,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return !_reader.TryPeek(out var token)
+            ? GoAsync(_reader, kind, cancellationToken)
+            : token.Kind == kind ? new(token) : default;
+
+        static async ValueTask<SyntaxToken?> GoAsync(
+            ChannelReader<SyntaxToken> reader,
+            SyntaxKind kind,
+            CancellationToken cancellationToken)
+        {
+            while (await reader.WaitToReadAsync(cancellationToken))
+            {
+                if (!reader.TryPeek(out var token))
+                    continue;
+
+                return token.Kind == kind ? token : null;
+            }
+
             return null;
         }
     }
@@ -84,9 +117,9 @@ public sealed partial class Parser
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return _reader.TryRead(out var token)
-            ? new(token)
-            : GoAsync(_reader, cancellationToken);
+        return !_reader.TryPeek(out var token)
+            ? GoAsync(_reader, cancellationToken)
+            : new(token);
 
         static async ValueTask<SyntaxToken?> GoAsync(
             ChannelReader<SyntaxToken> reader,
@@ -94,13 +127,12 @@ public sealed partial class Parser
         {
             while (await reader.WaitToReadAsync(cancellationToken))
             {
-                if (reader.TryRead(out var token))
+                if (reader.TryPeek(out var token))
                 {
                     return token;
                 }
             }
 
-            Debug.Fail("Should never fail to peek a token?");
             return null;
         }
     }
@@ -112,21 +144,26 @@ public sealed partial class Parser
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return _reader.TryRead(out var token)
-            ? new(token)
-            : GoAsync(_reader, cancellationToken);
+        if (!_reader.TryRead(out var token))
+            return GoAsync(this, _reader, cancellationToken);
+
+        _lastReadToken = token;
+        return new(token);
 
         static async ValueTask<SyntaxToken?> GoAsync(
+            Parser @this,
             ChannelReader<SyntaxToken> reader,
             CancellationToken cancellationToken)
         {
             while (await reader.WaitToReadAsync(cancellationToken))
             {
                 if (reader.TryRead(out var token))
+                {
+                    @this._lastReadToken = token;
                     return token;
+                }
             }
 
-            Debug.Fail("Should never fail to read a token?");
             return null;
         }
     }

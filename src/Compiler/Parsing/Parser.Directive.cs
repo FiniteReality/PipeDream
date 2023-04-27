@@ -4,10 +4,85 @@ namespace PipeDream.Compiler.Parsing;
 
 public sealed partial class Parser
 {
-    private async ValueTask<DirectiveTriviaSyntax> ParseDirectiveTriviaSyntaxAsync(
+    private async ValueTask<SyntaxList<TriviaSyntax>>
+        ParseDirectivesAsync(CancellationToken cancellationToken)
+    {
+        var list = new SyntaxListBuilder<TriviaSyntax>();
+
+        while (true)
+        {
+            var item = await ParseDirectiveTriviaSyntaxAsync(cancellationToken);
+
+            if (item == null)
+                break;
+
+            list.Add(item);
+        }
+
+        return list.Build();
+    }
+
+    private async ValueTask<DirectiveTriviaSyntax?> ParseDirectiveTriviaSyntaxAsync(
         CancellationToken cancellationToken)
     {
+        var hasLineTerminator = _lastReadToken?.TrailingTrivia
+            .Any(x => x.Kind == SyntaxKind.EndOfLineTrivia)
+            ?? true;
+
+        var hash = await PeekAsync(SyntaxKind.HashToken, cancellationToken);
+        if (hash == null)
+            return null;
+
+        _ = await AdvanceAsync(cancellationToken);
+
+        var hasLeadingWhitespace = hash.LeadingTrivia.Any(
+            x => x.Kind == SyntaxKind.WhitespaceTrivia);
+
+        if (hasLeadingWhitespace || !hasLineTerminator)
+        {
+            ProduceDiagnostic(ParseError.DirectiveMustBeFirstNonWhitespaceCharacter);
+            return null;
+        }
+
+        return await PeekAsync(cancellationToken) switch
+        {
+            null => null,
+
+            //{ Kind: SyntaxKind.DefineKeyword }
+            //    => await ParseDefineDirectiveTriviaAsync(hash, cancellationToken),
+
+            _ => await ParseBadDirectiveTriviaAsync(hash, cancellationToken)
+        };
+    }
+
+    private async ValueTask<BadDirectiveTriviaSyntax>
+        ParseBadDirectiveTriviaAsync(
+            SyntaxToken hash,
+            CancellationToken cancellationToken)
+    {
+        var name = await ParseSimpleNameAsync(cancellationToken);
+
+        var skipped = await SkipTokensWhileAsync(
+            x => x.Kind != SyntaxKind.EndOfFileToken
+                && x.TrailingTrivia.All(
+                    y => y.Kind != SyntaxKind.EndOfLineTrivia),
+            includeLast: true,
+            cancellationToken);
+
+        return new BadDirectiveTriviaSyntax(
+            HashToken: hash,
+            Name: name,
+            Span: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: skipped != null ? new(skipped) : new());
+    }
+
+    private async ValueTask<DefineDirectiveTriviaSyntax?>
+        ParseDefineDirectiveTriviaAsync(
+            SyntaxToken hash,
+            CancellationToken cancellationToken)
+    {
         await default(ValueTask);
-        return null!;
+        return null;
     }
 }

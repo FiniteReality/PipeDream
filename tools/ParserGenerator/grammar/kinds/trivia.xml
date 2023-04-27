@@ -32,6 +32,14 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="BadDirectiveTrivia" Group="Preprocessor">
+    <Comment>
+      <summary>
+        An invalid preprocessor directive.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="DefineDirectiveTrivia" Group="Preprocessor">
     <Comment>
       <summary>

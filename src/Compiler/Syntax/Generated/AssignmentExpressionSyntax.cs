@@ -16,7 +16,14 @@ public sealed partial record AssignmentExpressionSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<AssignmentExpressionSyntax>
 {
+    static void IVisitable<AssignmentExpressionSyntax>.Accept<TVisitor>(AssignmentExpressionSyntax node, TVisitor visitor)
+        => visitor.VisitAssignmentExpressionSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {

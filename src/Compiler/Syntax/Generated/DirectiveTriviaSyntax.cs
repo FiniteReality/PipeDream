@@ -14,7 +14,14 @@ public abstract partial record DirectiveTriviaSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<DirectiveTriviaSyntax>
 {
+    static void IVisitable<DirectiveTriviaSyntax>.Accept<TVisitor>(DirectiveTriviaSyntax node, TVisitor visitor)
+        => visitor.VisitDirectiveTriviaSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private SyntaxToken _hashToken = ValidateHashToken(HashToken, nameof(HashToken));
 
     /// <summary>

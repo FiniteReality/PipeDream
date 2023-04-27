@@ -17,7 +17,14 @@ public sealed partial record ConditionalExpressionSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<ConditionalExpressionSyntax>
 {
+    static void IVisitable<ConditionalExpressionSyntax>.Accept<TVisitor>(ConditionalExpressionSyntax node, TVisitor visitor)
+        => visitor.VisitConditionalExpressionSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     /// <summary>
     /// Gets the <see cref="ExpressionSyntax" /> node representing the
     /// condition of the conditional expression.

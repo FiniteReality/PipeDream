@@ -13,5 +13,12 @@ public abstract partial record StatementSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<StatementSyntax>
 {
+    static void IVisitable<StatementSyntax>.Accept<TVisitor>(StatementSyntax node, TVisitor visitor)
+        => visitor.VisitStatementSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
 }

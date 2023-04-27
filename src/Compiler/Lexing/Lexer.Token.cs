@@ -8,13 +8,13 @@ public ref partial struct Lexer
 {
     private void BeginToken()
     {
-        Tracing.TraceEvent(TraceEventType.Start, TraceIds.LexingToken);
+        Tracing.StartLexingToken(_reader.GetOffset());
         _tokenBeginning = _reader.Position;
     }
 
     private void EndToken(bool rewind)
     {
-        Tracing.TraceEvent(TraceEventType.Stop, TraceIds.LexingToken);
+        Tracing.StopLexingToken(_reader.GetOffset(), rewind);
 
         if (rewind)
             _reader.Rewind(_tokenBeginning);

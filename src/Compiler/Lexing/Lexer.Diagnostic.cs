@@ -23,10 +23,7 @@ public ref partial struct Lexer
     {
         var diagnostic = handler(state);
 
-        Tracing.TraceData(TraceEventType.Error,
-            TraceIds.DiagnosticProduced,
-            diagnostic);
-
+        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 
@@ -34,10 +31,7 @@ public ref partial struct Lexer
     {
         var diagnostic = handler();
 
-        Tracing.TraceData(TraceEventType.Error,
-            TraceIds.DiagnosticProduced,
-            diagnostic);
-
+        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 }

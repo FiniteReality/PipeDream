@@ -15,7 +15,14 @@ public abstract partial record StringSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<StringSyntax>
 {
+    static void IVisitable<StringSyntax>.Accept<TVisitor>(StringSyntax node, TVisitor visitor)
+        => visitor.VisitStringSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {

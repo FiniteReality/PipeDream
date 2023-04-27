@@ -16,6 +16,14 @@ internal static partial class CodeGeneratorExtensions
             static (w, g) => WriteKinds(w, g),
             grammar);
 
+        WriteFile(
+            openForWriting,
+            "SyntaxVisitor",
+            @namespace,
+            @usings,
+            static (w, g) => WriteVisitor(w, g),
+            grammar);
+
         foreach (var item in grammar.Items)
         {
             WriteFile(

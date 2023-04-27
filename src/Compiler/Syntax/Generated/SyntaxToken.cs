@@ -14,7 +14,14 @@ public sealed partial record SyntaxToken(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<SyntaxToken>
 {
+    static void IVisitable<SyntaxToken>.Accept<TVisitor>(SyntaxToken node, TVisitor visitor)
+        => visitor.VisitSyntaxToken(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {

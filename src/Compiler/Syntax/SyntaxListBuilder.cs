@@ -15,6 +15,12 @@ internal struct SyntaxListBuilder<T>
     // And use a builder if we need more.
     private ImmutableArray<T>.Builder? _builder;
 
+    public SyntaxListBuilder(int initialCapacity)
+    {
+        if (initialCapacity > 4)
+            _builder = ImmutableArray.CreateBuilder<T>(initialCapacity);
+    }
+
     public readonly SyntaxList<T> Build()
     {
         return _builder != null

@@ -8,7 +8,14 @@ public abstract partial record SyntaxNode(
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
+    : IVisitable<SyntaxNode>
 {
+    static void IVisitable<SyntaxNode>.Accept<TVisitor>(SyntaxNode node, TVisitor visitor)
+        => visitor.VisitSyntaxNode(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     /// <summary>
     /// Gets the kind of this syntax node.
     /// </summary>

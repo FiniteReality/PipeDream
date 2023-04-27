@@ -17,7 +17,14 @@ public sealed partial record IncludeDirectiveTriviaSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<IncludeDirectiveTriviaSyntax>
 {
+    static void IVisitable<IncludeDirectiveTriviaSyntax>.Accept<TVisitor>(IncludeDirectiveTriviaSyntax node, TVisitor visitor)
+        => visitor.VisitIncludeDirectiveTriviaSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private SyntaxToken _includeKeyword = ValidateIncludeKeyword(IncludeKeyword, nameof(IncludeKeyword));
 
     /// <summary>

@@ -74,23 +74,26 @@ public ref partial struct Lexer
     /// <returns>
     /// Returns <c>true</c> if lexing was successful.
     /// </returns>
-    public bool Lex()
+    public OperationStatus Lex()
     {
         if (_reader.IsStreamEnd)
         {
             // If we've already produced the EOF token, we don't need to
             // produce more.
             if (Current is { Kind: SyntaxKind.EndOfFileToken })
-                return false;
+                return OperationStatus.InvalidData;
 
             Current = ProduceToken(
                 token: new(
                     Kind: SyntaxKind.EndOfFileToken,
                     Start: _reader.Position,
-                    End: _reader.Position),
+                    End: _reader.Position)
+                {
+                    StringValue = ""
+                },
                 leading: new(),
                 trailing: new());
-            return true;
+            return OperationStatus.Done;
         }
 
         BeginToken();
@@ -120,25 +123,25 @@ public ref partial struct Lexer
         {
             EndToken(false);
             Current = ProduceToken(token, leading.Build(), trailing.Build());
-            return true;
+            return OperationStatus.InvalidData;
         }
         else if (status == OperationStatus.NeedMoreData)
         {
             // This will re-lex the entire token, including trivia, which isn't
             // the best approach, but we don't have any alternative here.
             EndToken(true);
-            return false;
+            return OperationStatus.NeedMoreData;
         }
         else if (status == OperationStatus.Done)
         {
             EndToken(false);
             Current = ProduceToken(token, leading.Build(), trailing.Build());
-            return true;
+            return OperationStatus.Done;
         }
         else
         {
             Debug.Fail("Unexpected result from LexToken");
-            return false;
+            return OperationStatus.InvalidData;
         }
     }
 

@@ -16,7 +16,14 @@ public sealed partial record BinaryExpressionSyntax(
         Span: Span,
         LeadingTrivia: LeadingTrivia,
         TrailingTrivia: TrailingTrivia)
+    , IVisitable<BinaryExpressionSyntax>
 {
+    static void IVisitable<BinaryExpressionSyntax>.Accept<TVisitor>(BinaryExpressionSyntax node, TVisitor visitor)
+        => visitor.VisitBinaryExpressionSyntax(node);
+
+    void IVisitable.Accept<TVisitor>(TVisitor visitor)
+        => visitor.VisitNode(this);
+
     private static SyntaxKind ValidateKind(SyntaxKind value, string paramName)
         => value switch
         {
