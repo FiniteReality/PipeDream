@@ -36,7 +36,7 @@ public abstract partial class SyntaxVisitor
     {
         foreach (var item in list)
         {
-            VisitNode(item);
+            Visit(item);
         }
     }
 
@@ -46,7 +46,7 @@ public abstract partial class SyntaxVisitor
     {
         for (int i = 0; i < list.Count; i++)
         {
-            VisitNode(list[i]);
+            Visit(list[i]);
 
             if (i < list.SeparatorCount)
                 VisitNode(list.GetSeparator(i));

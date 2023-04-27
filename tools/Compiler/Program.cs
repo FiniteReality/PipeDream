@@ -156,7 +156,18 @@ internal class Visitor : SyntaxVisitor
         Console.Write(new string('|', _indentation));
         Console.Write("- ");
         Console.Write(value.Kind);
-        Console.Write(' ');
-        Console.WriteLine(value.Text.Replace("\n", "\\n"));
+        Console.Write(" '");
+        Console.Write(value.Text.Replace("\n", "\\n"));
+        Console.WriteLine('\'');
+    }
+
+    protected internal override void VisitSimpleTriviaSyntax(SimpleTriviaSyntax value)
+    {
+        Console.Write(new string('|', _indentation));
+        Console.Write("- ");
+        Console.Write(value.Kind);
+        Console.Write(" '");
+        Console.Write(value.Text.Replace("\n", "\\n"));
+        Console.WriteLine('\'');
     }
 }

@@ -66,7 +66,7 @@ internal static partial class CodeGeneratorExtensions
             else if (member.Type.EndsWith("Syntax", StringComparison.OrdinalIgnoreCase)
                 || member.Type.EndsWith("Token", StringComparison.OrdinalIgnoreCase))
             {
-                writer.Write("        VisitNode(value.");
+                writer.Write("        Visit(value.");
                 writer.Write(member.Name);
                 writer.WriteLine(");");
             }
@@ -76,7 +76,7 @@ internal static partial class CodeGeneratorExtensions
                 writer.Write("        if (value.");
                 writer.Write(member.Name);
                 writer.WriteLine(" != null)");
-                writer.Write("            VisitNode(value.");
+                writer.Write("            Visit(value.");
                 writer.Write(member.Name);
                 writer.WriteLine(");");
             }

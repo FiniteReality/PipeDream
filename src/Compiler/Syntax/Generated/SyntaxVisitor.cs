@@ -11,9 +11,9 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitAssignmentExpressionSyntax(AssignmentExpressionSyntax value)
     {
         VisitExpressionSyntax(value);
-        VisitNode(value.Left);
-        VisitNode(value.OperatorToken);
-        VisitNode(value.Right);
+        Visit(value.Left);
+        Visit(value.OperatorToken);
+        Visit(value.Right);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public abstract partial class SyntaxVisitor
     {
         VisitDirectiveTriviaSyntax(value);
         if (value.Name != null)
-            VisitNode(value.Name);
+            Visit(value.Name);
     }
 
     /// <summary>
@@ -38,9 +38,9 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitBinaryExpressionSyntax(BinaryExpressionSyntax value)
     {
         VisitExpressionSyntax(value);
-        VisitNode(value.Left);
-        VisitNode(value.OperatorToken);
-        VisitNode(value.Right);
+        Visit(value.Left);
+        Visit(value.OperatorToken);
+        Visit(value.Right);
     }
 
     /// <summary>
@@ -52,9 +52,9 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitBlockSyntax(BlockSyntax value)
     {
         VisitStatementSyntax(value);
-        VisitNode(value.OpenBraceToken);
+        Visit(value.OpenBraceToken);
         VisitSyntaxList(value.Statements);
-        VisitNode(value.CloseBraceToken);
+        Visit(value.CloseBraceToken);
     }
 
     /// <summary>
@@ -77,11 +77,11 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitConditionalExpressionSyntax(ConditionalExpressionSyntax value)
     {
         VisitExpressionSyntax(value);
-        VisitNode(value.Condition);
-        VisitNode(value.QuestionToken);
-        VisitNode(value.WhenTrue);
-        VisitNode(value.ColonToken);
-        VisitNode(value.WhenFalse);
+        Visit(value.Condition);
+        Visit(value.QuestionToken);
+        Visit(value.WhenTrue);
+        Visit(value.ColonToken);
+        Visit(value.WhenFalse);
     }
 
     /// <summary>
@@ -93,8 +93,8 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitDefineDirectiveTriviaSyntax(DefineDirectiveTriviaSyntax value)
     {
         VisitDirectiveTriviaSyntax(value);
-        VisitNode(value.DefineKeyword);
-        VisitNode(value.Name);
+        Visit(value.DefineKeyword);
+        Visit(value.Name);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitDirectiveTriviaSyntax(DirectiveTriviaSyntax value)
     {
         VisitTriviaSyntax(value);
-        VisitNode(value.HashToken);
+        Visit(value.HashToken);
     }
 
     /// <summary>
@@ -129,8 +129,8 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitIncludeDirectiveTriviaSyntax(IncludeDirectiveTriviaSyntax value)
     {
         VisitDirectiveTriviaSyntax(value);
-        VisitNode(value.IncludeKeyword);
-        VisitNode(value.File);
+        Visit(value.IncludeKeyword);
+        Visit(value.File);
     }
 
     /// <summary>
@@ -142,9 +142,9 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitLiteralStringSyntax(LiteralStringSyntax value)
     {
         VisitStringSyntax(value);
-        VisitNode(value.StringStartToken);
-        VisitNode(value.Text);
-        VisitNode(value.StringEndToken);
+        Visit(value.StringStartToken);
+        Visit(value.Text);
+        Visit(value.StringEndToken);
     }
 
     /// <summary>
@@ -167,9 +167,9 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitNewExpressionSyntax(NewExpressionSyntax value)
     {
         VisitExpressionSyntax(value);
-        VisitNode(value.NewKeyword);
+        Visit(value.NewKeyword);
         if (value.Type != null)
-            VisitNode(value.Type);
+            Visit(value.Type);
     }
 
     /// <summary>
@@ -181,8 +181,8 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitPostfixUnaryExpressionSyntax(PostfixUnaryExpressionSyntax value)
     {
         VisitExpressionSyntax(value);
-        VisitNode(value.Operand);
-        VisitNode(value.OperatorToken);
+        Visit(value.Operand);
+        Visit(value.OperatorToken);
     }
 
     /// <summary>
@@ -194,8 +194,8 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitPrefixUnaryExpressionSyntax(PrefixUnaryExpressionSyntax value)
     {
         VisitExpressionSyntax(value);
-        VisitNode(value.OperatorToken);
-        VisitNode(value.Operand);
+        Visit(value.OperatorToken);
+        Visit(value.Operand);
     }
 
     /// <summary>
@@ -219,8 +219,8 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitRootedNameSyntax(RootedNameSyntax value)
     {
         VisitNameSyntax(value);
-        VisitNode(value.PathRootToken);
-        VisitNode(value.Name);
+        Visit(value.PathRootToken);
+        Visit(value.Name);
     }
 
     /// <summary>
@@ -232,7 +232,7 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitSimpleNameSyntax(SimpleNameSyntax value)
     {
         VisitNameSyntax(value);
-        VisitNode(value.Name);
+        Visit(value.Name);
     }
 
     /// <summary>
@@ -278,8 +278,8 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitStringSyntax(StringSyntax value)
     {
         VisitSyntaxNode(value);
-        VisitNode(value.StringStartToken);
-        VisitNode(value.StringEndToken);
+        Visit(value.StringStartToken);
+        Visit(value.StringEndToken);
     }
 
     /// <summary>
