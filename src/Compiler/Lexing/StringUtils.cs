@@ -28,7 +28,9 @@ internal static class StringUtils
         {
             Span<byte> tempBuffer = stackalloc byte[256];
             sequence.CopyTo(tempBuffer);
-            value = Encoding.UTF8.GetString(tempBuffer);
+            // Unchecked cast is safe here since we're checking above
+            value = Encoding.UTF8.GetString(
+                tempBuffer[..unchecked((int)sequence.Length)]);
             return true;
         }
         // Otherwise, fall back to the more expensive transcode method.
