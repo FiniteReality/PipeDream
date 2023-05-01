@@ -25,6 +25,18 @@ public sealed record Grammar(
 
         foreach (var kind in grammar.Elements.OfType<XmlKindDefinition>())
         {
+            if (kind.Kind == null)
+                throw new InvalidOperationException(
+                    $"{nameof(kind.Kind)} cannot be null");
+            if (kind.Group == null)
+                throw new InvalidOperationException(
+                    $"{nameof(kind.Group)} cannot be null for kind " +
+                    $"{kind.Kind}");
+            if (kind.Comment == null)
+                throw new InvalidOperationException(
+                    $"{nameof(kind.Comment)} cannot be null for kind " +
+                    $"{kind.Kind}");
+
             if (kinds.TryGetValue(kind.Kind, out var _))
                 throw new InvalidOperationException(
                     $"Duplicate kind '{kind.Kind}'");
@@ -39,6 +51,18 @@ public sealed record Grammar(
         RootGrammarItem? root = null;
         foreach (var item in grammar.Elements.OfType<XmlGrammarItem>())
         {
+            if (item.Type == null)
+                throw new InvalidOperationException(
+                    $"{nameof(item.Type)} cannot be null");
+            if (item.Base == null && item is not XmlRootGrammarItem)
+                throw new InvalidOperationException(
+                    $"{nameof(item.Base)} cannot be null for type " +
+                    $"{item.Type}");
+            if (item.Comment == null)
+                throw new InvalidOperationException(
+                    $"{nameof(item.Comment)} cannot be null for type " +
+                    $"{item.Type}");
+
             if (items.TryGetValue(item.Type, out var _))
                 throw new InvalidOperationException(
                     $"Duplicate item '{item.Type}'");

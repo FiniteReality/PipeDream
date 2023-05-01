@@ -66,6 +66,7 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitCompilationUnitSyntax(CompilationUnitSyntax value)
     {
         VisitSyntaxNode(value);
+        VisitSyntaxList(value.Members);
     }
 
     /// <summary>
@@ -110,6 +111,19 @@ public abstract partial class SyntaxVisitor
     }
 
     /// <summary>
+    /// Visits the given <see cref="EqualsValueClauseSyntax"/>.
+    /// </summary>
+    /// <param name="value">
+    /// The <see cref="EqualsValueClauseSyntax"/> to visit.
+    /// </param>
+    protected internal virtual void VisitEqualsValueClauseSyntax(EqualsValueClauseSyntax value)
+    {
+        VisitSyntaxNode(value);
+        Visit(value.EqualsToken);
+        Visit(value.Value);
+    }
+
+    /// <summary>
     /// Visits the given <see cref="ExpressionSyntax"/>.
     /// </summary>
     /// <param name="value">
@@ -145,6 +159,17 @@ public abstract partial class SyntaxVisitor
         Visit(value.StringStartToken);
         Visit(value.Text);
         Visit(value.StringEndToken);
+    }
+
+    /// <summary>
+    /// Visits the given <see cref="MemberDeclarationSyntax"/>.
+    /// </summary>
+    /// <param name="value">
+    /// The <see cref="MemberDeclarationSyntax"/> to visit.
+    /// </param>
+    protected internal virtual void VisitMemberDeclarationSyntax(MemberDeclarationSyntax value)
+    {
+        VisitSyntaxNode(value);
     }
 
     /// <summary>
@@ -314,5 +339,20 @@ public abstract partial class SyntaxVisitor
     protected internal virtual void VisitTriviaSyntax(TriviaSyntax value)
     {
         VisitSyntaxNode(value);
+    }
+
+    /// <summary>
+    /// Visits the given <see cref="VariableDeclarationSyntax"/>.
+    /// </summary>
+    /// <param name="value">
+    /// The <see cref="VariableDeclarationSyntax"/> to visit.
+    /// </param>
+    protected internal virtual void VisitVariableDeclarationSyntax(VariableDeclarationSyntax value)
+    {
+        VisitMemberDeclarationSyntax(value);
+        Visit(value.VarKeyword);
+        Visit(value.Identifier);
+        if (value.Initializer != null)
+            Visit(value.Initializer);
     }
 }

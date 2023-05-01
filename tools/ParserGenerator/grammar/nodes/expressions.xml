@@ -388,6 +388,43 @@
       </Comment>
 
       <Kind Name="IdentifierToken" />
+      <Kind Name="DefineKeyword" />
+      <Kind Name="ElifKeyword" />
+      <Kind Name="EndIfKeyword" />
+      <Kind Name="ErrorKeyword" />
+      <Kind Name="IfDefKeyword" />
+      <Kind Name="IfNDefKeyword" />
+      <Kind Name="IncludeKeyword" />
+      <Kind Name="PipeDreamKeyword" />
+      <Kind Name="PragmaKeyword" />
+      <Kind Name="UndefKeyword" />
+      <Kind Name="WarnKeyword" />
+      <Kind Name="NewKeyword" />
+      <Kind Name="VarKeyword" />
+      <Kind Name="ConstKeyword" />
+      <Kind Name="FinalKeyword" />
+      <Kind Name="GlobalKeyword" />
+      <Kind Name="OperatorKeyword" />
+      <Kind Name="TmpKeyword" />
+      <Kind Name="VerbKeyword" />
+      <Kind Name="AreaKeyword" />
+      <Kind Name="AtomKeyword" />
+      <Kind Name="ClientKeyword" />
+      <Kind Name="DatabaseKeyword" />
+      <Kind Name="DatumKeyword" />
+      <Kind Name="IconKeyword" />
+      <Kind Name="ImageKeyword" />
+      <Kind Name="ListKeyword" />
+      <Kind Name="MatrixKeyword" />
+      <Kind Name="MobKeyword" />
+      <Kind Name="MutableAppearanceKeyword" />
+      <Kind Name="ObjKeyword" />
+      <Kind Name="ProcKeyword" />
+      <Kind Name="RegexKeyword" />
+      <Kind Name="SoundKeyword" />
+      <Kind Name="TextKeyword" />
+      <Kind Name="TurfKeyword" />
+      <Kind Name="WorldKeyword" />
     </Member>
   </Node>
 

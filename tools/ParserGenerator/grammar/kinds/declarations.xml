@@ -1,11 +1,35 @@
 <Grammar>
 
-  <KindDef Name="CompilationUnit" Group="Block">
+  <KindDef Name="CompilationUnit" Group="Declaration">
     <Comment>
       <summary>
         An entire compilation unit.
       </summary>
       <seealso cref="CompilationUnitSyntax" />
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="VariableDeclaration" Group="Declaration">
+    <Comment>
+      <summary>
+        A variable declaration.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="MethodDeclaration" Group="Declaration">
+    <Comment>
+      <summary>
+        A method declaration.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="EqualsValueClause" Group="DeclarationPart">
+    <Comment>
+      <summary>
+        A clause assigning a default value to a variable or parameter.
+      </summary>
     </Comment>
   </KindDef>
 

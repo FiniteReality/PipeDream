@@ -43,7 +43,7 @@ public sealed partial record DefineDirectiveTriviaSyntax(
             SyntaxKind.DefineKeyword
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 
@@ -64,7 +64,7 @@ public sealed partial record DefineDirectiveTriviaSyntax(
             SyntaxKind.IdentifierToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 

@@ -39,9 +39,15 @@ internal static class KnownDiagnostics
             Description: "Syntax error. An expression was expected.",
             DefaultSeverity: DiagnosticSeverity.Error);
 
-    public static DiagnosticDefinition DirectiveMustBeFirstNonWhitespaceCharacter
+    public static DiagnosticDefinition ExpectedIdentifier
         = new(
             Id: "DM1003",
+            Description: "Syntax error. An identifier was expected.",
+            DefaultSeverity: DiagnosticSeverity.Error);
+
+    public static DiagnosticDefinition DirectiveMustBeFirstNonWhitespaceCharacter
+        = new(
+            Id: "DM1004",
             Description: "Preprocessor directives must appear as the first non-whitespace character on a line",
             DefaultSeverity: DiagnosticSeverity.Error);
 }

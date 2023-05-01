@@ -244,11 +244,22 @@ $"        => value switch");
                 writer.WriteLine(" => value,");
             }
 
-            writer.WriteLine(
+            if (type != null)
+            {
+                writer.WriteLine(
+$"            _ => throw new ArgumentException(\n" +
+"                $\"The kind '{value.Kind}' is not a supported kind.\",\n" +
+"                paramName)\n" +
+"        };");
+            }
+            else
+            {
+                writer.WriteLine(
 $"            _ => throw new ArgumentException(\n" +
 "                $\"The kind '{value}' is not a supported kind.\",\n" +
 "                paramName)\n" +
 "        };");
+            }
         }
 
         static void WriteAcceptMethod(TextWriter writer,

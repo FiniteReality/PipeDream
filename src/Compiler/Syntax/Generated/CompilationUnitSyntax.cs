@@ -4,6 +4,7 @@ namespace PipeDream.Compiler.Syntax;
 /// Defines a record representing a compilation unit.
 /// </summary>
 public sealed partial record CompilationUnitSyntax(
+    SyntaxList<MemberDeclarationSyntax> Members,
     SyntaxSpan Span,
     SyntaxList<TriviaSyntax> LeadingTrivia,
     SyntaxList<TriviaSyntax> TrailingTrivia)
@@ -20,4 +21,8 @@ public sealed partial record CompilationUnitSyntax(
     void IVisitable.Accept<TVisitor>(TVisitor visitor)
         => visitor.VisitNode(this);
 
+    /// <summary>
+    /// Gets the members of the compilation unit.
+    /// </summary>
+    public SyntaxList<MemberDeclarationSyntax> Members { get; init; } = Members;
 }

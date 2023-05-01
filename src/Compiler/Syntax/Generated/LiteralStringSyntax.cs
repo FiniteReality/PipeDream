@@ -41,7 +41,7 @@ public abstract partial record LiteralStringSyntax(
             SyntaxKind.InterpolatedStringStartToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 
@@ -62,7 +62,7 @@ public abstract partial record LiteralStringSyntax(
             SyntaxKind.StringTextToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 
@@ -81,7 +81,7 @@ public abstract partial record LiteralStringSyntax(
             SyntaxKind.InterpolatedStringEndToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 }

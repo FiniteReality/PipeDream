@@ -42,6 +42,14 @@
     </Member>
   </RootNode>
 
+  <AbstractNode Type="MemberDeclarationSyntax" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record from which member declaration nodes are derived.
+      </summary>
+    </Comment>
+  </AbstractNode>
+
   <AbstractNode Type="ExpressionSyntax" Base="SyntaxNode">
     <Comment>
       <summary>

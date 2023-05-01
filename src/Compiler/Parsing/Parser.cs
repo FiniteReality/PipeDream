@@ -41,8 +41,7 @@ public sealed partial class Parser
     /// </returns>
     public async ValueTask<SyntaxNode?> RunAsync(CancellationToken cancellationToken)
     {
-        return await ParseExpressionAsync(cancellationToken);
-        //return await ParseCompilationUnitAsync(cancellationToken);
+        return await ParseCompilationUnitAsync(cancellationToken);
     }
 
     private ValueTask<SyntaxToken?>

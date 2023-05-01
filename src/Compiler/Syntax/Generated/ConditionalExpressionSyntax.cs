@@ -48,7 +48,7 @@ public sealed partial record ConditionalExpressionSyntax(
             SyntaxKind.QuestionToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 
@@ -75,7 +75,7 @@ public sealed partial record ConditionalExpressionSyntax(
             SyntaxKind.ColonToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 

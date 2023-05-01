@@ -82,13 +82,6 @@ public enum SyntaxKind
     /// </summary>
     SubtractAssignmentExpression,
 
-    // Group: Block
-    /// <summary>
-    /// An entire compilation unit.
-    /// </summary>
-    /// <seealso cref="CompilationUnitSyntax" />
-    CompilationUnit,
-
     // Group: CompoundPunctuation
     /// <summary>
     /// Represents the <c>&amp;&amp;=</c> token.
@@ -380,6 +373,29 @@ public enum SyntaxKind
     /// Represents the <c>world</c> keyword.
     /// </summary>
     WorldKeyword,
+
+    // Group: Declaration
+    /// <summary>
+    /// An entire compilation unit.
+    /// </summary>
+    /// <seealso cref="CompilationUnitSyntax" />
+    CompilationUnit,
+
+    /// <summary>
+    /// A method declaration.
+    /// </summary>
+    MethodDeclaration,
+
+    /// <summary>
+    /// A variable declaration.
+    /// </summary>
+    VariableDeclaration,
+
+    // Group: DeclarationPart
+    /// <summary>
+    /// A clause assigning a default value to a variable or parameter.
+    /// </summary>
+    EqualsValueClause,
 
     // Group: Expression
     /// <summary>
@@ -1009,11 +1025,13 @@ internal enum SyntaxGroup : byte
 {
     AssignmentExpression,
 
-    Block,
-
     CompoundPunctuation,
 
     ContextualKeyword,
+
+    Declaration,
+
+    DeclarationPart,
 
     Expression,
 
@@ -1050,23 +1068,24 @@ internal static class SyntaxKindExtensions
         => (int)kind switch
         {
             < 15 => SyntaxGroup.AssignmentExpression,
-            < 16 => SyntaxGroup.Block,
-            < 49 => SyntaxGroup.CompoundPunctuation,
-            < 74 => SyntaxGroup.ContextualKeyword,
-            < 108 => SyntaxGroup.Expression,
-            < 109 => SyntaxGroup.File,
-            < 111 => SyntaxGroup.Invalid,
-            < 136 => SyntaxGroup.Keyword,
-            < 139 => SyntaxGroup.Names,
-            < 140 => SyntaxGroup.Numeric,
-            < 143 => SyntaxGroup.Preprocessor,
-            < 154 => SyntaxGroup.PreprocessorKeyword,
-            < 179 => SyntaxGroup.Punctuation,
-            < 180 => SyntaxGroup.Statement,
-            < 189 => SyntaxGroup.String,
-            < 191 => SyntaxGroup.Strings,
-            < 192 => SyntaxGroup.Textual,
-            < 196 => SyntaxGroup.Trivia,
+            < 48 => SyntaxGroup.CompoundPunctuation,
+            < 73 => SyntaxGroup.ContextualKeyword,
+            < 76 => SyntaxGroup.Declaration,
+            < 77 => SyntaxGroup.DeclarationPart,
+            < 111 => SyntaxGroup.Expression,
+            < 112 => SyntaxGroup.File,
+            < 114 => SyntaxGroup.Invalid,
+            < 139 => SyntaxGroup.Keyword,
+            < 142 => SyntaxGroup.Names,
+            < 143 => SyntaxGroup.Numeric,
+            < 146 => SyntaxGroup.Preprocessor,
+            < 157 => SyntaxGroup.PreprocessorKeyword,
+            < 182 => SyntaxGroup.Punctuation,
+            < 183 => SyntaxGroup.Statement,
+            < 192 => SyntaxGroup.String,
+            < 194 => SyntaxGroup.Strings,
+            < 195 => SyntaxGroup.Textual,
+            < 199 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

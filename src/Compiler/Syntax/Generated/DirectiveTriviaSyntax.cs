@@ -39,7 +39,7 @@ public abstract partial record DirectiveTriviaSyntax(
             SyntaxKind.HashToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 }

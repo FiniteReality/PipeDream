@@ -54,7 +54,7 @@ public abstract partial record StringSyntax(
             SyntaxKind.RawVerbatimStringStartToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 
@@ -78,7 +78,7 @@ public abstract partial record StringSyntax(
             SyntaxKind.RawVerbatimStringEndToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 }

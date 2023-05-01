@@ -11,15 +11,21 @@ internal static class ParseError
         => new(definition, parameters);
 
     // TODO: convert these to their actual string representation?
-    public static Diagnostic ExpectedSyntax(
-        SyntaxKind expected)
-        => Diagnostic(KnownDiagnostics.ExpectedToken, expected);
+    public static readonly Func<SyntaxKind, Diagnostic> ExpectedSyntax
+        = (SyntaxKind expected) => Diagnostic(
+            KnownDiagnostics.ExpectedToken,
+            expected);
 
-    public static Diagnostic ExpectedExpression()
-        => Diagnostic(KnownDiagnostics.ExpectedExpression);
+    public static readonly Func<Diagnostic> ExpectedExpression
+        = () => Diagnostic(KnownDiagnostics.ExpectedExpression);
 
-    public static Diagnostic DirectiveMustBeFirstNonWhitespaceCharacter()
-        => Diagnostic(KnownDiagnostics.DirectiveMustBeFirstNonWhitespaceCharacter);
+    public static readonly Func<Diagnostic> ExpectedIdentifier
+        = () => Diagnostic(KnownDiagnostics.ExpectedIdentifier);
+
+    public static readonly Func<Diagnostic>
+        DirectiveMustBeFirstNonWhitespaceCharacter
+        = () => Diagnostic(
+            KnownDiagnostics.DirectiveMustBeFirstNonWhitespaceCharacter);
 }
 
 public sealed partial class Parser

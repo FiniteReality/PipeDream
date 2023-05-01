@@ -6,7 +6,82 @@
         Defines a record representing a compilation unit.
       </summary>
     </Comment>
+
     <Kind Name="CompilationUnit" />
+
+    <Member Name="Members" Type="SyntaxList&lt;MemberDeclarationSyntax&gt;">
+      <Comment>
+        <summary>
+          Gets the members of the compilation unit.
+        </summary>
+      </Comment>
+    </Member>
+  </Node>
+
+  <Node Type="VariableDeclarationSyntax" Base="MemberDeclarationSyntax">
+    <Comment>
+      <summary>
+        Defines a record representing a variable declaration.
+      </summary>
+    </Comment>
+
+    <Kind Name="VariableDeclaration" />
+
+    <Member Name="VarKeyword" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the <c>var</c> keyword.
+        </summary>
+      </Comment>
+
+      <Kind Name="VarKeyword" />
+    </Member>
+
+    <Member Name="Identifier" Type="NameSyntax">
+      <Comment>
+        <summary>
+          Gets the name of this variable.
+        </summary>
+      </Comment>
+    </Member>
+
+    <Member Name="Initializer" Type="EqualsValueClauseSyntax?">
+      <Comment>
+        <summary>
+          Gets the value of this variable or null if there is none.
+        </summary>
+      </Comment>
+    </Member>
+  </Node>
+
+  <Node Type="EqualsValueClauseSyntax" Base="SyntaxNode">
+    <Comment>
+      <summary>
+        Defines a record representing the value of a
+        <see cref="VariableDeclarationSyntax" />.
+      </summary>
+      <seealso cref="VariableDeclarationSyntax" />
+    </Comment>
+
+    <Kind Name="EqualsValueClause" />
+
+    <Member Name="EqualsToken" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the <c>=</c> token.
+        </summary>
+      </Comment>
+
+      <Kind Name="EqualsToken" />
+    </Member>
+
+    <Member Name="Value" Type="ExpressionSyntax">
+      <Comment>
+        <summary>
+          Gets the value assigned to the variable.
+        </summary>
+      </Comment>
+    </Member>
   </Node>
 
 </Grammar>

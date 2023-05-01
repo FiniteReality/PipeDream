@@ -41,7 +41,7 @@ public sealed partial record BlockSyntax(
             SyntaxKind.OpenBraceToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 
@@ -69,7 +69,7 @@ public sealed partial record BlockSyntax(
             SyntaxKind.CloseBraceToken
                 => value,
             _ => throw new ArgumentException(
-                $"The kind '{value}' is not a supported kind.",
+                $"The kind '{value.Kind}' is not a supported kind.",
                 paramName)
         };
 }
