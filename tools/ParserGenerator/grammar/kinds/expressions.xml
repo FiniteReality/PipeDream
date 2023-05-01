@@ -415,4 +415,12 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="PreprocessorExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A preprocessor statement which may produce a value.
+      </summary>
+    </Comment>
+  </KindDef>
+
 </Grammar>

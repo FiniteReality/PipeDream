@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Parsing;
@@ -18,8 +20,14 @@ public sealed partial class Parser
             members.Add(member);
         }
 
+        var eof = await ExpectAsync(SyntaxKind.EndOfFileToken,
+            cancellationToken);
+
+        Debug.Assert(eof != null, "Didn't parse all of the input text");
+
         return new CompilationUnitSyntax(
             Members: members.Build(),
+            EndOfFileToken: eof,
             Span: default,
             LeadingTrivia: new(),
             TrailingTrivia: new());
@@ -27,6 +35,51 @@ public sealed partial class Parser
 
     private async ValueTask<MemberDeclarationSyntax?>
         ParseMemberDeclarationAsync(
+            CancellationToken cancellationToken)
+    {
+        var leading = await ParseDirectivesAsync(
+            static (@this, token) => @this.ParseMemberDeclarationCoreAsync(token),
+            cancellationToken);
+
+        var result = await ParseMemberDeclarationCoreAsync(cancellationToken);
+
+        var trailing = await ParseDirectivesAsync(
+            static (@this, token) => @this.ParseMemberDeclarationCoreAsync(token),
+            cancellationToken);
+
+        return (result, leading.Count, trailing.Count) switch
+        {
+            (null, _, _) => null,
+            (_, 0, 0) => result,
+
+            (_, > 0, > 0) => result with
+            {
+                LeadingTrivia = result.LeadingTrivia.Concat(leading),
+                TrailingTrivia = result.TrailingTrivia.Concat(trailing)
+            },
+            (_, > 0, 0) => result with
+            {
+                LeadingTrivia = result.LeadingTrivia.Concat(leading),
+            },
+            (_, 0, > 0) => result with
+            {
+                TrailingTrivia = result.TrailingTrivia.Concat(trailing),
+            },
+
+            _ => Unreachable()
+        };
+
+        [DoesNotReturn]
+        static MemberDeclarationSyntax? Unreachable()
+        {
+            Debug.Fail("Leading or trailing trivia size incorrect");
+
+            throw new InvalidOperationException("Failed to parse trivia");
+        }
+    }
+
+    private async ValueTask<MemberDeclarationSyntax?>
+        ParseMemberDeclarationCoreAsync(
             CancellationToken cancellationToken)
     {
         return await ParseVariableDeclarationAsync(cancellationToken);

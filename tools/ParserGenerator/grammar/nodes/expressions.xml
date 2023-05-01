@@ -458,4 +458,14 @@
     <!-- TODO: argument list -->
   </Node>
 
+  <Node Type="PreprocessorExpressionSyntax" Base="ExpressionSyntax">
+    <Comment>
+      <summary>
+        Defines a record representing preprocessor directives which can produce
+        an expression.
+      </summary>
+    </Comment>
+
+    <Kind Name="PreprocessorExpression" />
+  </Node>
 </Grammar>

@@ -5,13 +5,18 @@ namespace PipeDream.Compiler.Parsing;
 public sealed partial class Parser
 {
     private async ValueTask<SyntaxList<TriviaSyntax>>
-        ParseDirectivesAsync(CancellationToken cancellationToken)
+        ParseDirectivesAsync<T>(
+            Func<Parser, CancellationToken, ValueTask<T?>> parseCore,
+            CancellationToken cancellationToken)
+            where T : SyntaxNode
     {
         var list = new SyntaxListBuilder<TriviaSyntax>();
 
         while (true)
         {
-            var item = await ParseDirectiveTriviaSyntaxAsync(cancellationToken);
+            var item = await ParseDirectiveTriviaSyntaxAsync(
+                parseCore,
+                cancellationToken);
 
             if (item == null)
                 break;
@@ -22,8 +27,10 @@ public sealed partial class Parser
         return list.Build();
     }
 
-    private async ValueTask<DirectiveTriviaSyntax?> ParseDirectiveTriviaSyntaxAsync(
-        CancellationToken cancellationToken)
+    private async ValueTask<DirectiveTriviaSyntax?>
+        ParseDirectiveTriviaSyntaxAsync<T>(
+            Func<Parser, CancellationToken, ValueTask<T?>> parseCore,
+            CancellationToken cancellationToken)
     {
         var hasLineTerminator = _lastReadToken?.TrailingTrivia
             .Any(x => x.Kind == SyntaxKind.EndOfLineTrivia)

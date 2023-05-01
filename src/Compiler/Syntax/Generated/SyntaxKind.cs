@@ -554,6 +554,11 @@ public enum SyntaxKind
     PreIncrementExpression,
 
     /// <summary>
+    /// A preprocessor statement which may produce a value.
+    /// </summary>
+    PreprocessorExpression,
+
+    /// <summary>
     /// A right-shift <see cref="BinaryExpressionSyntax" />.
     /// </summary>
     RightShiftExpression,
@@ -1072,20 +1077,20 @@ internal static class SyntaxKindExtensions
             < 73 => SyntaxGroup.ContextualKeyword,
             < 76 => SyntaxGroup.Declaration,
             < 77 => SyntaxGroup.DeclarationPart,
-            < 111 => SyntaxGroup.Expression,
-            < 112 => SyntaxGroup.File,
-            < 114 => SyntaxGroup.Invalid,
-            < 139 => SyntaxGroup.Keyword,
-            < 142 => SyntaxGroup.Names,
-            < 143 => SyntaxGroup.Numeric,
-            < 146 => SyntaxGroup.Preprocessor,
-            < 157 => SyntaxGroup.PreprocessorKeyword,
-            < 182 => SyntaxGroup.Punctuation,
-            < 183 => SyntaxGroup.Statement,
-            < 192 => SyntaxGroup.String,
-            < 194 => SyntaxGroup.Strings,
-            < 195 => SyntaxGroup.Textual,
-            < 199 => SyntaxGroup.Trivia,
+            < 112 => SyntaxGroup.Expression,
+            < 113 => SyntaxGroup.File,
+            < 115 => SyntaxGroup.Invalid,
+            < 140 => SyntaxGroup.Keyword,
+            < 143 => SyntaxGroup.Names,
+            < 144 => SyntaxGroup.Numeric,
+            < 147 => SyntaxGroup.Preprocessor,
+            < 158 => SyntaxGroup.PreprocessorKeyword,
+            < 183 => SyntaxGroup.Punctuation,
+            < 184 => SyntaxGroup.Statement,
+            < 193 => SyntaxGroup.String,
+            < 195 => SyntaxGroup.Strings,
+            < 196 => SyntaxGroup.Textual,
+            < 200 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

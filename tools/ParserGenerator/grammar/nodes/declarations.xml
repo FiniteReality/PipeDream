@@ -16,6 +16,16 @@
         </summary>
       </Comment>
     </Member>
+
+    <Member Name="EndOfFileToken" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the end of file token.
+        </summary>
+      </Comment>
+
+      <Kind Name="EndOfFileToken" />
+    </Member>
   </Node>
 
   <Node Type="VariableDeclarationSyntax" Base="MemberDeclarationSyntax">

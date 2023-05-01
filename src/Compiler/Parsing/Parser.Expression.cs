@@ -7,13 +7,18 @@ namespace PipeDream.Compiler.Parsing;
 
 public sealed partial class Parser
 {
-    private async ValueTask<ExpressionSyntax?> ParseExpressionAsync(
-        CancellationToken cancellationToken)
+    private async ValueTask<ExpressionSyntax?>
+        ParseExpressionAsync(
+            CancellationToken cancellationToken)
     {
-        var leadingDirectives = await ParseDirectivesAsync(cancellationToken);
+        return await ParsePreprocessorExpressionAsync(cancellationToken)
+            ?? await ParseExpressionCoreAsync(cancellationToken);
+    }
 
-        var left =
-            await ParsePrefixUnaryExpressionAsync(cancellationToken)
+    private async ValueTask<ExpressionSyntax?>
+        ParseExpressionCoreAsync(CancellationToken cancellationToken)
+    {
+        var left = await ParsePrefixUnaryExpressionAsync(cancellationToken)
             ?? await ParseNameAndPostfixUnaryExpressionAsync(cancellationToken);
 
         // TODO: this should produce an error
@@ -24,24 +29,30 @@ public sealed partial class Parser
         var result = await ParseAssignmentExpressionAsync(left, cancellationToken)
             ?? left;
 
-        var trailingDirectives = await ParseDirectivesAsync(cancellationToken);
-
-        return (leadingDirectives.Count, trailingDirectives.Count)
-            is ( > 0, > 0)
-            ? result
-            : result with
-            {
-                LeadingTrivia = leadingDirectives.Count > 0
-                    ? result.LeadingTrivia.Concat(leadingDirectives)
-                    : result.LeadingTrivia,
-                TrailingTrivia = trailingDirectives.Count > 0
-                    ? result.TrailingTrivia.Concat(trailingDirectives)
-                    : result.TrailingTrivia
-            };
+        return result;
     }
 
-    private async ValueTask<ExpressionSyntax?> ParseNameAndPostfixUnaryExpressionAsync(
-        CancellationToken cancellationToken)
+    private async ValueTask<PreprocessorExpressionSyntax?>
+        ParsePreprocessorExpressionAsync(
+            CancellationToken cancellationToken)
+    {
+        var hash = await PeekAsync(SyntaxKind.HashToken, cancellationToken);
+        if (hash == null)
+            return null;
+
+        var directives = await ParseDirectivesAsync(
+            static (@this, token) => @this.ParseExpressionCoreAsync(token),
+            cancellationToken);
+
+        return new PreprocessorExpressionSyntax(
+            Span: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: directives);
+    }
+
+    private async ValueTask<ExpressionSyntax?>
+        ParseNameAndPostfixUnaryExpressionAsync(
+            CancellationToken cancellationToken)
     {
         var term =
             await ParseNewExpressionAsync(cancellationToken)
@@ -115,8 +126,9 @@ public sealed partial class Parser
         }
     }
 
-    private async ValueTask<NewExpressionSyntax?> ParseNewExpressionAsync(
-        CancellationToken cancellationToken)
+    private async ValueTask<NewExpressionSyntax?>
+        ParseNewExpressionAsync(
+            CancellationToken cancellationToken)
     {
         var @new = await PeekAsync(SyntaxKind.NewKeyword, cancellationToken);
 

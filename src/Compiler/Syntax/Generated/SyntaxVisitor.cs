@@ -67,6 +67,7 @@ public abstract partial class SyntaxVisitor
     {
         VisitSyntaxNode(value);
         VisitSyntaxList(value.Members);
+        Visit(value.EndOfFileToken);
     }
 
     /// <summary>
@@ -221,6 +222,17 @@ public abstract partial class SyntaxVisitor
         VisitExpressionSyntax(value);
         Visit(value.OperatorToken);
         Visit(value.Operand);
+    }
+
+    /// <summary>
+    /// Visits the given <see cref="PreprocessorExpressionSyntax"/>.
+    /// </summary>
+    /// <param name="value">
+    /// The <see cref="PreprocessorExpressionSyntax"/> to visit.
+    /// </param>
+    protected internal virtual void VisitPreprocessorExpressionSyntax(PreprocessorExpressionSyntax value)
+    {
+        VisitExpressionSyntax(value);
     }
 
     /// <summary>
