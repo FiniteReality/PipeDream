@@ -23,6 +23,7 @@
       </summary>
     </Comment>
   </KindDef>
+
   <KindDef Name="PreIncrementExpression" Group="Expression">
     <Comment>
       <summary>
@@ -420,6 +421,28 @@
       <summary>
         A preprocessor statement which may produce a value.
       </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="CurrentPathExpression" Group="Expression">
+    <Comment>
+      <summary>
+        The current path operator, <c>.</c>.
+      </summary>
+      <remarks>
+        This is used in expressions such as <c>.["key"] = value</c>
+      </remarks>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ParentPathExpression" Group="Expression">
+    <Comment>
+      <summary>
+        The parent path operator, <c>..</c>.
+      </summary>
+      <remarks>
+        This is used in expressions such as <c>..("value")</c>
+      </remarks>
     </Comment>
   </KindDef>
 

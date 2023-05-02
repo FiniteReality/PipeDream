@@ -37,7 +37,7 @@
     <Kind Name="InterpolatedString" />
   </AbstractNode>
 
-  <AbstractNode Type="LiteralStringSyntax" Base="StringSyntax">
+  <Node Type="LiteralStringSyntax" Base="StringSyntax">
     <Comment>
       <summary>
         Defines a record containing information about a string with no
@@ -76,6 +76,6 @@
     </Member>
 
     <Kind Name="LiteralString" />
-  </AbstractNode>
+  </Node>
 
 </Grammar>

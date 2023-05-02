@@ -56,6 +56,7 @@ public sealed partial class Parser
     {
         var term =
             await ParseNewExpressionAsync(cancellationToken)
+            ?? await ParsePathExpressionAsync(cancellationToken)
             ?? (ExpressionSyntax?)await ParseNameAsync(cancellationToken);
 
         if (term == null)
@@ -131,7 +132,6 @@ public sealed partial class Parser
             CancellationToken cancellationToken)
     {
         var @new = await PeekAsync(SyntaxKind.NewKeyword, cancellationToken);
-
         if (@new == null)
             return null;
 
@@ -144,6 +144,42 @@ public sealed partial class Parser
             Span: default,
             LeadingTrivia: new(),
             TrailingTrivia: new());
+    }
+
+    private async ValueTask<PathExpressionSyntax?>
+        ParsePathExpressionAsync(
+            CancellationToken cancellationToken)
+    {
+        var path = await PeekAsync(cancellationToken);
+        if (path == null)
+            return null;
+
+        if (path.Kind is not
+            SyntaxKind.DotToken or
+            SyntaxKind.DotDotToken)
+            return null;
+
+        _ = await AdvanceAsync(cancellationToken);
+
+        return new PathExpressionSyntax(
+            PathOperator: path,
+            Kind: path.Kind switch
+            {
+                SyntaxKind.DotToken => SyntaxKind.CurrentPathExpression,
+                SyntaxKind.DotDotToken => SyntaxKind.ParentPathExpression,
+                var x => Unreachable(this, x)
+            },
+            Span: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: new());
+
+        [DoesNotReturn]
+        static SyntaxKind Unreachable(Parser @this, SyntaxKind error)
+        {
+            @this.ProduceDiagnostic(() => new(KnownDiagnostics.Unknown));
+            Debug.Fail($"Invalid syntax kind {error}");
+            return SyntaxKind.Unknown;
+        }
     }
 
     private async ValueTask<PostfixUnaryExpressionSyntax?>

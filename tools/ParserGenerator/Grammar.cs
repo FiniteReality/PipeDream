@@ -51,18 +51,6 @@ public sealed record Grammar(
         RootGrammarItem? root = null;
         foreach (var item in grammar.Elements.OfType<XmlGrammarItem>())
         {
-            if (item.Type == null)
-                throw new InvalidOperationException(
-                    $"{nameof(item.Type)} cannot be null");
-            if (item.Base == null && item is not XmlRootGrammarItem)
-                throw new InvalidOperationException(
-                    $"{nameof(item.Base)} cannot be null for type " +
-                    $"{item.Type}");
-            if (item.Comment == null)
-                throw new InvalidOperationException(
-                    $"{nameof(item.Comment)} cannot be null for type " +
-                    $"{item.Type}");
-
             if (items.TryGetValue(item.Type, out var _))
                 throw new InvalidOperationException(
                     $"Duplicate item '{item.Type}'");
@@ -89,6 +77,10 @@ public sealed record Grammar(
             var builder = ImmutableSortedSet.CreateBuilder(KindNameComparer);
             foreach (var kind in kinds ?? Array.Empty<XmlKind>())
             {
+                if (kind.Kind == null)
+                    throw new InvalidOperationException(
+                        $"Invalid kind when building '{name}");
+
                 if (!builtKinds.TryGetValue(kind.Kind, out var found))
                     throw new InvalidOperationException(
                         $"Unknown kind '{kind.Kind}' when building '{name}'");
@@ -127,13 +119,33 @@ public sealed record Grammar(
             XmlGrammarItem item,
             Dictionary<string, GrammarItem> builtItems,
             Dictionary<string, Kind> builtKinds)
-            => item switch
+        {
+            if (item.Type == null)
+                throw new InvalidOperationException(
+                    $"{nameof(item.Type)} cannot be null");
+
+            if (item.Base == null && item is not XmlRootGrammarItem)
+                throw new InvalidOperationException(
+                    $"{nameof(item.Base)} cannot be null for type " +
+                    $"{item.Type}");
+
+            if (item.Comment == null)
+                throw new InvalidOperationException(
+                    $"{nameof(item.Comment)} cannot be null for type " +
+                    $"{item.Type}");
+
+            return item switch
             {
                 XmlRootGrammarItem root
                     => new RootGrammarItem(
                         DocumentationComment: root.Comment,
                         Members: root.Members.Select(
-                            m => BuildMember(grammar, m, builtItems, builtKinds))
+                            m => BuildMember(
+                                grammar,
+                                root.Type,
+                                m,
+                                builtItems,
+                                builtKinds))
                             .ToImmutableArray(),
                         Type: root.Type),
                 XmlAbstractGrammarItem @abstract
@@ -146,6 +158,7 @@ public sealed record Grammar(
                             (@abstract.Members ?? Array.Empty<XmlMember>())
                                 .Select(m => BuildMember(
                                     grammar,
+                                    @abstract.Type,
                                     m,
                                     builtItems,
                                     builtKinds))
@@ -161,6 +174,7 @@ public sealed record Grammar(
                             (@sealed.Members ?? Array.Empty<XmlMember>())
                                 .Select(m => BuildMember(
                                     grammar,
+                                    @sealed.Type,
                                     m,
                                     builtItems,
                                     builtKinds))
@@ -169,15 +183,33 @@ public sealed record Grammar(
                 _ => throw new InvalidOperationException(
                     "Unknown XML grammar item")
             };
+        }
 
         static Member BuildMember(XmlGrammar grammar,
+            string type,
             XmlMember member,
             Dictionary<string, GrammarItem> builtItems,
             Dictionary<string, Kind> builtKinds)
         {
+            if (member.Name == null)
+                throw new InvalidOperationException(
+                    $"{nameof(member.Name)} cannot be null for member in " +
+                    $"type {type}");
+
+            if (member.Type == null)
+                throw new InvalidOperationException(
+                    $"{nameof(member.Type)} cannot be null for member " +
+                    $"{member.Name} in type {type}");
+
+            if (member.Comment == null)
+                throw new InvalidOperationException(
+                    $"{nameof(member.Comment)} cannot be null for member " +
+                    $"{member.Name} in type {type}");
+
             if (member.Override && member.Kinds?.Length == 0)
                 throw new InvalidOperationException(
                     "Cannot override if not specifying kinds");
+
             if (member.Virtual && member.Override)
                 throw new InvalidOperationException(
                     "Cannot specify both Virtual and Override");

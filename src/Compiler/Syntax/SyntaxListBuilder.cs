@@ -15,6 +15,26 @@ internal struct SyntaxListBuilder<T>
     // And use a builder if we need more.
     private ImmutableArray<T>.Builder? _builder;
 
+    public int Count => _builder != null
+        ? _builder.Count
+        : (_first, _second, _third, _fourth) switch
+        {
+            (null, null, null, null) => 0,
+            (not null, null, null, null) => 1,
+            (not null, not null, null, null) => 2,
+            (not null, not null, not null, null) => 3,
+            (not null, not null, not null, not null) => 4,
+
+            _ => throw new InvalidOperationException("Unreachable")
+        };
+
+    public bool Empty =>
+        _builder == null &&
+        _first == null &&
+        _second == null &&
+        _third == null &&
+        _fourth == null;
+
     public SyntaxListBuilder(int initialCapacity)
     {
         if (initialCapacity > 4)

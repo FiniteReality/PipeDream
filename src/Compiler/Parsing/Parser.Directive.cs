@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Parsing;
@@ -53,10 +54,11 @@ public sealed partial class Parser
 
         return await PeekAsync(cancellationToken) switch
         {
-            null => null,
+            { Kind: SyntaxKind.DefineKeyword }
+                => await ParseDefineDirectiveTriviaAsync(hash, cancellationToken),
 
-            //{ Kind: SyntaxKind.DefineKeyword }
-            //    => await ParseDefineDirectiveTriviaAsync(hash, cancellationToken),
+            { Kind: SyntaxKind.IncludeKeyword }
+                => await ParseIncludeDirectiveTriviaAsync(hash, cancellationToken),
 
             _ => await ParseBadDirectiveTriviaAsync(hash, cancellationToken)
         };
@@ -89,7 +91,71 @@ public sealed partial class Parser
             SyntaxToken hash,
             CancellationToken cancellationToken)
     {
-        await default(ValueTask);
-        return null;
+        var define = await ExpectAsync(SyntaxKind.DefineKeyword, cancellationToken);
+        if (define == null)
+            return null;
+
+        var name = await ParseSimpleNameAsync(cancellationToken);
+        if (name == null)
+        {
+            ProduceDiagnostic(ParseError.ExpectedIdentifier);
+            return null;
+        }
+
+        if (name.Name.TrailingTrivia.Any(x => x.Kind == SyntaxKind.EndOfLineTrivia))
+            return new DefineDirectiveTriviaSyntax(
+                HashToken: hash,
+                DefineKeyword: define,
+                Name: name,
+                Value: null,
+                Span: default,
+                LeadingTrivia: new(),
+                TrailingTrivia: new());
+
+        // TODO: multiple values (SeparatedSyntaxList?)
+        // TODO: accept backslash as an escape
+        var value =
+            (SyntaxNode?)await ParseMemberDeclarationCoreAsync(cancellationToken)
+            ?? await ParseExpressionCoreAsync(cancellationToken);
+
+        if (value == null)
+        {
+            Debug.Fail("Failed to parse a value?");
+            return null;
+        }
+
+        return new DefineDirectiveTriviaSyntax(
+            HashToken: hash,
+            DefineKeyword: define,
+            Name: name,
+            Value: value,
+            Span: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: new());
+    }
+
+    private async ValueTask<IncludeDirectiveTriviaSyntax?>
+        ParseIncludeDirectiveTriviaAsync(
+            SyntaxToken hash,
+            CancellationToken cancellationToken)
+    {
+        var include = await ExpectAsync(SyntaxKind.IncludeKeyword, cancellationToken);
+        if (include == null)
+            return null;
+
+        var file = await ParseStringAsync(cancellationToken);
+        if (file is not LiteralStringSyntax)
+        {
+            ProduceDiagnostic(SyntaxKind.LiteralString, ParseError.ExpectedSyntax);
+            return null;
+        }
+
+        return new IncludeDirectiveTriviaSyntax(
+            HashToken: hash,
+            IncludeKeyword: include,
+            File: file,
+            Span: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: new());
     }
 }

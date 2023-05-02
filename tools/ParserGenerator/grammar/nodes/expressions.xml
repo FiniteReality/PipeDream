@@ -468,4 +468,26 @@
 
     <Kind Name="PreprocessorExpression" />
   </Node>
+
+  <Node Type="PathExpressionSyntax" Base="ExpressionSyntax">
+    <Comment>
+      <summary>
+        Defines a record containing information about a path expression.
+      </summary>
+    </Comment>
+
+    <Kind Name="CurrentPathExpression" /> <!-- . -->
+    <Kind Name="ParentPathExpression" /> <!-- .. -->
+
+    <Member Name="PathOperator" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the token representing the operator of this path expression.
+        </summary>
+      </Comment>
+
+      <Kind Name="DotToken" />
+      <Kind Name="DotDotToken" />
+    </Member>
+  </Node>
 </Grammar>

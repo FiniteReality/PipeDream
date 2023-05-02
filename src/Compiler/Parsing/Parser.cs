@@ -80,6 +80,7 @@ public sealed partial class Parser
                 }
             }
 
+            @this.ProduceDiagnostic(kind, ParseError.ExpectedSyntax);
             return null;
         }
     }

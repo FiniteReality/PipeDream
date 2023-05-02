@@ -50,7 +50,6 @@ internal static partial class CodeGeneratorExtensions
 
         foreach (var member in item.Members)
         {
-            var type = member.Type.TrimEnd('?');
             if (member.Type.StartsWith("SyntaxList", StringComparison.OrdinalIgnoreCase))
             {
                 writer.Write("        VisitSyntaxList(value.");

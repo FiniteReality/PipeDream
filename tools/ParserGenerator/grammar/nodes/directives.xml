@@ -55,22 +55,21 @@
       <Kind Name="DefineKeyword" />
     </Member>
 
-    <Member Name="Name" Type="SyntaxToken">
+    <Member Name="Name" Type="SimpleNameSyntax">
       <Comment>
         <summary>
           Gets the name of the preprocessor variable to define.
         </summary>
       </Comment>
-
-      <Kind Name="IdentifierToken" />
     </Member>
 
     <!-- TODO: parameters -->
 
-    <Member Name="Value" Type="SyntaxNode">
+    <Member Name="Value" Type="SyntaxNode?">
       <Comment>
         <summary>
-          Gets the value to be substituted in place of <see cref="Name" />.
+          Gets the value to be substituted in place of <see cref="Name" />,
+          or null if there is none.
         </summary>
       </Comment>
     </Member>

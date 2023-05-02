@@ -4,7 +4,7 @@ namespace PipeDream.Compiler.Syntax;
 /// Defines a record containing information about a string with no
 /// interpolated sections.
 /// </summary>
-public abstract partial record LiteralStringSyntax(
+public sealed partial record LiteralStringSyntax(
     SyntaxToken StringStartToken,
     SyntaxToken Text,
     SyntaxToken StringEndToken,

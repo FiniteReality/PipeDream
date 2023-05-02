@@ -429,6 +429,13 @@ public enum SyntaxKind
     ConditionalExpression,
 
     /// <summary>
+    /// The current path operator, <c>.</c>.
+    /// </summary>
+    /// <remarks>
+    /// This is used in expressions such as <c>.["key"] = value</c></remarks>
+    CurrentPathExpression,
+
+    /// <summary>
     /// A dereference <see cref="PrefixUnaryExpressionSyntax" />.
     /// </summary>
     DereferenceExpression,
@@ -532,6 +539,13 @@ public enum SyntaxKind
     /// An inequivalency <see cref="BinaryExpressionSyntax" />.
     /// </summary>
     NotEquivalentExpression,
+
+    /// <summary>
+    /// The parent path operator, <c>..</c>.
+    /// </summary>
+    /// <remarks>
+    /// This is used in expressions such as <c>..("value")</c></remarks>
+    ParentPathExpression,
 
     /// <summary>
     /// A post-decrement <see cref="PostfixUnaryExpressionSyntax" />.
@@ -1077,20 +1091,20 @@ internal static class SyntaxKindExtensions
             < 73 => SyntaxGroup.ContextualKeyword,
             < 76 => SyntaxGroup.Declaration,
             < 77 => SyntaxGroup.DeclarationPart,
-            < 112 => SyntaxGroup.Expression,
-            < 113 => SyntaxGroup.File,
-            < 115 => SyntaxGroup.Invalid,
-            < 140 => SyntaxGroup.Keyword,
-            < 143 => SyntaxGroup.Names,
-            < 144 => SyntaxGroup.Numeric,
-            < 147 => SyntaxGroup.Preprocessor,
-            < 158 => SyntaxGroup.PreprocessorKeyword,
-            < 183 => SyntaxGroup.Punctuation,
-            < 184 => SyntaxGroup.Statement,
-            < 193 => SyntaxGroup.String,
-            < 195 => SyntaxGroup.Strings,
-            < 196 => SyntaxGroup.Textual,
-            < 200 => SyntaxGroup.Trivia,
+            < 114 => SyntaxGroup.Expression,
+            < 115 => SyntaxGroup.File,
+            < 117 => SyntaxGroup.Invalid,
+            < 142 => SyntaxGroup.Keyword,
+            < 145 => SyntaxGroup.Names,
+            < 146 => SyntaxGroup.Numeric,
+            < 149 => SyntaxGroup.Preprocessor,
+            < 160 => SyntaxGroup.PreprocessorKeyword,
+            < 185 => SyntaxGroup.Punctuation,
+            < 186 => SyntaxGroup.Statement,
+            < 195 => SyntaxGroup.String,
+            < 197 => SyntaxGroup.Strings,
+            < 198 => SyntaxGroup.Textual,
+            < 202 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

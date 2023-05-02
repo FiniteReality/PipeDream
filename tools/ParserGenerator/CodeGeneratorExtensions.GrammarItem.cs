@@ -22,7 +22,7 @@ internal static partial class CodeGeneratorExtensions
 
         writer.WriteLine("{");
 
-        WriteAcceptMethod(writer, item.Type);
+        WriteAcceptMethods(writer, item.Type);
         writer.WriteLine();
 
         if (item.Kinds.Count > 1)
@@ -262,7 +262,7 @@ $"            _ => throw new ArgumentException(\n" +
             }
         }
 
-        static void WriteAcceptMethod(TextWriter writer,
+        static void WriteAcceptMethods(TextWriter writer,
             string type)
         {
             writer.Write("    static void IVisitable<");

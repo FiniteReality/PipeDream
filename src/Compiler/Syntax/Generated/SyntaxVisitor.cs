@@ -199,6 +199,18 @@ public abstract partial class SyntaxVisitor
     }
 
     /// <summary>
+    /// Visits the given <see cref="PathExpressionSyntax"/>.
+    /// </summary>
+    /// <param name="value">
+    /// The <see cref="PathExpressionSyntax"/> to visit.
+    /// </param>
+    protected internal virtual void VisitPathExpressionSyntax(PathExpressionSyntax value)
+    {
+        VisitExpressionSyntax(value);
+        Visit(value.PathOperator);
+    }
+
+    /// <summary>
     /// Visits the given <see cref="PostfixUnaryExpressionSyntax"/>.
     /// </summary>
     /// <param name="value">

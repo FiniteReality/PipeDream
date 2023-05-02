@@ -1,0 +1,3 @@
+# Syntax trees printed by the visitor are in yaml format. This is here to
+# prevent committing code which may be under different licenses.
+*.yaml
