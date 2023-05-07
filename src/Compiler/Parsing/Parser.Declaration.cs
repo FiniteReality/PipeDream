@@ -20,10 +20,15 @@ public sealed partial class Parser
             members.Add(member);
         }
 
+        var skipped = await SkipTokensWhileAsync(t => true, true, cancellationToken);
         var eof = await ExpectAsync(SyntaxKind.EndOfFileToken,
             cancellationToken);
+        Debug.Assert(eof != null, "EOF was null");
 
-        Debug.Assert(eof != null, "Didn't parse all of the input text");
+        eof = eof with
+        {
+            TrailingTrivia = eof.TrailingTrivia.Append(skipped)
+        };
 
         return new CompilationUnitSyntax(
             Members: members.Build(),

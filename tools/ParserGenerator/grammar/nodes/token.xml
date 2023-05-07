@@ -159,6 +159,8 @@
     <Kind Name="BackslashToken" />
     <Kind Name="DotDotToken" />
 
+    <Kind Name="CommaToken" />
+
     <Kind Name="IdentifierToken" />
     <Kind Name="NumberToken" />
     <Kind Name="InterpolatedStringStartToken" />
@@ -169,7 +171,11 @@
     <Kind Name="RawStringEndToken" />
     <Kind Name="RawVerbatimStringStartToken" />
     <Kind Name="RawVerbatimStringEndToken" />
+    <Kind Name="ResourceStringStartToken" />
+    <Kind Name="ResourceStringEndToken" />
     <Kind Name="StringTextToken" />
+    <Kind Name="OpenBracketToken" />
+    <Kind Name="CloseBracketToken" />
     <Kind Name="EndOfFileToken" />
   </Node>
 

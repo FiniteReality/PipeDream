@@ -26,6 +26,7 @@ public sealed partial record SimpleTriviaSyntax(
         => value switch
         {
             SyntaxKind.EndOfLineTrivia or
+            SyntaxKind.MultiLineCommentTrivia or
             SyntaxKind.SingleLineCommentTrivia or
             SyntaxKind.WhitespaceTrivia
                 => value,

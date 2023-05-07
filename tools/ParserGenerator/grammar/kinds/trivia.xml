@@ -32,6 +32,14 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="MultiLineCommentTrivia" Group="Trivia">
+    <Comment>
+      <summary>
+        A multi-line comment in the syntax tree.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="BadDirectiveTrivia" Group="Preprocessor">
     <Comment>
       <summary>

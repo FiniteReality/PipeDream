@@ -4,7 +4,7 @@ namespace PipeDream.Compiler.Parsing;
 
 public sealed partial class Parser
 {
-    private async ValueTask<SkippedTokensTriviaSyntax?> SkipTokensWhileAsync(
+    private async ValueTask<SkippedTokensTriviaSyntax> SkipTokensWhileAsync(
         Func<SyntaxToken, bool> predicate,
         bool includeLast,
         CancellationToken cancellationToken)
@@ -13,7 +13,9 @@ public sealed partial class Parser
 
         var token = await PeekAsync(cancellationToken);
 
-        while (token != null && predicate(token))
+        while (token != null
+            && token.Kind != SyntaxKind.EndOfFileToken
+            && predicate(token))
         {
             skipped.Add(token);
 
@@ -21,7 +23,9 @@ public sealed partial class Parser
             token = await PeekAsync(cancellationToken);
         }
 
-        if (token != null && includeLast)
+        if (token != null
+            && token.Kind != SyntaxKind.EndOfFileToken
+            && includeLast)
         {
             skipped.Add(token);
             _ = await AdvanceAsync(cancellationToken);

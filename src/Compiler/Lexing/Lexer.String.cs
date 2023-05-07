@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Diagnostics;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
@@ -23,7 +24,7 @@ public ref partial struct Lexer
 
 
                 // Quotes are always important, except when escaped.
-                case (byte)'"' when !escapeNext:
+                case (byte)'"' or (byte)'\'' when !escapeNext:
                     _mode |= LexerMode.Normal;
                     return GetToken(ref _reader, out token);
 
@@ -42,6 +43,7 @@ public ref partial struct Lexer
                 {
                     // newlines aren't allowed in non-verbatim strings
                     ProduceDiagnostic(LexError.UnterminatedString);
+                    Debug.Fail("Unterminated string");
                     token = default;
                     return OperationStatus.InvalidData;
                 }

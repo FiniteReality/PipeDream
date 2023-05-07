@@ -997,6 +997,16 @@ public enum SyntaxKind
     RawVerbatimStringStartToken,
 
     /// <summary>
+    /// Represents the <c>'</c> token at the end of a resource string.
+    /// </summary>
+    ResourceStringEndToken,
+
+    /// <summary>
+    /// Represents the <c>'</c> token at the start of a resource string.
+    /// </summary>
+    ResourceStringStartToken,
+
+    /// <summary>
     /// Represents text within a string.
     /// </summary>
     StringTextToken,
@@ -1012,6 +1022,11 @@ public enum SyntaxKind
     /// </summary>
     LiteralString,
 
+    /// <summary>
+    /// A string representing the path to a resource file.
+    /// </summary>
+    ResourceString,
+
     // Group: Textual
     /// <summary>
     /// Represents an identifier in source code.
@@ -1023,6 +1038,11 @@ public enum SyntaxKind
     /// An end of line in the syntax tree.
     /// </summary>
     EndOfLineTrivia,
+
+    /// <summary>
+    /// A multi-line comment in the syntax tree.
+    /// </summary>
+    MultiLineCommentTrivia,
 
     /// <summary>
     /// A single line comment in the syntax tree.
@@ -1101,10 +1121,10 @@ internal static class SyntaxKindExtensions
             < 160 => SyntaxGroup.PreprocessorKeyword,
             < 185 => SyntaxGroup.Punctuation,
             < 186 => SyntaxGroup.Statement,
-            < 195 => SyntaxGroup.String,
-            < 197 => SyntaxGroup.Strings,
-            < 198 => SyntaxGroup.Textual,
-            < 202 => SyntaxGroup.Trivia,
+            < 197 => SyntaxGroup.String,
+            < 200 => SyntaxGroup.Strings,
+            < 201 => SyntaxGroup.Textual,
+            < 206 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }

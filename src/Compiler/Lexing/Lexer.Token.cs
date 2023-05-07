@@ -10,6 +10,7 @@ public ref partial struct Lexer
     {
         Tracing.StartLexingToken(_reader.GetOffset());
         _tokenBeginning = _reader.Position;
+        _initialMode = _mode;
     }
 
     private void EndToken(bool rewind)
@@ -17,7 +18,12 @@ public ref partial struct Lexer
         Tracing.StopLexingToken(_reader.GetOffset(), rewind);
 
         if (rewind)
+        {
             _reader.Rewind(_tokenBeginning);
+            // Restore the mode to ensure we lex the token correctly when
+            // invoked again with more data.
+            _mode = _initialMode;
+        }
     }
 
     private OperationStatus LexToken(out LexerToken token)
@@ -59,7 +65,9 @@ public ref partial struct Lexer
                 var status = _reader.TryGetString(out var invalid);
                 if (status != OperationStatus.Done)
                 {
-                    token = default;
+                    token = new(SyntaxKind.BadToken,
+                        _reader.TrackedPosition,
+                        _reader.Position);
                     return status;
                 }
 

@@ -1,5 +1,6 @@
 using System.Buffers;
 using System.Diagnostics;
+using System.Reflection;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
@@ -59,7 +60,7 @@ public ref partial struct Lexer
             case (byte)'/':
                 return LexCommentTrivia(out token);
             // Whitespace
-            case (byte)' ':
+            case (byte)' ' or (byte)'\t':
                 return LexWhitespaceTrivia(out token);
             case (byte)'\r' or (byte)'\n':
                 return LexEndOfLineTrivia(out token);
@@ -107,10 +108,86 @@ public ref partial struct Lexer
             };
             return OperationStatus.Done;
         }
+        else if (next == '*')
+        {
+            var status = TryComputeDepth(ref _reader, out var depth);
+            if (status != OperationStatus.Done)
+            {
+                token = default;
+                return status;
+            }
 
-        // TODO: multi-line comments
+            while (depth > 0)
+            {
+                status = _reader.TryReadToAny(
+                    CharacterMaps.MultiLineCommentCharacters);
+                if (status != OperationStatus.Done)
+                {
+                    token = default;
+                    return status;
+                }
+
+                if (!_reader.TryRead(out var cur) ||
+                    !_reader.TryRead(out next))
+                {
+                    token = default;
+                    return OperationStatus.NeedMoreData;
+                }
+
+                switch ((cur, next))
+                {
+                    case ((byte)'*', (byte)'/'):
+                        depth--;
+                        break;
+                    case ((byte)'/', (byte)'*'):
+                        depth++;
+                        break;
+                    default:
+                        continue;
+                }
+            }
+
+            status = _reader.TryGetString(out var comment);
+            if (status != OperationStatus.Done)
+            {
+                token = default;
+                return status;
+            }
+
+            token = new(
+                Kind: SyntaxKind.MultiLineCommentTrivia,
+                Start: _reader.TrackedPosition,
+                End: _reader.Position)
+            {
+                StringValue = comment
+            };
+            return OperationStatus.Done;
+        }
+
         token = default;
         return OperationStatus.InvalidData;
+
+        static OperationStatus TryComputeDepth(ref Reader reader, out int depth)
+        {
+            depth = 0;
+            do
+            {
+                if (!reader.TryPeek(out var slash) ||
+                    !reader.TryPeek(1, out var asterisk))
+                    return OperationStatus.NeedMoreData;
+
+                if (slash != '/' || asterisk != '*')
+                    break;
+
+                var status = reader.TryAdvance(2);
+                if (status != OperationStatus.Done)
+                    return status;
+
+                depth++;
+            }
+            while (true);
+            return OperationStatus.Done;
+        }
     }
 
     private OperationStatus LexWhitespaceTrivia(out LexerToken token)

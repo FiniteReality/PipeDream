@@ -544,6 +544,22 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="ResourceStringStartToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>'</c> token at the start of a resource string.
+      </summary>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="ResourceStringEndToken" Group="String">
+    <Comment>
+      <summary>
+        Represents the <c>'</c> token at the end of a resource string.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="StringTextToken" Group="String">
     <Comment>
       <summary>

@@ -35,6 +35,7 @@
     </Member>
 
     <Kind Name="SingleLineCommentTrivia" />
+    <Kind Name="MultiLineCommentTrivia" />
     <Kind Name="EndOfLineTrivia" />
     <Kind Name="WhitespaceTrivia" />
   </Node>

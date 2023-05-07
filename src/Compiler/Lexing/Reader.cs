@@ -120,9 +120,6 @@ internal ref struct Reader
             validCharacters, advancePastDelimiter: false))
             return OperationStatus.NeedMoreData;
 
-        // If we didn't skip any characters for whatever reason.
-        if (sequence.Length <= 0)
-            return OperationStatus.InvalidData;
         // If we hit the end of the current buffer and there's more data, we
         // should fail now because there could be more valid characters
         // afterwards.

@@ -16,4 +16,12 @@
     </Comment>
   </KindDef>
 
+  <KindDef Name="ResourceString" Group="Strings">
+    <Comment>
+      <summary>
+        A string representing the path to a resource file.
+      </summary>
+    </Comment>
+  </KindDef>
+
 </Grammar>

@@ -72,9 +72,8 @@ public sealed partial class Parser
         var name = await ParseSimpleNameAsync(cancellationToken);
 
         var skipped = await SkipTokensWhileAsync(
-            x => x.Kind != SyntaxKind.EndOfFileToken
-                && x.TrailingTrivia.All(
-                    y => y.Kind != SyntaxKind.EndOfLineTrivia),
+            x => x.TrailingTrivia.All(
+                y => y.Kind != SyntaxKind.EndOfLineTrivia),
             includeLast: true,
             cancellationToken);
 

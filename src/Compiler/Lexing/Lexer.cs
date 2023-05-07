@@ -20,6 +20,7 @@ public ref partial struct Lexer
 
     // Exists for the duration of Lex()
     private SequencePosition _tokenBeginning;
+    private LexerMode _initialMode;
     /// <summary>
     /// Creates a lexer for the given block of input data.
     /// </summary>

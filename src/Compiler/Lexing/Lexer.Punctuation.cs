@@ -109,6 +109,13 @@ public ref partial struct Lexer
             ('{', _, _) => (default, OpenBraceToken),
             ('}', _, _) => (default, CloseBraceToken),
 
+            ('|', -1, _) => (OperationStatus.NeedMoreData, default),
+            ('|', '=', _) => (default, BarEqualsToken),
+            ('|', '|', -1) => (OperationStatus.NeedMoreData, default),
+            ('|', '|', '=') => (default, BarBarEqualsToken),
+            ('|', '|', _) => (default, BarBarToken),
+            ('|', _, _) => (default, BarToken),
+
             ('~', -1, _) => (OperationStatus.NeedMoreData, default),
             ('~', '=', _) => (default, TildeEqualsToken),
             ('~', '!', _) => (default, TildeExclamationToken),
@@ -128,6 +135,12 @@ public ref partial struct Lexer
             ('"', >= 0, _) when (_mode & LexerMode.String) == 0
                 => (default, InterpolatedStringStartToken),
 
+            ('\'', _, _) when (_mode & LexerMode.String) == 0
+                => (default, ResourceStringStartToken),
+
+            ('\'', _, _) when (_mode & LexerMode.String) != 0
+                => (default, ResourceStringEndToken),
+
             ('@', -1, _) => (OperationStatus.NeedMoreData, default),
             ('@', '{', -1) => (OperationStatus.NeedMoreData, default),
             ('@', '{', '"') => (default, RawVerbatimStringStartToken),
@@ -140,7 +153,7 @@ public ref partial struct Lexer
 
         if (status != OperationStatus.Done)
         {
-            token = default;
+            token = new(BadToken, _reader.TrackedPosition, _reader.Position);
             return status;
         }
 
@@ -153,7 +166,8 @@ public ref partial struct Lexer
             CommaToken or OpenBracketToken or CloseBracketToken or
             BackslashToken or OpenParenthesisToken or CloseParenthesisToken or
             InterpolatedStringStartToken or InterpolatedStringEndToken or
-            RawStringEndToken
+            RawStringEndToken or ResourceStringStartToken or
+            ResourceStringEndToken or BarToken or AmpersandToken
                 => 1,
 
             ExclamationEqualsToken or PercentEqualsToken or
@@ -166,12 +180,13 @@ public ref partial struct Lexer
             QuestionDotToken or QuestionColonToken or CaretEqualsToken or
             TildeEqualsToken or TildeExclamationToken or DotDotToken or
             RawStringStartToken or RawVerbatimStringEndToken or
-            InterpolatedVerbatimStringEndToken
+            InterpolatedVerbatimStringEndToken or EqualsEqualsToken or
+            BarBarToken or BarEqualsToken
                 => 2,
 
             PercentPercentEqualsToken or AmpersandAmpersandEqualsToken or
             LessThanLessThanEqualsToken or GreaterThanGreaterThanEqualsToken or
-            RawVerbatimStringStartToken
+            RawVerbatimStringStartToken or BarBarEqualsToken
                 => 3,
 
             var fail => throw new InvalidOperationException($"Oops! {fail}")
@@ -179,14 +194,14 @@ public ref partial struct Lexer
 
         if (status != OperationStatus.Done)
         {
-            token = default;
+            token = new(BadToken, _reader.TrackedPosition, _reader.Position);
             return status;
         }
 
         status = _reader.TryGetString(out var punctuation);
         if (status != OperationStatus.Done)
         {
-            token = default;
+            token = new(BadToken, _reader.TrackedPosition, _reader.Position);
             return status;
         }
 
@@ -216,6 +231,7 @@ public ref partial struct Lexer
                 break;
 
             case RawStringStartToken:
+            case ResourceStringStartToken:
                 _mode |= LexerMode.String;
                 _mode &= ~LexerMode.Normal;
                 break;
@@ -224,6 +240,7 @@ public ref partial struct Lexer
             case InterpolatedVerbatimStringEndToken:
             case RawStringEndToken:
             case RawVerbatimStringEndToken:
+            case ResourceStringEndToken:
                 _mode &= ~LexerMode.Verbatim;
                 _mode &= ~LexerMode.Interpolated;
                 _mode &= ~LexerMode.String;

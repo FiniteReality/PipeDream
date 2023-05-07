@@ -47,10 +47,12 @@ public sealed partial record SyntaxToken(
             SyntaxKind.CaretToken or
             SyntaxKind.CatchKeyword or
             SyntaxKind.ClientKeyword or
+            SyntaxKind.CloseBracketToken or
             SyntaxKind.CloseParenthesisToken or
             SyntaxKind.ColonColonToken or
             SyntaxKind.ColonEqualsToken or
             SyntaxKind.ColonToken or
+            SyntaxKind.CommaToken or
             SyntaxKind.ConstKeyword or
             SyntaxKind.ContinueKeyword or
             SyntaxKind.DatabaseKeyword or
@@ -106,6 +108,7 @@ public sealed partial record SyntaxToken(
             SyntaxKind.NullKeyword or
             SyntaxKind.NumberToken or
             SyntaxKind.ObjKeyword or
+            SyntaxKind.OpenBracketToken or
             SyntaxKind.OpenParenthesisToken or
             SyntaxKind.OperatorKeyword or
             SyntaxKind.PercentEqualsToken or
@@ -126,6 +129,8 @@ public sealed partial record SyntaxToken(
             SyntaxKind.RawVerbatimStringEndToken or
             SyntaxKind.RawVerbatimStringStartToken or
             SyntaxKind.RegexKeyword or
+            SyntaxKind.ResourceStringEndToken or
+            SyntaxKind.ResourceStringStartToken or
             SyntaxKind.ReturnKeyword or
             SyntaxKind.SavefileKeyword or
             SyntaxKind.SetKeyword or

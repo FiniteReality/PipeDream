@@ -16,4 +16,7 @@ internal static class CharacterMaps
 
     internal static ReadOnlySpan<byte> LineTerminator
         => "\r\n"u8;
+
+    internal static ReadOnlySpan<byte> MultiLineCommentCharacters
+        => "/*"u8;
 }
