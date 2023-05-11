@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Diagnostics;
 using PipeDream.Compiler.Syntax;
 
 using static PipeDream.Compiler.Syntax.SyntaxKind;
@@ -74,6 +75,8 @@ public ref partial struct Lexer
             (':', ':', _) => (default, ColonColonToken),
             (':', _, _) => (default, ColonToken),
 
+            (';', _, _) => (default, SemicolonToken),
+
             ('<', -1, _) => (OperationStatus.NeedMoreData, default),
             ('<', '=', _) => (default, LessThanEqualsToken),
             ('<', '>', _) => (default, LessThanGreaterThanToken),
@@ -106,6 +109,8 @@ public ref partial struct Lexer
             ('^', '=', _) => (default, CaretEqualsToken),
             ('^', _, _) => (default, CaretToken),
 
+            ('{', -1, _) => (OperationStatus.NeedMoreData, default),
+            ('{', '"', _) => (default, InterpolatedVerbatimStringStartToken),
             ('{', _, _) => (default, OpenBraceToken),
             ('}', _, _) => (default, CloseBraceToken),
 
@@ -153,6 +158,9 @@ public ref partial struct Lexer
 
         if (status != OperationStatus.Done)
         {
+            _ = _reader.TryPeek(out var read);
+            Debug.Assert(status != OperationStatus.InvalidData,
+                $"Unknown character {(char)read}");
             token = new(BadToken, _reader.TrackedPosition, _reader.Position);
             return status;
         }
@@ -167,7 +175,8 @@ public ref partial struct Lexer
             BackslashToken or OpenParenthesisToken or CloseParenthesisToken or
             InterpolatedStringStartToken or InterpolatedStringEndToken or
             RawStringEndToken or ResourceStringStartToken or
-            ResourceStringEndToken or BarToken or AmpersandToken
+            ResourceStringEndToken or BarToken or AmpersandToken or
+            SemicolonToken
                 => 1,
 
             ExclamationEqualsToken or PercentEqualsToken or
@@ -180,8 +189,9 @@ public ref partial struct Lexer
             QuestionDotToken or QuestionColonToken or CaretEqualsToken or
             TildeEqualsToken or TildeExclamationToken or DotDotToken or
             RawStringStartToken or RawVerbatimStringEndToken or
+            InterpolatedVerbatimStringStartToken or
             InterpolatedVerbatimStringEndToken or EqualsEqualsToken or
-            BarBarToken or BarEqualsToken
+            BarBarToken or BarEqualsToken or GreaterThanEqualsToken
                 => 2,
 
             PercentPercentEqualsToken or AmpersandAmpersandEqualsToken or
@@ -194,6 +204,7 @@ public ref partial struct Lexer
 
         if (status != OperationStatus.Done)
         {
+            Debug.Assert(status != OperationStatus.InvalidData);
             token = new(BadToken, _reader.TrackedPosition, _reader.Position);
             return status;
         }
@@ -201,6 +212,7 @@ public ref partial struct Lexer
         status = _reader.TryGetString(out var punctuation);
         if (status != OperationStatus.Done)
         {
+            Debug.Assert(status != OperationStatus.InvalidData);
             token = new(BadToken, _reader.TrackedPosition, _reader.Position);
             return status;
         }
@@ -231,8 +243,13 @@ public ref partial struct Lexer
                 break;
 
             case RawStringStartToken:
+                _mode |= LexerMode.String;
+                _mode &= ~LexerMode.Normal;
+                break;
+
             case ResourceStringStartToken:
                 _mode |= LexerMode.String;
+                _mode |= LexerMode.Resource;
                 _mode &= ~LexerMode.Normal;
                 break;
 
@@ -241,6 +258,7 @@ public ref partial struct Lexer
             case RawStringEndToken:
             case RawVerbatimStringEndToken:
             case ResourceStringEndToken:
+                _mode &= ~LexerMode.Resource;
                 _mode &= ~LexerMode.Verbatim;
                 _mode &= ~LexerMode.Interpolated;
                 _mode &= ~LexerMode.String;

@@ -14,6 +14,7 @@ public ref partial struct Lexer
         var status = _reader.TryAdvancePastAny(CharacterMaps.Digit);
         if (status != OperationStatus.Done)
         {
+            Debug.Assert(status != OperationStatus.InvalidData, "LexNumber advance fail");
             token = default;
             return status;
         }
@@ -26,9 +27,11 @@ public ref partial struct Lexer
 
         if (trailer == (byte)'.')
         {
+            _reader.Advance();
             status = _reader.TryAdvancePastAny(CharacterMaps.Digit);
             if (status != OperationStatus.Done)
             {
+                Debug.Assert(status != OperationStatus.InvalidData, "LexNumber advance fail");
                 token = default;
                 return status;
             }
@@ -37,6 +40,7 @@ public ref partial struct Lexer
         status = _reader.TryGetString(out var number);
         if (status != OperationStatus.Done)
         {
+            Debug.Assert(status != OperationStatus.InvalidData, "LexNumber getstring fail");
             token = default;
             return status;
         }
@@ -44,12 +48,12 @@ public ref partial struct Lexer
         // TODO: actually convert it to a float here?
 
         token = new(
-            Kind: SyntaxKind.NumberToken,
+            Kind: SyntaxKind.NumericLiteralToken,
             Start: _reader.TrackedPosition,
             End: _reader.Position)
         {
             StringValue = number
         };
-        return OperationStatus.InvalidData;
+        return OperationStatus.Done;
     }
 }

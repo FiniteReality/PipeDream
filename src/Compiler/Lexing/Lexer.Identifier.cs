@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Diagnostics;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
@@ -9,6 +10,7 @@ public ref partial struct Lexer
         // Identifiers cannot start with digits
         if (!_reader.TryPeek(out var c) || CharacterMaps.Digit.Contains(c))
         {
+            Debug.Fail("LexIdentifier() with digit");
             token = default;
             return OperationStatus.InvalidData;
         }
@@ -16,6 +18,7 @@ public ref partial struct Lexer
         var status = _reader.TryAdvancePastAny(CharacterMaps.Identifier);
         if (status != OperationStatus.Done)
         {
+            Debug.Assert(status != OperationStatus.InvalidData, "LexIdentifier() advance fail");
             token = default;
             return status;
         }
@@ -23,6 +26,7 @@ public ref partial struct Lexer
         status = _reader.TryGetString(out var identifier);
         if (status != OperationStatus.Done)
         {
+            Debug.Assert(status != OperationStatus.InvalidData, "LexIdentifier() getstring fail");
             token = default;
             return status;
         }
