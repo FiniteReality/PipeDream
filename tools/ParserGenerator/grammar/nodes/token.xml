@@ -160,9 +160,10 @@
     <Kind Name="DotDotToken" />
 
     <Kind Name="CommaToken" />
+    <Kind Name="SemicolonToken" />
 
     <Kind Name="IdentifierToken" />
-    <Kind Name="NumberToken" />
+    <Kind Name="NumericLiteralToken" />
     <Kind Name="InterpolatedStringStartToken" />
     <Kind Name="InterpolatedStringEndToken" />
     <Kind Name="InterpolatedVerbatimStringStartToken" />
@@ -176,6 +177,8 @@
     <Kind Name="StringTextToken" />
     <Kind Name="OpenBracketToken" />
     <Kind Name="CloseBracketToken" />
+    <Kind Name="OpenBraceToken" />
+    <Kind Name="CloseBraceToken" />
     <Kind Name="EndOfFileToken" />
   </Node>
 

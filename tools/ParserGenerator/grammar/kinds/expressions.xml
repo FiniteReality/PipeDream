@@ -387,7 +387,7 @@
   <KindDef Name="QualifiedName" Group="Names">
     <Comment>
       <summary>
-        A qualified name, sometimes called a path.
+        A qualified name, alternatively called a path.
       </summary>
     </Comment>
   </KindDef>
@@ -443,6 +443,14 @@
       <remarks>
         This is used in expressions such as <c>..("value")</c>
       </remarks>
+    </Comment>
+  </KindDef>
+
+  <KindDef Name="NumericLiteralExpression" Group="Expression">
+    <Comment>
+      <summary>
+        A numeric literal expression.
+      </summary>
     </Comment>
   </KindDef>
 

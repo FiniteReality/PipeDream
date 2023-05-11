@@ -7,6 +7,24 @@ namespace PipeDream.Compiler.Parsing;
 
 public sealed partial class Parser
 {
+    private async ValueTask<LiteralExpressionSyntax?> ParseNumericLiteralAsync(
+        CancellationToken cancellationToken)
+    {
+        var number = await PeekAsync(
+            SyntaxKind.NumericLiteralToken,
+            cancellationToken);
+        if (number == null)
+            return null;
+
+        _ = await AdvanceAsync(cancellationToken);
+
+        return new LiteralExpressionSyntax(
+            Token: number,
+            Span: default,
+            LeadingTrivia: new(),
+            TrailingTrivia: new());
+    }
+
     private async ValueTask<StringSyntax?> ParseStringAsync(
         CancellationToken cancellationToken)
     {

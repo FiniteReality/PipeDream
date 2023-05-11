@@ -490,4 +490,24 @@
       <Kind Name="DotDotToken" />
     </Member>
   </Node>
+
+  <Node Type="LiteralExpressionSyntax" Base="ExpressionSyntax">
+    <Comment>
+      <summary>
+        Defines a record containing information about a literal expression.
+      </summary>
+    </Comment>
+
+    <Kind Name="NumericLiteralExpression" />
+
+    <Member Name="Token" Type="SyntaxToken">
+      <Comment>
+        <summary>
+          Gets the token representing the value of the literal expression.
+        </summary>
+      </Comment>
+
+      <Kind Name="NumericLiteralToken" />
+    </Member>
+  </Node>
 </Grammar>

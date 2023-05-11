@@ -1,5 +1,13 @@
 <Grammar>
 
+  <KindDef Name="SemicolonToken" Group="Punctuation">
+    <Comment>
+      <summary>
+        Represents the <c>;</c> token.
+      </summary>
+    </Comment>
+  </KindDef>
+
   <KindDef Name="HashToken" Group="Punctuation">
     <Comment>
       <summary>
@@ -472,7 +480,7 @@
     </Comment>
   </KindDef>
 
-  <KindDef Name="NumberToken" Group="Numeric">
+  <KindDef Name="NumericLiteralToken" Group="Numeric">
     <Comment>
       <summary>
         Represents a number in source code.

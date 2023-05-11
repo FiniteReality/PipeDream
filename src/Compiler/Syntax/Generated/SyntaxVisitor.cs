@@ -149,6 +149,18 @@ public abstract partial class SyntaxVisitor
     }
 
     /// <summary>
+    /// Visits the given <see cref="LiteralExpressionSyntax"/>.
+    /// </summary>
+    /// <param name="value">
+    /// The <see cref="LiteralExpressionSyntax"/> to visit.
+    /// </param>
+    protected internal virtual void VisitLiteralExpressionSyntax(LiteralExpressionSyntax value)
+    {
+        VisitExpressionSyntax(value);
+        Visit(value.Token);
+    }
+
+    /// <summary>
     /// Visits the given <see cref="LiteralStringSyntax"/>.
     /// </summary>
     /// <param name="value">

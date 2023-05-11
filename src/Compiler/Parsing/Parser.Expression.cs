@@ -57,6 +57,7 @@ public sealed partial class Parser
         var term =
             await ParseNewExpressionAsync(cancellationToken)
             ?? await ParsePathExpressionAsync(cancellationToken)
+            ?? await ParseNumericLiteralAsync(cancellationToken)
             ?? (ExpressionSyntax?)await ParseNameAsync(cancellationToken);
 
         if (term == null)

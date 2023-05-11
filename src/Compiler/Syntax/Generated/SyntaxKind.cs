@@ -541,6 +541,11 @@ public enum SyntaxKind
     NotEquivalentExpression,
 
     /// <summary>
+    /// A numeric literal expression.
+    /// </summary>
+    NumericLiteralExpression,
+
+    /// <summary>
     /// The parent path operator, <c>..</c>.
     /// </summary>
     /// <remarks>
@@ -732,7 +737,7 @@ public enum SyntaxKind
 
     // Group: Names
     /// <summary>
-    /// A qualified name, sometimes called a path.
+    /// A qualified name, alternatively called a path.
     /// </summary>
     QualifiedName,
 
@@ -750,7 +755,7 @@ public enum SyntaxKind
     /// <summary>
     /// Represents a number in source code.
     /// </summary>
-    NumberToken,
+    NumericLiteralToken,
 
     // Group: Preprocessor
     /// <summary>
@@ -941,6 +946,11 @@ public enum SyntaxKind
     QuestionToken,
 
     /// <summary>
+    /// Represents the <c>;</c> token.
+    /// </summary>
+    SemicolonToken,
+
+    /// <summary>
     /// Represents the <c>/</c> token.
     /// </summary>
     SlashToken,
@@ -1111,20 +1121,20 @@ internal static class SyntaxKindExtensions
             < 73 => SyntaxGroup.ContextualKeyword,
             < 76 => SyntaxGroup.Declaration,
             < 77 => SyntaxGroup.DeclarationPart,
-            < 114 => SyntaxGroup.Expression,
-            < 115 => SyntaxGroup.File,
-            < 117 => SyntaxGroup.Invalid,
-            < 142 => SyntaxGroup.Keyword,
-            < 145 => SyntaxGroup.Names,
-            < 146 => SyntaxGroup.Numeric,
-            < 149 => SyntaxGroup.Preprocessor,
-            < 160 => SyntaxGroup.PreprocessorKeyword,
-            < 185 => SyntaxGroup.Punctuation,
-            < 186 => SyntaxGroup.Statement,
-            < 197 => SyntaxGroup.String,
-            < 200 => SyntaxGroup.Strings,
-            < 201 => SyntaxGroup.Textual,
-            < 206 => SyntaxGroup.Trivia,
+            < 115 => SyntaxGroup.Expression,
+            < 116 => SyntaxGroup.File,
+            < 118 => SyntaxGroup.Invalid,
+            < 143 => SyntaxGroup.Keyword,
+            < 146 => SyntaxGroup.Names,
+            < 147 => SyntaxGroup.Numeric,
+            < 150 => SyntaxGroup.Preprocessor,
+            < 161 => SyntaxGroup.PreprocessorKeyword,
+            < 187 => SyntaxGroup.Punctuation,
+            < 188 => SyntaxGroup.Statement,
+            < 199 => SyntaxGroup.String,
+            < 202 => SyntaxGroup.Strings,
+            < 203 => SyntaxGroup.Textual,
+            < 208 => SyntaxGroup.Trivia,
             _ => throw new InvalidOperationException("Unreachable")
         };
 }
