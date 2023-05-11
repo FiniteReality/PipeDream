@@ -48,7 +48,8 @@ public sealed partial class Parser
             }
 
             if (token.TrailingTrivia.Any(
-                x => x.Kind == SyntaxKind.WhitespaceTrivia))
+                x => x.Kind is SyntaxKind.WhitespaceTrivia
+                    or SyntaxKind.EndOfLineTrivia))
                 break;
 
             token = await PeekAsync(cancellationToken);
