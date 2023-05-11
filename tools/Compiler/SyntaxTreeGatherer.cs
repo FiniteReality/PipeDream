@@ -56,15 +56,50 @@ internal sealed class SyntaxTreeGatherer
         CancellationToken cancellationToken)
     {
         Console.WriteLine(path);
+        using var token = CancellationTokenSource.CreateLinkedTokenSource(
+            cancellationToken);
         var channel = Channel.CreateBounded<SyntaxToken>(1024);
         var parser = new Parser(channel.Reader);
 
-        var lexTask = LexFileAsync(path, channel.Writer, cancellationToken)
+        var lexTask = CancelLexErrorAsync(token,
+                LexFileAsync(path, channel.Writer, token.Token))
                 .ConfigureAwait(false);
-        var parseTask = parser.RunAsync(cancellationToken);
+        var parseTask = CancelParseErrorAsync(token,
+            parser.RunAsync(token.Token))
+            .ConfigureAwait(false);
 
         await lexTask;
         return await parseTask;
+
+        // We need duplicate definitions here since ValueTask and ValueTask<T>
+        // have no common type that we could constrain a generic method to
+        static async ValueTask CancelLexErrorAsync(
+            CancellationTokenSource source, ValueTask task)
+        {
+            try
+            {
+                await task;
+            }
+            catch (Exception)
+            {
+                source.Cancel();
+                throw;
+            }
+        }
+
+        static async ValueTask<SyntaxNode?> CancelParseErrorAsync(
+            CancellationTokenSource source, ValueTask<SyntaxNode?> task)
+        {
+            try
+            {
+                return await task;
+            }
+            catch (Exception)
+            {
+                source.Cancel();
+                throw;
+            }
+        }
     }
 
     private static async ValueTask LexFileAsync(
@@ -125,6 +160,9 @@ internal sealed class SyntaxTreeGatherer
                 var current = lexer.Current
                     ?? throw new InvalidOperationException(
                         "Should be unreachable");
+
+                Debug.Assert(current.Kind != SyntaxKind.BadToken,
+                    $"Got a bad token {current.Text}");
 
                 if (!writer.TryWrite(current))
                 {
