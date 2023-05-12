@@ -14,7 +14,6 @@
 
   <PropertyGroup>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileDirectory)..\Directory.Build.props</MSBuildAllProjects>
     <PipeDreamProjectCategory>src</PipeDreamProjectCategory>
   </PropertyGroup>
 
@@ -25,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" IsImplicitlyDefined="true" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

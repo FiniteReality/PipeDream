@@ -30,6 +30,7 @@
     <BaseIntermediateOutputPath>$(BaseArtifactsPath)obj/$(BaseArtifactsPathSuffix)/</BaseIntermediateOutputPath>
     <DebugType>embedded</DebugType>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <Nullable>enable</Nullable>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
@@ -60,6 +61,7 @@
     <Features>strict</Features>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <HighEntropyVA>true</HighEntropyVA>
+    <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>preview</LangVersion>
     <MinClientVersion>4.3</MinClientVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -77,10 +79,5 @@
   <PropertyGroup>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
-
-  <!-- Package references which are consumed by all .NET projects -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset" IsImplicitlyDefined="true" PrivateAssets="all" />
-  </ItemGroup>
 
 </Project>

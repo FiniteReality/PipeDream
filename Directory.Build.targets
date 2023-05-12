@@ -12,28 +12,15 @@
     MSBuildAllProjects, as that is done by the file that imports us.
   -->
 
-  <!-- Settings that append the existing setting value -->
-  <PropertyGroup>
-    <DefineConstants>$(DefineConstants);$(OS)</DefineConstants>
-    <NoWarn>$(NoWarn);NU5105</NoWarn>
-    <PackageVersion Condition="'$(GITHUB_RUN_ID)' != ''">$(Version).$(GITHUB_RUN_ID)</PackageVersion>
+  <!-- Settings that are only set for CI builds -->
+  <PropertyGroup Condition="'$(GITHUB_RUN_ID)' != ''">
+    <PackageVersion>$(Version).$(GITHUB_RUN_ID)</PackageVersion>
   </PropertyGroup>
 
-  <!-- Package versions for package references across all projects -->
-  <ItemGroup>
-    <PackageReference Update="coverlet.msbuild" Version="3.2.0" />
-    <PackageReference Update="Microsoft.Extensions.Configuration" Version="8.0.0-preview.2.23128.3" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="8.0.0-preview.2.23128.3" />
-    <PackageReference Update="Microsoft.Extensions.Hosting" Version="8.0.0-preview.2.23128.3" />
-    <PackageReference Update="Microsoft.Extensions.Http" Version="8.0.0-preview.2.23128.3" />
-    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0-preview.2.23128.3" />
-    <PackageReference Update="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0-preview.2.23128.3" />
-    <PackageReference Update="Microsoft.Net.Compilers.Toolset" Version="4.6.0-1.final" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.6.0-preview-20230223-05" />
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-    <PackageReference Update="NUnit" Version="3.13.3" />
-    <PackageReference Update="NUnit3TestAdapter" Version="4.5.0-alpha.4" />
-    <PackageReference Update="System.IO.Pipelines" Version="8.0.0-preview.2.23128.3" />
-  </ItemGroup>
+  <!-- Settings that are only set for libraries -->
+  <PropertyGroup Condition="'$(OutputType)' == 'Library'">
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
 
 </Project>

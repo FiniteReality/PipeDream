@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <!-- Package versions for package references across all projects -->
+  <ItemGroup>
+    <PackageVersion Include="coverlet.msbuild" Version="3.2.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0-preview.2.23128.3" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-preview.2.23128.3" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0-preview.2.23128.3" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0-preview.2.23128.3" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0-preview.2.23128.3" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0-preview.2.23128.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.0-preview-20230223-05" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+    <PackageVersion Include="NUnit" Version="3.13.3" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0-alpha.4" />
+    <PackageVersion Include="System.IO.Pipelines" Version="8.0.0-preview.2.23128.3" />
+  </ItemGroup>
+
+</Project>
