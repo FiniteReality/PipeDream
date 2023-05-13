@@ -1,10 +1,5 @@
-using System.Buffers;
 using System.Diagnostics;
-using System.IO.Pipelines;
 using System.Text;
-using System.Threading.Channels;
-using PipeDream.Compiler.Lexing;
-using PipeDream.Compiler.Parsing;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Frontend;
@@ -70,7 +65,7 @@ internal sealed class SyntaxTreeGatherer
         }
         catch (Exception e)
         {
-            e.Data["FilePath"] = path;
+            e.Data["File"] = path;
             throw;
         }
     }
