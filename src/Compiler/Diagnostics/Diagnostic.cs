@@ -52,4 +52,8 @@ public readonly record struct Diagnostic
     /// and other directives which modify diagnostic severity.
     /// </summary>
     public DiagnosticSeverity Severity { get; }
+
+    /// <inheritdoc />
+    public override string ToString()
+        => $"{Severity} {Definition.Id}: {Message}";
 }
