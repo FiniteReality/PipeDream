@@ -1,3 +1,5 @@
+name: Publish PipeDream
+
 on:
   push:
     branches:
@@ -42,8 +44,8 @@ jobs:
 
       - name: Upload test results
         uses: dorny/test-reporter@v1
-        if: always()
         with:
           name: Unit Tests (${{ matrix.configuration }})
           path: ${{ github.workspace }}/artifacts/tests/**/*.trx
           reporter: dotnet-trx
+          fail-on-error: false
