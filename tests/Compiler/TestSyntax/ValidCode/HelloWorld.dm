@@ -1,2 +1,2 @@
-/proc/Main()
+/proc/main()
     world.log << "Hello, world!"
