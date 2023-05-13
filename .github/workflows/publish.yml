@@ -1,0 +1,47 @@
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        configuration: [ Debug, Release ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.100-preview.2.23157.25
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build PipeDream
+        run: dotnet build --no-restore --configuration ${{ matrix.configuration }}
+
+      - name: Run unit tests
+        run: dotnet test --no-build --configuration ${{ matrix.configuration }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: PipeDream-${{ matrix.configuration }}
+          path: artifacts/bin/**/*
+
+      - name: Upload test results
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Unit Tests (${{ matrix.configuration }})
+          path: ${{ github.workspace }}/artifacts/tests/**/*.trx
+          reporter: dotnet-trx
