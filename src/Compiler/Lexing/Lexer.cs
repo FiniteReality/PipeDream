@@ -9,7 +9,7 @@ namespace PipeDream.Compiler.Lexing;
 /// <summary>
 /// Defines a struct used for lexing Dream Maker source code into syntax tokens.
 /// </summary>
-public ref partial struct Lexer
+internal ref partial struct Lexer
 {
     // State shared between multiple instances
     private readonly ImmutableArray<Diagnostic>.Builder _diagnostics;
@@ -146,7 +146,7 @@ public ref partial struct Lexer
         }
     }
 
-    private readonly SyntaxToken ProduceToken(LexerToken token,
+    private static SyntaxToken ProduceToken(LexerToken token,
         SyntaxList<TriviaSyntax> leading,
         SyntaxList<TriviaSyntax> trailing)
         => new(

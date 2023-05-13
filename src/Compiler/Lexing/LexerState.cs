@@ -7,7 +7,7 @@ namespace PipeDream.Compiler.Lexing;
 /// <summary>
 /// Defines a struct used for saving lexer state between multiple invocations.
 /// </summary>
-public readonly struct LexerState
+internal readonly struct LexerState
 {
     private readonly SyntaxToken? _current;
     private readonly ImmutableArray<Diagnostic>.Builder? _diagnostics;

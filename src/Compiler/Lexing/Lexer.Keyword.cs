@@ -47,7 +47,7 @@ internal static class KeywordLookup
     };
 }
 
-public ref partial struct Lexer
+internal ref partial struct Lexer
 {
     private OperationStatus LexKeywordOrIdentifier(out LexerToken token)
     {

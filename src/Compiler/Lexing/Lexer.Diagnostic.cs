@@ -16,22 +16,18 @@ internal static class LexError
         => Diagnostic(KnownDiagnostics.UnterminatedString);
 }
 
-public ref partial struct Lexer
+internal ref partial struct Lexer
 {
     private readonly void ProduceDiagnostic<T>(T state,
         Func<T, Diagnostic> handler)
     {
         var diagnostic = handler(state);
-
-        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 
     private readonly void ProduceDiagnostic(Func<Diagnostic> handler)
     {
         var diagnostic = handler();
-
-        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 }

@@ -10,7 +10,7 @@ namespace PipeDream.Compiler.Parsing;
 /// Defines a class used for parsing Dream Maker syntax tokens into syntax
 /// trees.
 /// </summary>
-public sealed partial class Parser
+internal sealed partial class Parser
 {
     private readonly ImmutableArray<Diagnostic>.Builder _diagnostics;
     private readonly ChannelReader<SyntaxToken> _reader;
@@ -39,9 +39,17 @@ public sealed partial class Parser
     /// A <see cref="ValueTask"/> representing the asynchronous work of parsing
     /// tokens.
     /// </returns>
-    public async ValueTask<SyntaxNode?> RunAsync(CancellationToken cancellationToken)
+    public async ValueTask<SyntaxNode> RunAsync(CancellationToken cancellationToken)
     {
-        return await ParseCompilationUnitAsync(cancellationToken);
+        /*
+         * TODO: this should parse in this priority:
+         * - CompilationUnit
+         * - Expression
+         * This is to naturally allow "eval" style syntax (e.g. '1 + 2')
+         */
+        return await ParseCompilationUnitAsync(cancellationToken)
+            ?? throw new InvalidOperationException(
+                "Unable to parse syntax node");
     }
 
     private ValueTask<SyntaxToken?>

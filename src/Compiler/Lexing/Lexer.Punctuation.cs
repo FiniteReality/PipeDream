@@ -6,7 +6,7 @@ using static PipeDream.Compiler.Syntax.SyntaxKind;
 
 namespace PipeDream.Compiler.Lexing;
 
-public ref partial struct Lexer
+internal ref partial struct Lexer
 {
     private OperationStatus LexPunctuation(out LexerToken token)
     {

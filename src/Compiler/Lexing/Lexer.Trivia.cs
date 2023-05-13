@@ -5,7 +5,7 @@ using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
 
-public ref partial struct Lexer
+internal ref partial struct Lexer
 {
     private OperationStatus LexTriviaList(bool trailing,
         ref SyntaxListBuilder<TriviaSyntax> list)
@@ -34,8 +34,8 @@ public ref partial struct Lexer
         while (true);
     }
 
-    private readonly TriviaSyntax ProduceTrivia(LexerToken token)
-        => new SimpleTriviaSyntax(
+    private static SimpleTriviaSyntax ProduceTrivia(LexerToken token)
+        => new(
             Kind: token.Kind,
             Text: token.StringValue!,
             Span: new(),

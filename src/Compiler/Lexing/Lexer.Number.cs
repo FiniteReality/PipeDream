@@ -7,7 +7,7 @@ using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
 
-public ref partial struct Lexer
+internal ref partial struct Lexer
 {
     private OperationStatus LexNumber(out LexerToken token)
     {

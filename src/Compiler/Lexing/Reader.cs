@@ -116,7 +116,7 @@ internal ref struct Reader
 
     public OperationStatus TryReadToAny(ReadOnlySpan<byte> validCharacters)
     {
-        if (!_reader.TryReadToAny(out ReadOnlySequence<byte> sequence,
+        if (!_reader.TryReadToAny(out ReadOnlySequence<byte> _,
             validCharacters, advancePastDelimiter: false))
             return OperationStatus.NeedMoreData;
 

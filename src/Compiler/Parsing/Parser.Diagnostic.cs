@@ -28,14 +28,13 @@ internal static class ParseError
             KnownDiagnostics.DirectiveMustBeFirstNonWhitespaceCharacter);
 }
 
-public sealed partial class Parser
+internal sealed partial class Parser
 {
     private void ProduceDiagnostic<T>(T state,
         Func<T, Diagnostic> handler)
     {
         var diagnostic = handler(state);
 
-        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 
@@ -43,7 +42,6 @@ public sealed partial class Parser
     {
         var diagnostic = handler();
 
-        Tracing.DiagnosticProduced(diagnostic);
         _diagnostics.Add(diagnostic);
     }
 }

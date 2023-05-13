@@ -4,19 +4,16 @@ using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
 
-public ref partial struct Lexer
+internal ref partial struct Lexer
 {
     private void BeginToken()
     {
-        Tracing.StartLexingToken(_reader.GetOffset());
         _tokenBeginning = _reader.Position;
         _initialMode = _mode;
     }
 
     private void EndToken(bool rewind)
     {
-        Tracing.StopLexingToken(_reader.GetOffset(), rewind);
-
         if (rewind)
         {
             _reader.Rewind(_tokenBeginning);
