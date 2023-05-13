@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Threading.Channels;
 using PipeDream.Compiler.Diagnostics;
 using PipeDream.Compiler.Syntax;
@@ -23,9 +22,13 @@ internal sealed partial class Parser
     /// <param name="input">
     /// The channel reader to read tokens from.
     /// </param>
-    public Parser(ChannelReader<SyntaxToken> input)
+    /// <param name="diagnostics">
+    /// The diagnostics collection to add diagnostics to.
+    /// </param>
+    public Parser(ChannelReader<SyntaxToken> input,
+        ImmutableArray<Diagnostic>.Builder diagnostics)
     {
-        _diagnostics = ImmutableArray.CreateBuilder<Diagnostic>();
+        _diagnostics = diagnostics;
         _reader = input;
     }
 

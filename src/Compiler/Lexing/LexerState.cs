@@ -10,10 +10,8 @@ namespace PipeDream.Compiler.Lexing;
 internal readonly struct LexerState
 {
     private readonly SyntaxToken? _current;
-    private readonly ImmutableArray<Diagnostic>.Builder? _diagnostics;
     private readonly LexerMode _mode;
 
-    internal ImmutableArray<Diagnostic>.Builder? Diagnostics => _diagnostics;
     internal SyntaxToken? Current => _current;
     internal LexerMode Mode => _mode;
 
@@ -22,17 +20,14 @@ internal readonly struct LexerState
     /// </summary>
     public LexerState()
     {
-        _diagnostics = default;
         _current = default;
         _mode = LexerMode.Normal;
     }
 
     internal LexerState(
-        ImmutableArray<Diagnostic>.Builder diagnostics,
         SyntaxToken? current,
         LexerMode mode)
     {
-        _diagnostics = diagnostics;
         _current = current;
         _mode = mode;
     }

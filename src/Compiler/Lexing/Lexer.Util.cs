@@ -1,7 +1,9 @@
 using System.Buffers;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Threading.Channels;
+using PipeDream.Compiler.Diagnostics;
 using PipeDream.Compiler.Syntax;
 
 namespace PipeDream.Compiler.Lexing;
@@ -11,6 +13,7 @@ internal ref partial struct Lexer
     internal static async ValueTask LexAsync(
         PipeReader reader,
         ChannelWriter<SyntaxToken> writer,
+        ImmutableArray<Diagnostic>.Builder diagnostics,
         CancellationToken cancellationToken)
     {
         try
@@ -28,6 +31,7 @@ internal ref partial struct Lexer
                         ref sequence,
                         result.IsCompleted,
                         writer,
+                        diagnostics,
                         ref state);
 
                     if (status is
@@ -51,9 +55,10 @@ internal ref partial struct Lexer
             ref ReadOnlySequence<byte> sequence,
             bool isCompleted,
             ChannelWriter<SyntaxToken> writer,
+            ImmutableArray<Diagnostic>.Builder diagnostics,
             ref LexerState state)
         {
-            var lexer = new Lexer(state, sequence, isCompleted);
+            var lexer = new Lexer(state, diagnostics, sequence, isCompleted);
             var lastPosition = lexer.Position;
             var status = lexer.Lex();
             while (status == OperationStatus.Done)

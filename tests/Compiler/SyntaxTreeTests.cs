@@ -51,5 +51,6 @@ public sealed class SyntaxTreeTests
         Assert.NotNull(tree.Encoding);
         Assert.NotNull(tree.FilePath);
         Assert.NotNull(tree.Root);
+        Assert.Empty(tree.Diagnostics);
     }
 }

@@ -27,19 +27,23 @@ internal ref partial struct Lexer
     /// <param name="state">
     /// The previous state to resume lexing from.
     /// </param>
+    /// <param name="diagnostics">
+    /// The diagnostics collection to add diagnostics to.
+    /// </param>
     /// <param name="sequence">
     /// The input text to parse.
     /// </param>
     /// <param name="isFinalBlock">
     /// <code>true</code> if no more data is expected to be read.
     /// </param>
-    public Lexer(LexerState state, ReadOnlySequence<byte> sequence,
+    public Lexer(LexerState state,
+        ImmutableArray<Diagnostic>.Builder diagnostics,
+        ReadOnlySequence<byte> sequence,
         bool isFinalBlock)
     {
         _reader = new(sequence, isFinalBlock);
 
-        _diagnostics = state.Diagnostics
-            ?? ImmutableArray.CreateBuilder<Diagnostic>();
+        _diagnostics = diagnostics;
         _mode = state.Mode;
         Current = state.Current;
 
@@ -65,7 +69,6 @@ internal ref partial struct Lexer
     /// </summary>
     public LexerState State
         => new(
-            diagnostics: _diagnostics,
             current: Current,
             mode: _mode);
 

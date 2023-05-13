@@ -1,7 +1,11 @@
+using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Pipelines;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Channels;
+using PipeDream.Compiler.Diagnostics;
 using PipeDream.Compiler.Lexing;
 using PipeDream.Compiler.Parsing;
 
@@ -12,7 +16,11 @@ namespace PipeDream.Compiler.Syntax;
 /// </summary>
 public sealed class SyntaxTree
 {
-    private SyntaxTree(SyntaxNode root, string path, Encoding encoding)
+    private SyntaxTree(
+        SyntaxNode root,
+        string path,
+        Encoding encoding,
+        ImmutableArray<Diagnostic> diagnostics)
     {
         ArgumentNullException.ThrowIfNull(root, nameof(root));
         ArgumentNullException.ThrowIfNull(path, nameof(path));
@@ -21,6 +29,7 @@ public sealed class SyntaxTree
         Root = root;
         FilePath = path;
         Encoding = encoding;
+        Diagnostics = diagnostics;
     }
 
     /// <summary>
@@ -36,6 +45,11 @@ public sealed class SyntaxTree
     /// Gets the encoding of the source document.
     /// </summary>
     public Encoding Encoding { get; }
+
+    /// <summary>
+    /// Gets the diagnostics produced while parsing the source document.
+    /// </summary>
+    public ImmutableArray<Diagnostic> Diagnostics { get; }
 
     /// <summary>
     /// Parses a syntax tree from the given source text.
@@ -96,19 +110,46 @@ public sealed class SyntaxTree
             ? stream
             : Encoding.CreateTranscodingStream(stream, encoding, Encoding.UTF8);
 
+        var lexDiagnostics = ImmutableArray.CreateBuilder<Diagnostic>();
+        var parseDiagnostics = ImmutableArray.CreateBuilder<Diagnostic>();
         var channel = Channel.CreateBounded<SyntaxToken>(1024);
-        var parser = new Parser(channel.Reader);
+        var parser = new Parser(channel.Reader, parseDiagnostics);
         var reader = PipeReader.Create(transcode);
 
         var lexTask = CancelLexErrorAsync(token,
-            Lexer.LexAsync(reader, channel.Writer, token.Token))
+            Lexer.LexAsync(reader, channel.Writer, lexDiagnostics, token.Token))
             .ConfigureAwait(false);
         var parseTask = CancelParseErrorAsync(token,
             parser.RunAsync(token.Token))
             .ConfigureAwait(false);
 
-        await lexTask;
-        return new(await parseTask, path, encoding);
+        SyntaxNode? tree = null;
+        Exception? lexException = null;
+        try
+        {
+            await lexTask;
+        }
+        catch (Exception e)
+        {
+            // If we throw here, the parse task will also throw
+            lexException = e;
+        }
+
+        try
+        {
+            tree = await parseTask;
+        }
+        catch (Exception e)
+        {
+            // But this may throw without the lexer throwing.
+            if (lexException != null)
+                throw new AggregateException(lexException, e);
+            else
+                throw;
+        }
+
+        lexDiagnostics.AddRange(parseDiagnostics);
+        return new(tree, path, encoding, lexDiagnostics.DrainToImmutable());
 
         // We need duplicate definitions here since ValueTask and ValueTask<T>
         // have no common type that we could constrain a generic method to
