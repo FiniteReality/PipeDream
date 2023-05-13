@@ -1,0 +1,9 @@
+var/compiler_minor_version = DM_BUILD
+var/compiler_major_version = DM_VERSION
+var/current_file_is = __FILE__
+var/current_line_is = __LINE__
+var/only_the_main_file_has = __MAIN__ // defined
+var/current_proc_is = __PROC__
+var/current_type_is = __TYPE__ // or null
+var/if_debugging = DEBUG // will store debugging information in the compiled file
+var/search_paths = FILE_DIR // stores search paths for searching later
