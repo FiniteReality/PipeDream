@@ -18,7 +18,7 @@ internal sealed class SyntaxTreeTestDataAttribute : DataAttribute
         foreach (var path in Directory.EnumerateFiles(
             _path, "*.dm", SearchOption.AllDirectories))
         {
-            yield return new[] { File.ReadAllText(path) };
+            yield return new[] { path, File.ReadAllText(path) };
         }
     }
 }
@@ -31,12 +31,15 @@ public sealed class SyntaxTreeTests
     /// <summary>
     /// Ensures that a given source code can be parsed without error.
     /// </summary>
+    /// <param name="path">
+    /// The path of the source code.
+    /// </param>
     /// <param name="source">
     /// The source code to parse.
     /// </param>
     [Theory]
     [SyntaxTreeTestData("TestSyntax/ValidCode")]
-    public async Task SourceCodeCanBeParsedAsync(string source)
+    public async Task SourceCodeCanBeParsedAsync(string path, string source)
     {
         Assert.NotEmpty(source);
 
@@ -44,7 +47,9 @@ public sealed class SyntaxTreeTests
         // is likely a bug in the parser or lexer.
         using var token = new CancellationTokenSource(
             TimeSpan.FromSeconds(3));
-        var tree = await SyntaxTree.ParseAsync(source,
+        var tree = await SyntaxTree.ParseAsync(
+            text: source,
+            path: path,
             cancellationToken: token.Token);
 
         Assert.NotNull(tree);
