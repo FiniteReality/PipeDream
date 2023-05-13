@@ -77,6 +77,8 @@ internal ref partial struct Lexer
     /// </returns>
     public OperationStatus Lex()
     {
+        // If we're at the end of the stream, that means the last call must
+        // have read right to the end.
         if (_reader.IsStreamEnd)
         {
             // If we've already produced the EOF token, we don't need to
@@ -97,8 +99,12 @@ internal ref partial struct Lexer
             return OperationStatus.Done;
         }
 
-        BeginToken();
+        return LexCore();
+    }
 
+    private OperationStatus LexCore()
+    {
+        BeginToken();
         SyntaxListBuilder<TriviaSyntax> leading = default;
         SyntaxListBuilder<TriviaSyntax> trailing = default;
         var status = OperationStatus.Done;
@@ -125,6 +131,16 @@ internal ref partial struct Lexer
             EndToken(false);
             Current = ProduceToken(token, leading.Build(), trailing.Build());
             return OperationStatus.InvalidData;
+        }
+        else if (status == OperationStatus.NeedMoreData && _reader.IsStreamEnd)
+        {
+            // The file is either empty, or consists of only trivia.
+            Current = ProduceToken(new(
+                Kind: SyntaxKind.EndOfFileToken,
+                Start: _reader.Position,
+                End: _reader.Position
+            ), leading.Build(), trailing.Build());
+            return OperationStatus.Done;
         }
         else if (status == OperationStatus.NeedMoreData)
         {

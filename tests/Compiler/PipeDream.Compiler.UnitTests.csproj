@@ -4,4 +4,16 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../../src/Compiler/PipeDream.Compiler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TestSyntax/**/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
 </Project>
