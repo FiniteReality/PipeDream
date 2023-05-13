@@ -48,4 +48,3 @@ jobs:
           name: Unit Tests (${{ matrix.configuration }})
           path: ${{ github.workspace }}/artifacts/tests/**/*.trx
           reporter: dotnet-trx
-          fail-on-error: false
